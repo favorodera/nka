@@ -1,0 +1,42 @@
+{
+  "name": "oderadocs",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.10.0",
+  "description": "A documentation engine for the Vue ecosystem.",
+  "author": "Favour Emeka <favorodera@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://oderadocs.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favorodera/oderadocs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/favorodera/oderadocs/issues"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "pnpm lint:root && turbo lint",
+    "lint:root": "eslint . --fix --ignore-pattern 'packages/*' --ignore-pattern 'apps/*'",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "postinstall": "turbo postinstall",
+    "test:watch": "turbo test:watch",
+    "preview": "turbo preview",
+    "prepublishOnly": "turbo prepublishOnly",
+    "ready": "pnpm install && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "@favorodera/eslint-config": "catalog:tooling",
+    "@types/node": "catalog:tooling",
+    "eslint": "catalog:tooling",
+    "relizy": "catalog:tooling",
+    "turbo": "catalog:tooling",
+    "typescript": "catalog:tooling"
+  }
+}
