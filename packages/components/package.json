@@ -1,13 +1,12 @@
 {
-  "name": "@oderadocs/shared",
+  "name": "@oderadocs/components",
   "type": "module",
   "version": "0.0.0",
-  "private": false,
-  "description": "Shared utilities for OderaDocs.",
+  "private": true,
+  "description": "Reusable UI components for OderaDocs.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
-  "funding": "https://github.com/sponsors/favorodera",
-  "homepage": "https://oderadocs.vercel.app/",
+  "homepage": "https://github.com/favorodera/oderadocs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/favorodera/oderadocs.git"
@@ -17,17 +16,17 @@
   },
   "keywords": [
     "oderadocs",
-    "docs",
-    "shared"
+    "vue",
+    "components"
   ],
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "files": ["dist"],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -42,10 +41,22 @@
     "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix"
   },
+  "dependencies": {
+    "@tailwindcss/vite": "catalog:ui",
+    "@vitejs/plugin-vue": "catalog:vendors",
+    "@vueuse/core": "catalog:vendors",
+    "reka-ui": "catalog:ui",
+    "tailwind-merge": "catalog:ui",
+    "tailwind-variants": "catalog:ui",
+    "tailwindcss": "catalog:ui",
+    "vue": "catalog:vendors"
+  },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
     "@vitest/ui": "catalog:tooling",
     "tsdown": "catalog:tooling",
-    "vitest": "catalog:tooling"
+    "vite": "catalog:tooling",
+    "vitest": "catalog:tooling",
+    "vue-tsc": "catalog:tooling"
   }
 }
