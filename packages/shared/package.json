@@ -1,0 +1,52 @@
+{
+  "name": "@oderadocs/shared",
+  "type": "module",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Shared utilities for OderaDocs.",
+  "author": "Favour Emeka <favorodera@mail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/favorodera",
+  "homepage": "https://oderadocs.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favorodera/oderadocs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/favorodera/oderadocs/issues"
+  },
+  "keywords": [
+    "oderadocs",
+    "docs",
+    "vue"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest",
+    "test:watch": "vitest watch --ui",
+    "lint": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@favorodera/eslint-config": "catalog:tooling",
+    "@vitest/ui": "catalog:tooling",
+    "tsdown": "catalog:tooling",
+    "typescript": "catalog:tooling",
+    "vitest": "catalog:tooling"
+  }
+}

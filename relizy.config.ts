@@ -2,7 +2,7 @@ import { defineConfig } from 'relizy'
 
 const packages = [
   'packages/*',
-  'adapters/*'
+  'adapters/*',
 ]
 
 export default defineConfig({

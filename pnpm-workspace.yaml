@@ -1,9 +1,6 @@
-
 shellEmulator: true
 
-
 trustPolicy: no-downgrade
-
 
 allowBuilds:
   '@parcel/watcher': true
@@ -16,15 +13,17 @@ allowBuilds:
 
 packages:
   - 'packages/*'
-  - 'adapters/*'
 
 catalogs:
   tooling:
     '@favorodera/eslint-config': ^1.0.4
     '@types/node': ^26.1.2
+    '@vitest/ui': ^4.1.10
+
     eslint: ^10.8.0
     relizy: ^1.4.9
+    tsdown: ^0.22.5
     turbo: ^2.10.7
     typescript: ^6.0.3
-
+    vitest: ^4.1.10
 nodeOptions: --max_old_space_size=4096
