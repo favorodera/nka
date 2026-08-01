@@ -26,4 +26,10 @@ catalogs:
     turbo: ^2.10.7
     typescript: ^6.0.3
     vitest: ^4.1.10
+
 nodeOptions: --max_old_space_size=4096
+
+peerDependencyRules:
+  allowedVersions:
+    typescript: '6'
+    vite: '8'
