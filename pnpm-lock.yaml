@@ -135,6 +135,25 @@ importers:
         specifier: catalog:tooling
         version: 3.3.9(typescript@6.0.3)
 
+  packages/core:
+    dependencies:
+      '@oderadocs/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      '@favorodera/eslint-config':
+        specifier: catalog:tooling
+        version: 1.0.4(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@10.8.0(jiti@2.7.0))(typescript@6.0.3))(eslint@10.8.0(jiti@2.7.0))(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@10.8.0(jiti@2.7.0))(typescript@6.0.3))(@vue/compiler-sfc@3.5.40)(eslint@10.8.0(jiti@2.7.0))(tailwindcss@4.3.3)(typescript@6.0.3)(vitest@4.1.10)
+      '@vitest/ui':
+        specifier: catalog:tooling
+        version: 4.1.10(vitest@4.1.10)
+      tsdown:
+        specifier: catalog:tooling
+        version: 0.22.14(@volar/typescript@2.4.28)(typescript@6.0.3)(vue-tsc@3.3.9(typescript@6.0.3))
+      vitest:
+        specifier: catalog:tooling
+        version: 4.1.10(@types/node@26.1.2)(@vitest/ui@4.1.10)(vite@8.2.0(@types/node@26.1.2)(jiti@2.7.0)(yaml@2.9.0))
+
   packages/shared:
     devDependencies:
       '@favorodera/eslint-config':

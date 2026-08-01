@@ -1,0 +1,54 @@
+{
+  "name": "@oderadocs/core",
+  "type": "module",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Documentation engine for the Vue ecosystem.",
+  "author": "Favour Emeka <favorodera@mail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/favorodera",
+  "homepage": "https://oderadocs.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favorodera/oderadocs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/favorodera/oderadocs/issues"
+  },
+  "keywords": [
+    "oderadocs",
+    "docs",
+    "core"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest",
+    "test:watch": "vitest watch --ui",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@oderadocs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@favorodera/eslint-config": "catalog:tooling",
+    "@vitest/ui": "catalog:tooling",
+    "tsdown": "catalog:tooling",
+    "vitest": "catalog:tooling"
+  }
+}

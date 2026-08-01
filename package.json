@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@11.10.0",
-  "description": "A documentation engine for the Vue ecosystem.",
+  "description": "Documentation engine for the Vue ecosystem.",
   "author": "Favour Emeka <favorodera@gmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/favorodera",

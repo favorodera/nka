@@ -1,5 +1,5 @@
 /** Interface representing the configuration for OderaDocs. */
-export interface DocsConfig {
+export interface OderaDocsConfig {
   /** Configuration for components. */
   components: {
     /** The directory where components are located. */

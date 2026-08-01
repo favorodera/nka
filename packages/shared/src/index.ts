@@ -1,1 +1,1 @@
-export type { DocsConfig } from './types/configs'
+export type { OderaDocsConfig } from './types/configs'
