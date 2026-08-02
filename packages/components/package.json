@@ -44,14 +44,14 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@tailwindcss/vite": "catalog:ui",
-    "@vitejs/plugin-vue": "catalog:vendors",
-    "@vueuse/core": "catalog:vendors",
-    "reka-ui": "catalog:ui",
-    "tailwind-merge": "catalog:ui",
-    "tailwind-variants": "catalog:ui",
-    "tailwindcss": "catalog:ui",
-    "vue": "catalog:vendors"
+    "@tailwindcss/vite": "catalog:vendor",
+    "@vitejs/plugin-vue": "catalog:vendor",
+    "@vueuse/core": "catalog:vendor",
+    "reka-ui": "catalog:vendor",
+    "tailwind-merge": "catalog:vendor",
+    "tailwind-variants": "catalog:vendor",
+    "tailwindcss": "catalog:vendor",
+    "vue": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",

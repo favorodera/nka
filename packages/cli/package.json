@@ -24,9 +24,7 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "restricted"
   },
@@ -42,6 +40,14 @@
     "test": "vitest",
     "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:vendor",
+    "c12": "catalog:vendor",
+    "citty": "catalog:vendor",
+    "fs-extra": "catalog:vendor",
+    "nypm": "catalog:vendor",
+    "pathe": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
