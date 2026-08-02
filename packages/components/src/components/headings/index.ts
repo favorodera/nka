@@ -20,6 +20,8 @@ export const headingsVariants = tv({
 
 export type HeadingsVariants = VariantProps<typeof headingsVariants>
 
+export { default as H1 } from './h1.vue'
+
 export type HeadingsProps = WithClass<{
   /** Unique identifier for the heading. */
   id?: string

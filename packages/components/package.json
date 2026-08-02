@@ -21,10 +21,14 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.js",
+    "./headings": "./dist/headings/index.js",
+    "./utils/props": "./dist/utils/props.js",
+    "./utils/styling": "./dist/utils/styling.js",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "restricted"
   },
@@ -37,8 +41,6 @@
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build",
-    "test": "vitest",
-    "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix"
   },
   "dependencies": {
@@ -53,10 +55,8 @@
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
-    "@vitest/ui": "catalog:tooling",
     "tsdown": "catalog:tooling",
     "vite": "catalog:tooling",
-    "vitest": "catalog:tooling",
     "vue-tsc": "catalog:tooling"
   }
 }

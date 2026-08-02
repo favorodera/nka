@@ -1,4 +1,4 @@
-import type { OderaDocsConfig } from '@oderadocs/shared'
+import type { OderaDocsConfig } from '@oderadocs/cli'
 
 /**
  * Defines the OderaDocs configuration.

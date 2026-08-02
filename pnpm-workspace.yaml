@@ -12,12 +12,12 @@ allowBuilds:
   vue-demi: true
 
 packages:
-  - 'packages/*'
+  - 'packages/**'
 
 catalogs:
   tooling:
     '@favorodera/eslint-config': ^1.0.4
-    '@types/node': ^26.1.2
+    '@tsdown/css': ^0.22.14
     '@vitest/ui': ^4.1.10
     eslint: ^10.8.0
     relizy: ^1.4.9
@@ -27,13 +27,14 @@ catalogs:
     vite: ^8.1.4
     vitest: ^4.1.10
     vue-tsc: ^3.3.7
+  types:
+    '@types/node': ^26.1.2
   ui:
     '@tailwindcss/vite': ^4.3.3
     reka-ui: ^2.10.1
     tailwind-merge: ^3.6.0
     tailwind-variants: ^3.3.0
     tailwindcss: ^4.3.3
-
   vendors:
     '@vitejs/plugin-vue': ^6.0.7
     '@vueuse/core': ^14.4.0

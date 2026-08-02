@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
-    "@types/node": "catalog:tooling",
+    "@types/node": "catalog:types",
     "eslint": "catalog:tooling",
     "relizy": "catalog:tooling",
     "turbo": "catalog:tooling",

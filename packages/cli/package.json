@@ -1,9 +1,9 @@
 {
-  "name": "@oderadocs/shared",
+  "name": "@oderadocs/cli",
   "type": "module",
   "version": "0.0.0",
-  "private": false,
-  "description": "Shared utilities for OderaDocs.",
+  "private": true,
+  "description": "CLI for OderaDocs.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/favorodera",
@@ -17,17 +17,18 @@
   },
   "keywords": [
     "oderadocs",
-    "docs",
-    "shared"
+    "cli"
   ],
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
+    "@tsdown/css": "catalog:tooling",
     "@vitest/ui": "catalog:tooling",
     "tsdown": "catalog:tooling",
     "vitest": "catalog:tooling"
