@@ -1,0 +1,4 @@
+@import "@oderadocs/ui/css/theme";
+@import "@oderadocs/ui/css/prose";
+
+@source "../../../../packages/ui/src/**/*.{ts,vue}";

@@ -119,3 +119,13 @@
 
   --color-scrim: var(--color-scrim);
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply antialiased text-foreground bg-background font-sans;
+  }
+}

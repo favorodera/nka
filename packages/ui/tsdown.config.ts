@@ -1,13 +1,24 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  dts: { vue: true },
-  entry: {
-    'components/*': 'src/components/**/index.ts',
-    'utils/*': 'src/utils/*',
+  copy: 'src/css',
+  css: {
+    fileName: 'index.css',
   },
-  exports: true,
+  dts: { vue: true },
+  entry: [
+    { 'components/*': 'src/components/**/index.ts' },
+    { 'utils/*': 'src/utils/*' },
+  ],
+  exports: {
+    customExports(pkg) {
+      pkg['./css/theme'] = './dist/css/theme.css'
+      pkg['./css/prose'] = './dist/css/prose.css'
+      return pkg
+    },
+  },
   fromVite: true,
   minify: true,
   platform: 'neutral',
 })
+

@@ -21,10 +21,12 @@
   ],
   "sideEffects": false,
   "exports": {
-    "./headings": "./dist/headings/index.js",
+    "./components/pre": "./dist/components/pre/index.js",
     "./utils/props": "./dist/utils/props.js",
     "./utils/styling": "./dist/utils/styling.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./css/theme": "./dist/css/theme.css",
+    "./css/prose": "./dist/css/prose.css"
   },
   "files": [
     "dist"
@@ -45,7 +47,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "catalog:vendor",
-    "@vitejs/plugin-vue": "catalog:vendor",
     "@vueuse/core": "catalog:vendor",
     "reka-ui": "catalog:vendor",
     "tailwind-merge": "catalog:vendor",
@@ -55,6 +56,9 @@
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
+    "@tsdown/css": "catalog:tooling",
+    "@vitejs/plugin-vue": "catalog:tooling",
+    "add": "catalog:tooling",
     "tsdown": "catalog:tooling",
     "vite": "catalog:tooling",
     "vue-tsc": "catalog:tooling"
