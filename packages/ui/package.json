@@ -1,9 +1,9 @@
 {
-  "name": "@oderadocs/components",
+  "name": "@oderadocs/ui",
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "description": "Reusable UI components for OderaDocs.",
+  "description": "Reusable UI components, layouts and utilities for building docs sites with OderaDocs.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
   "homepage": "https://github.com/favorodera/oderadocs",

@@ -3,7 +3,7 @@ import { defineConfig } from 'tsdown'
 export default defineConfig({
   dts: { vue: true },
   entry: {
-    '*': 'src/components/**/index.ts',
+    'components/*': 'src/components/**/index.ts',
     'utils/*': 'src/utils/*',
   },
   exports: true,
