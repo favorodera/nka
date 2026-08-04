@@ -9,10 +9,10 @@ import Comark from '@/components/comark.vue'
 <template>
   <main>
     <Suspense>
-      <div class="block mx-auto max-inline-4xl">
+      <div class="block mx-auto max-inline-4xl p-4">
         <Comark
           :content="index"
-          class="prose"
+          class="prose prose-docs"
         />
       </div>
     </Suspense>

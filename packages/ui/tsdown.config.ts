@@ -2,9 +2,6 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   copy: 'src/css',
-  css: {
-    fileName: 'index.css',
-  },
   dts: { vue: true },
   entry: [
     { 'components/*': 'src/components/**/index.ts' },

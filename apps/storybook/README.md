@@ -1,4 +1,4 @@
 <div align="center">
-<h1><code>@oderadocs/storybook</code></h1>
-<p><strong>Storybook for @oderadocs/ui</strong></p>
+<h1><code>@nka/storybook</code></h1>
+<p><strong>Storybook for @nka/ui</strong></p>
 </div>

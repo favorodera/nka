@@ -1,19 +1,19 @@
 {
-  "name": "oderadocs",
+  "name": "nka",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.20.0",
   "description": "Documentation engine for the Vue ecosystem.",
   "author": "Favour Emeka <favorodera@gmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/favorodera",
-  "homepage": "https://oderadocs.vercel.app/",
+  "homepage": "https://nka.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/favorodera/oderadocs.git"
+    "url": "git+https://github.com/favorodera/nka.git"
   },
   "bugs": {
-    "url": "https://github.com/favorodera/oderadocs/issues"
+    "url": "https://github.com/favorodera/nka/issues"
   },
   "engines": {
     "node": ">=22.0.0",

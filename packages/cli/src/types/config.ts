@@ -1,5 +1,5 @@
-/** Interface representing the configuration for OderaDocs. */
-export interface OderaDocsConfig {
+/** Interface representing the configuration for Nka. */
+export interface NkaConfig {
   /** Configuration for components. */
   components: {
     /** The directory where components are located. */

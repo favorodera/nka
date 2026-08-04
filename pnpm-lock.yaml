@@ -147,7 +147,7 @@ importers:
       '@comark/vue':
         specifier: catalog:vendor
         version: 0.5.1(katex@0.18.1)(shiki@4.4.1)(vue@3.5.40(typescript@6.0.3))
-      '@oderadocs/ui':
+      '@nka/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@shikijs/langs':
@@ -239,7 +239,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@oderadocs/cli':
+      '@nka/cli':
         specifier: workspace:*
         version: link:../cli
     devDependencies:

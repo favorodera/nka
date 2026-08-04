@@ -1,22 +1,22 @@
 {
-  "name": "@oderadocs/cli",
+  "name": "@nka/cli",
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "description": "CLI for OderaDocs.",
+  "description": "CLI for Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/favorodera",
-  "homepage": "https://oderadocs.vercel.app/",
+  "homepage": "https://nka.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/favorodera/oderadocs.git"
+    "url": "git+https://github.com/favorodera/nka.git"
   },
   "bugs": {
-    "url": "https://github.com/favorodera/oderadocs/issues"
+    "url": "https://github.com/favorodera/nka/issues"
   },
   "keywords": [
-    "oderadocs",
+    "nka",
     "cli"
   ],
   "sideEffects": false,

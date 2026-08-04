@@ -1,18 +1,18 @@
 {
-  "name": "@oderadocs/storybook",
+  "name": "@nka/storybook",
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "description": "Storybook for @oderadocs/ui",
+  "description": "Storybook for @nka/ui",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/favorodera/oderadocs",
+  "homepage": "https://github.com/favorodera/nka",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/favorodera/oderadocs.git"
+    "url": "git+https://github.com/favorodera/nka.git"
   },
   "bugs": {
-    "url": "https://github.com/favorodera/oderadocs/issues"
+    "url": "https://github.com/favorodera/nka/issues"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@comark/vue": "catalog:vendor",
-    "@oderadocs/ui": "workspace:*",
+    "@nka/ui": "workspace:*",
     "@shikijs/langs": "catalog:vendor",
     "@shikijs/themes": "catalog:vendor",
     "@shikijs/transformers": "catalog:vendor",

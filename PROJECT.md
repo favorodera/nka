@@ -1,14 +1,14 @@
-# OderaDocs — Project Vision & Implementation Roadmap
+# Nka — Project Vision & Implementation Roadmap
 
 > **Mission:** Build an open-code documentation engine for the Vue ecosystem.
 
 ## Vision
 
-OderaDocs is not a documentation theme, nor is it a static site generator.
+Nka is not a documentation theme, nor is it a static site generator.
 
-It is an open-code documentation engine that provides the building blocks, tooling, and infrastructure required to create modern documentation experiences. Rather than hiding implementation details behind packages, OderaDocs installs source code directly into the developer's project, giving developers complete ownership and unlimited customization.
+It is an open-code documentation engine that provides the building blocks, tooling, and infrastructure required to create modern documentation experiences. Rather than hiding implementation details behind packages, Nka installs source code directly into the developer's project, giving developers complete ownership and unlimited customization.
 
-Built specifically for the Vue ecosystem, OderaDocs embraces existing tools instead of replacing them. Wherever mature solutions already exist, it integrates with them through adapters while focusing on what it does best: documentation primitives, theming, typesetting, registry-driven distribution, and developer tooling.
+Built specifically for the Vue ecosystem, Nka embraces existing tools instead of replacing them. Wherever mature solutions already exist, it integrates with them through adapters while focusing on what it does best: documentation primitives, theming, typesetting, registry-driven distribution, and developer tooling.
 
 ---
 
@@ -20,7 +20,7 @@ Establish a stable and extensible foundation that every future feature can build
 
 ### Registry
 
-The registry is the heart of OderaDocs and serves as the distribution mechanism for every installable feature.
+The registry is the heart of Nka and serves as the distribution mechanism for every installable feature.
 
 #### Responsibilities
 
@@ -48,7 +48,7 @@ Framework adapters may extend this configuration with adapter-specific options w
 
 ### CLI
 
-The CLI is the primary interface for interacting with OderaDocs.
+The CLI is the primary interface for interacting with Nka.
 
 #### Commands
 
@@ -145,7 +145,7 @@ Every component remains fully editable after installation.
 
 ## Phase 3 — Vue Ecosystem Adapters
 
-Adapters integrate OderaDocs with existing Vue documentation tooling.
+Adapters integrate Nka with existing Vue documentation tooling.
 
 ### Initial Adapter — Nuxt
 
@@ -184,7 +184,7 @@ Expand the ecosystem beyond the core project.
 * Version compatibility
 * Registry validation
 
-Every registry conforms to the OderaDocs Registry Specification, ensuring interoperability across the ecosystem.
+Every registry conforms to the Nka Registry Specification, ensuring interoperability across the ecosystem.
 
 ---
 
@@ -212,11 +212,11 @@ These improvements enhance the developer experience while remaining secondary to
 
 Every installed file belongs to the developer.
 
-OderaDocs provides source code—not runtime abstractions.
+Nka provides source code—not runtime abstractions.
 
 ### Vue Ecosystem First
 
-OderaDocs is designed specifically for the Vue ecosystem.
+Nka is designed specifically for the Vue ecosystem.
 
 Framework integrations are implemented through adapters while the core remains framework-agnostic.
 
@@ -242,7 +242,7 @@ Registry items are always installed from versioned releases rather than the `mai
 
 ### Build on Existing Tools
 
-OderaDocs integrates with mature tooling whenever appropriate instead of reinventing it.
+Nka integrates with mature tooling whenever appropriate instead of reinventing it.
 
 Examples include:
 
@@ -252,13 +252,13 @@ Examples include:
 
 ### Opinionated, Not Restrictive
 
-OderaDocs provides sensible defaults while keeping every implementation fully editable.
+Nka provides sensible defaults while keeping every implementation fully editable.
 
 Developers are never locked into framework decisions.
 
 ### Application Concerns Belong to the Application
 
-OderaDocs intentionally does **not** manage:
+Nka intentionally does **not** manage:
 
 * Authentication
 * Internationalization

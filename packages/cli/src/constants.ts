@@ -1,16 +1,16 @@
 import { version } from '../package.json'
 
-/** Oderadocs current package version, sourced directly from package.json. */
+/** Nka current package version, sourced directly from package.json. */
 export const VERSION = version
 
-/** File name for the user-side Oderadocs config (created by `oderadocs init`). */
-export const CONFIG_FILE_NAME = 'oderadocs'
+/** File name for the user-side Nka config (created by `nka init`). */
+export const CONFIG_FILE_NAME = 'nka'
 
 /**
- * Base URL for the Oderadocs core package source tree on GitHub.
+ * Base URL for the Nka core package source tree on GitHub.
  * Every other URL in this file is derived from this one.
  */
-export const BASE_URL = `https://raw.githubusercontent.com/favorodera/oderadocs/refs/tags/v${VERSION}/packages`
+export const BASE_URL = `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${VERSION}/packages`
 
 /**
  * HTTP headers required when fetching raw content from the GitHub API.

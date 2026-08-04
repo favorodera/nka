@@ -1,16 +1,16 @@
 <!--  eslint-disable md/fenced-code-language  -->
 
-# Heading Level 1 
+# Heading Level 1 `inline code`
 
-## Heading Level 2
+## Heading Level 2 `inline code`
 
-### Heading Level 3
+### Heading Level 3 `inline code`
 
-#### Heading Level 4
+#### Heading Level 4 `inline code`
 
-##### Heading Level 5
+##### Heading Level 5 `inline code`
 
-###### Heading Level 6
+###### Heading Level 6 `inline code`
 
 ## Paragraphs & Line Breaks
 
@@ -117,7 +117,21 @@ This content is hidden by default and only appears when expanded.
 
 ## Images
 
-![Alt text for image](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=480&h=320&fit=crop "Placeholder Image"){width="100%"}
+![Alt text for image](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=480&h=320&fit=crop "Placeholder Image")
+
+## Video
+
+<video controls>
+  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+## Figures
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=480&h=320&fit=crop" alt="A beautiful landscape" width="100%" />
+  <figcaption>This is a figure caption describing the image above.</figcaption>
+</figure>
 
 ## Math
 
@@ -127,16 +141,6 @@ Display math:
 $$
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 $$
-
-## Diagrams
-
-```mermaid
-graph TD
-    A[Start] --> B{Is it working?}
-    B -->|Yes| C[Great!]
-    B -->|No| D[Debug]
-    D --> A
-```
 
 ## Code
 
@@ -177,20 +181,6 @@ export default defineNuxtConfig({
 +   '@nuxt/ui'
   ]
 })
-```
-
-JSON code block:
-
-```json
-{
-  "key": "value",
-  "list": [
-    1,
-    2,
-    3
-  ],
-  "nested": { "flag": true }
-}
 ```
 
 ## Tables
