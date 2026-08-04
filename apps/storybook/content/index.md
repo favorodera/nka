@@ -155,7 +155,7 @@ line two of plain code
 
 Fenced code block with language for syntax highlighting:
 
-```js {icon="vscode-icons:file-type-js"}
+```js
 function greet(name) {
   const message = `Hello, ${name}!`
   console.log(message)
@@ -196,15 +196,6 @@ export default defineNuxtConfig({
 ## Horizontal Rule
 
 ---
-
-## Definition Lists
-
-  Term One
-  : Definition of term one.
-
-  Term Two
-  : First definition of term two.
-  : Second definition of term two.
 
 ## Special Characters & Entities
 
