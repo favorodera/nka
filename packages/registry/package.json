@@ -1,9 +1,9 @@
 {
-  "name": "@nka/cli",
+  "name": "@nka/registry",
   "type": "module",
   "version": "0.0.0",
-  "private": false,
-  "description": "CLI for Nka.",
+  "private": true,
+  "description": "Components, utilities, and templates registry for Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/favorodera",
@@ -17,16 +17,18 @@
   },
   "keywords": [
     "nka",
-    "cli"
+    "registry"
   ],
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -42,18 +44,16 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@clack/prompts": "catalog:vendor",
-    "c12": "catalog:vendor",
-    "citty": "catalog:vendor",
-    "fs-extra": "catalog:vendor",
-    "nypm": "catalog:vendor",
-    "pathe": "catalog:vendor"
+    "@sinclair/typebox": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
     "@tsdown/css": "catalog:tooling",
     "@vitest/ui": "catalog:tooling",
+    "ajv": "catalog:tooling",
+    "ajv-formats": "catalog:tooling",
     "tsdown": "catalog:tooling",
+    "tsx": "catalog:tooling",
     "vitest": "catalog:tooling"
   }
 }

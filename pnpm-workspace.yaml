@@ -25,9 +25,12 @@ catalogs:
     '@vitest/ui': ^4.1.10
     '@vue/tsconfig': ^0.9.1
     add: ^2.0.9
+    ajv: ^8.20.0
+    ajv-formats: ^3.0.1
     eslint: ^10.8.0
     relizy: ^1.4.9
     tsdown: ^0.22.5
+    tsx: ^4.23.5
     turbo: ^2.10.7
     typescript: ^6.0.3
     vite: ^8.1.4
@@ -40,6 +43,7 @@ catalogs:
     '@shikijs/langs': ^4.4.1
     '@shikijs/themes': ^4.4.1
     '@shikijs/transformers': ^4.4.1
+    '@sinclair/typebox': ^0.34.52
     '@tailwindcss/vite': ^4.3.3
     '@vueuse/core': ^14.4.0
     c12: 4.0.0-beta.5
