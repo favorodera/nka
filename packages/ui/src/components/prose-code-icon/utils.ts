@@ -93,7 +93,7 @@ export function resolveIconFromFilename(filename?: string) {
     if (basename) {
       // Prioritize an exact match (useful for files like "package.json" or "tailwind.config.js")
       candidates.push(basename)
-      
+
       // If there's an extension, use it as a fallback candidate (e.g. "ts" from "index.ts")
       const extension = basename.includes('.') ? basename.split('.').pop() : undefined
       if (extension) candidates.push(extension)

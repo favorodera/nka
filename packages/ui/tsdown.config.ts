@@ -18,4 +18,3 @@ export default defineConfig({
   minify: true,
   platform: 'neutral',
 })
-

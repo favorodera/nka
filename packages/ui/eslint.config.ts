@@ -6,9 +6,9 @@ export default factory({
     entryPoint: 'src/css/theme.css',
   },
 })
-.append({
-  files: ['src/components/**/*.vue'],
-  rules: {
-    'vue/no-root-v-if': 'off',
-  },
-})
+  .append({
+    files: ['src/components/**/*.vue'],
+    rules: {
+      'vue/no-root-v-if': 'off',
+    },
+  })

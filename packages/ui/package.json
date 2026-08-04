@@ -31,9 +31,7 @@
     "./css/theme": "./dist/css/theme.css",
     "./css/prose": "./dist/css/prose.css"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "restricted"
   },
@@ -44,7 +42,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit",
     "prepublishOnly": "pnpm run build",
     "lint": "eslint . --fix"
   },
