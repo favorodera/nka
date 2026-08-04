@@ -3,6 +3,7 @@ import { Comark } from '@comark/vue'
 import footnotes from '@comark/vue/plugins/footnotes'
 import highlight from '@comark/vue/plugins/highlight'
 import math, { Math } from '@comark/vue/plugins/math'
+import { ProsePre } from '@nka/ui/components/prose-pre'
 import bash from '@shikijs/langs/bash'
 import diff from '@shikijs/langs/diff'
 import javascript from '@shikijs/langs/javascript'
@@ -59,6 +60,7 @@ const plugins = [
 
 const components = {
   math: Math,
+  ProsePre,
 }
 </script>
 

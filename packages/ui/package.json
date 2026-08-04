@@ -21,7 +21,10 @@
   ],
   "sideEffects": false,
   "exports": {
-    "./components/pre": "./dist/components/pre/index.js",
+    "./components/button": "./dist/components/button/index.js",
+    "./components/icon": "./dist/components/icon/index.js",
+    "./components/prose-code-icon": "./dist/components/prose-code-icon/index.js",
+    "./components/prose-pre": "./dist/components/prose-pre/index.js",
     "./utils/props": "./dist/utils/props.js",
     "./utils/styling": "./dist/utils/styling.js",
     "./package.json": "./package.json",
@@ -46,6 +49,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@iconify/vue": "catalog:vendor",
     "@tailwindcss/vite": "catalog:vendor",
     "@vueuse/core": "catalog:vendor",
     "reka-ui": "catalog:vendor",

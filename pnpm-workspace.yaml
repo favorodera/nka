@@ -36,6 +36,7 @@ catalogs:
   vendor:
     '@clack/prompts': ^1.7.0
     '@comark/vue': ^0.5.1
+    '@iconify/vue': ^5.0.1
     '@shikijs/langs': ^4.4.1
     '@shikijs/themes': ^4.4.1
     '@shikijs/transformers': ^4.4.1

@@ -10,7 +10,7 @@
     margin-trim: block-start;
   }
 
-  .prose *:not(:where(.not-prose, .not-prose *, [data-not-prose], [data-not-prose] *)) {
+  .prose *:not(:where(.not-prose, .not-prose *, [data-not-prose="true"], [data-not-prose="true"] *)) {
 
     /* Horizontal scroll for any wide block */
     &:where(.prose-scroll) {
@@ -552,8 +552,8 @@
   }
 
   /* First child adds no space to the top  */
-  .prose> :where(:first-child):not( :where(.not-prose, .not-prose *, [data-not-prose], [data-not-prose] *)),
-  .prose> :where(:first-child)> :where(:first-child):not( :where(.not-prose, .not-prose *, [data-not-prose], [data-not-prose] *)),
+  .prose> :where(:first-child):not( :where(.not-prose, .not-prose *, [data-not-prose="true"], [data-not-prose="true"] *)),
+  .prose> :where(:first-child)> :where(:first-child):not( :where(.not-prose, .not-prose *, [data-not-prose="true"], [data-not-prose="true"] *)),
   .prose :where(li > :first-child,
     blockquote > :first-child,
     td > :first-child,
@@ -562,7 +562,7 @@
     figure > :first-child,
     figure > picture > img,
     figure > a > img,
-    figure > a > picture > img):not( :where(.not-prose, .not-prose *, [data-not-prose], [data-not-prose] *)) {
+    figure > a > picture > img):not( :where(.not-prose, .not-prose *, [data-not-prose="true"], [data-not-prose="true"] *)) {
     margin-block-start: 0;
   }
 }
