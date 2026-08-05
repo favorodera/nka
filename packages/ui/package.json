@@ -60,7 +60,6 @@
     "@favorodera/eslint-config": "catalog:tooling",
     "@tsdown/css": "catalog:tooling",
     "@vitejs/plugin-vue": "catalog:tooling",
-    "add": "catalog:tooling",
     "tsdown": "catalog:tooling",
     "vite": "catalog:tooling",
     "vue-tsc": "catalog:tooling"

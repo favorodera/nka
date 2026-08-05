@@ -6,7 +6,10 @@ export default factory({
   vue: false,
 })
   .append({
-    files: ['src/ts-schemas/**/*.ts'],
+    files: [
+      'schemas/ts-schemas/**/*.ts',
+      'scripts/build-registry.ts',
+    ],
     rules: {
       'new-cap': ['off'],
     },

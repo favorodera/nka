@@ -30,15 +30,6 @@ catalogs:
     '@vue/tsconfig':
       specifier: ^0.9.1
       version: 0.9.1
-    add:
-      specifier: ^2.0.9
-      version: 2.0.9
-    ajv:
-      specifier: ^8.20.0
-      version: 8.20.0
-    ajv-formats:
-      specifier: ^3.0.1
-      version: 3.0.1
     eslint:
       specifier: ^10.8.0
       version: 10.8.0
@@ -130,6 +121,9 @@ catalogs:
     tailwindcss:
       specifier: ^4.3.3
       version: 4.3.3
+    tinyglobby:
+      specifier: ^0.2.17
+      version: 0.2.17
     typebox:
       specifier: ^1.3.10
       version: 1.3.10
@@ -282,13 +276,22 @@ importers:
 
   packages/registry:
     dependencies:
+      '@clack/prompts':
+        specifier: catalog:vendor
+        version: 1.7.0
+      fs-extra:
+        specifier: catalog:vendor
+        version: 11.4.0
+      pathe:
+        specifier: catalog:vendor
+        version: 2.0.3
+      tinyglobby:
+        specifier: catalog:vendor
+        version: 0.2.17
       typebox:
         specifier: catalog:vendor
         version: 1.3.10
     devDependencies:
-      '@clack/prompts':
-        specifier: catalog:vendor
-        version: 1.7.0
       '@favorodera/eslint-config':
         specifier: catalog:tooling
         version: 1.0.4(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@10.8.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.8.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@10.8.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(@vue/compiler-sfc@3.5.40)(eslint@10.8.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(tailwindcss@4.3.3)(typescript@6.0.3)(vitest@4.1.10)
@@ -298,18 +301,6 @@ importers:
       '@vitest/ui':
         specifier: catalog:tooling
         version: 4.1.10(vitest@4.1.10)
-      ajv:
-        specifier: catalog:tooling
-        version: 8.20.0
-      ajv-formats:
-        specifier: catalog:tooling
-        version: 3.0.1(ajv@8.20.0)
-      fs-extra:
-        specifier: catalog:vendor
-        version: 11.4.0
-      pathe:
-        specifier: catalog:vendor
-        version: 2.0.3
       tsdown:
         specifier: catalog:tooling
         version: 0.22.14(@tsdown/css@0.22.14)(@volar/typescript@2.4.28(typescript@6.0.3))(tsx@4.23.5)(typescript@6.0.3)(vue-tsc@3.3.9(typescript@6.0.3))
@@ -356,9 +347,6 @@ importers:
       '@vitejs/plugin-vue':
         specifier: catalog:tooling
         version: 6.0.8(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.5)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))
-      add:
-        specifier: catalog:tooling
-        version: 2.0.9
       tsdown:
         specifier: catalog:tooling
         version: 0.22.14(@tsdown/css@0.22.14)(@volar/typescript@2.4.28(typescript@6.0.3))(tsx@4.23.5)(typescript@6.0.3)(vue-tsc@3.3.9(typescript@6.0.3))
@@ -1614,22 +1602,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  add@2.0.9:
-    resolution: {integrity: sha512-a6+u7hP0xmII7EBQenAIb6oMp9/vcW6EmrsD0ngUbLnE69Xtwj4yCbmHLUi5LZ6ggJB+AufHTaDbW1XBiYJwFw==}
-
-  ajv-formats@3.0.1:
-    resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
-    peerDependencies:
-      ajv: ^8.0.0
-    peerDependenciesMeta:
-      ajv:
-        optional: true
-
   ajv@6.15.0:
     resolution: {integrity: sha512-fgFx7Hfoq60ytK2c7DhnF8jIvzYgOMxfugjLOSMHjLIPgenqa7S7oaagATUq99mV6IYvN2tRmC0wnTYX6iPbMw==}
-
-  ajv@8.20.0:
-    resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
 
   alien-signals@3.2.1:
     resolution: {integrity: sha512-I8FjmltrfnDFoZedi5CG8DghVYNhzb/Ijluz7tCSJH0xpd0484Kowhbb1XDYOxfJpU1p5wnM2X54dA+IfGyD1g==}
@@ -2208,9 +2182,6 @@ packages:
   fast-string-width@3.0.2:
     resolution: {integrity: sha512-gX8LrtNEI5hq8DVUfRQMbr5lpaS4nMIWV+7XEbXk2b8kiQIizgnlr12B4dA3ZEx3308ze0O4Q1R+cHts8kyUJg==}
 
-  fast-uri@3.1.5:
-    resolution: {integrity: sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw==}
-
   fast-wrap-ansi@0.2.2:
     resolution: {integrity: sha512-7F2Fl+TjRSenLqlU3UjSH0iyqopqoZIu7eZVpEirP2g1GtWa2G/ecEmBdgz31+Mxr+ELclgg6sokpSFIQiZ02Q==}
 
@@ -2436,9 +2407,6 @@ packages:
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
-
-  json-schema-traverse@1.0.0:
-    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
@@ -3052,10 +3020,6 @@ packages:
         optional: true
       twitter-api-v2:
         optional: true
-
-  require-from-string@2.0.2:
-    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
-    engines: {node: '>=0.10.0'}
 
   reserved-identifiers@1.2.0:
     resolution: {integrity: sha512-yE7KUfFvaBFzGPs5H3Ops1RevfUEsDc5Iz65rOwWg4lE8HJSYtle77uul3+573457oHvBKuHYDl/xqUkKpEEdw==}
@@ -4754,25 +4718,12 @@ snapshots:
 
   acorn@8.18.0: {}
 
-  add@2.0.9: {}
-
-  ajv-formats@3.0.1(ajv@8.20.0):
-    optionalDependencies:
-      ajv: 8.20.0
-
   ajv@6.15.0:
     dependencies:
       fast-deep-equal: 3.1.3
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
-
-  ajv@8.20.0:
-    dependencies:
-      fast-deep-equal: 3.1.3
-      fast-uri: 3.1.5
-      json-schema-traverse: 1.0.0
-      require-from-string: 2.0.2
 
   alien-signals@3.2.1: {}
 
@@ -5372,8 +5323,6 @@ snapshots:
     dependencies:
       fast-string-truncated-width: 3.0.3
 
-  fast-uri@3.1.5: {}
-
   fast-wrap-ansi@0.2.2:
     dependencies:
       fast-string-width: 3.0.2
@@ -5570,8 +5519,6 @@ snapshots:
   json-buffer@3.0.1: {}
 
   json-schema-traverse@0.4.1: {}
-
-  json-schema-traverse@1.0.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
@@ -6338,8 +6285,6 @@ snapshots:
       - '@types/node'
       - libphonenumber-js
       - magicast
-
-  require-from-string@2.0.2: {}
 
   reserved-identifiers@1.2.0: {}
 

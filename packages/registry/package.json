@@ -42,20 +42,21 @@
     "test": "vitest",
     "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix",
-    "generate-json-schemas": "tsx scripts/generate-json-schemas.ts"
+    "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
+    "build-registry": "tsx scripts/build-registry.ts"
+
   },
   "dependencies": {
+    "@clack/prompts": "catalog:vendor",
+    "fs-extra": "catalog:vendor",
+    "pathe": "catalog:vendor",
+    "tinyglobby": "catalog:vendor",
     "typebox": "catalog:vendor"
   },
   "devDependencies": {
-    "@clack/prompts": "catalog:vendor",
     "@favorodera/eslint-config": "catalog:tooling",
     "@types/fs-extra": "catalog:tooling",
     "@vitest/ui": "catalog:tooling",
-    "ajv": "catalog:tooling",
-    "ajv-formats": "catalog:tooling",
-    "fs-extra": "catalog:vendor",
-    "pathe": "catalog:vendor",
     "tsdown": "catalog:tooling",
     "tsx": "catalog:tooling",
     "vitest": "catalog:tooling"
