@@ -44,7 +44,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@sinclair/typebox": "catalog:vendor"
+    "typebox": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
