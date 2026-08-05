@@ -1,21 +1,13 @@
 import { type Static, Type } from 'typebox'
-import { RegistryItemTypeSchema } from './type'
+import { ComponentSchema } from './component'
+import { TemplateSchema } from './template'
 
-export const RegistryItemSchema = Type.Object({
-  name: Type.String({
-    description: 'Unique registry item identifier.',
-    examples: [
-      'alert',
-      'button',
-      'code-group',
-    ],
-    pattern: '^[a-z][a-z0-9-]*$',
-  }),
-
-  type: RegistryItemTypeSchema,
-}, {
+export const RegistryItemSchema = Type.Union([
+  ComponentSchema,
+  TemplateSchema,
+], {
   $id: 'RegistryItem',
-  description: 'Common properties shared by all registry items.',
+  description: 'A single installable registry item.',
   title: 'Registry Item',
 })
 

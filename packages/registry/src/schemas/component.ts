@@ -1,10 +1,10 @@
 import { type Static, Type } from 'typebox'
-import { RegistryDependenciesSchema } from './dependencies'
-import { RegistryFileSchema } from './file'
-import { RegistryItemSchema } from './item'
+import { RegistryDependenciesSchema } from './shared/dependencies'
+import { RegistryFileSchema } from './shared/file'
+import { RegistryItemReferenceSchema } from './shared/reference'
 
 export const ComponentSchema = Type.Intersect([
-  RegistryItemSchema,
+  RegistryItemReferenceSchema,
   Type.Object({
     type: Type.Literal('component', {
       description: 'The registry item type, restricted to component.',

@@ -1,10 +1,9 @@
 import { type Static, Type } from 'typebox'
-
-import { RegistryItemSchema } from './item'
-import { RegistryRepositorySchema } from './repository'
+import { RegistryItemReferenceSchema } from './shared/reference'
+import { RegistryRepositorySchema } from './shared/repository'
 
 export const TemplateSchema = Type.Intersect([
-  RegistryItemSchema,
+  RegistryItemReferenceSchema,
   Type.Object({
     type: Type.Literal('template', {
       description: 'The registry item type, restricted to template.',
