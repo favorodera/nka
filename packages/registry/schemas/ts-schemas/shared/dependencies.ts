@@ -10,29 +10,29 @@ const VersionRange = Type.String({
 })
 
 export const RegistryDependenciesSchema = Type.Object({
-  registry: Type.Array(RegistryItemReferenceSchema, {
+  registry: Type.Optional(Type.Array(RegistryItemReferenceSchema, {
     default: [],
     description: 'Registry item dependencies.',
     uniqueItems: true,
-  }),
+  })),
 
-  npm: Type.Object({
-    dependencies: Type.Record(
+  npm: Type.Optional(Type.Object({
+    dependencies: Type.Optional(Type.Record(
       PackageName,
       VersionRange,
       {
         default: {},
       },
-    ),
+    )),
 
-    devDependencies: Type.Record(
+    devDependencies: Type.Optional(Type.Record(
       PackageName,
       VersionRange,
       {
         default: {},
       },
-    ),
-  }),
+    )),
+  })),
 }, {
   $id: 'RegistryDependencies',
   description: 'Dependencies required by a registry item.',

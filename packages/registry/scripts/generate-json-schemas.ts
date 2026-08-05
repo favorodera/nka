@@ -1,8 +1,7 @@
-import { intro, note, outro, tasks } from '@clack/prompts'
+import { intro, log, note, outro, tasks } from '@clack/prompts'
 import fsExtra from 'fs-extra'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'pathe'
-import * as schemas from '../src/ts-schemas'
 
 /**
  * Generates a file name for a JSON schema.
@@ -20,19 +19,32 @@ function getJSONSchemaFileName(schemaName: string) {
 
 intro('JSON schemas generator')
 
-const schemaEntries = Object.entries(schemas).map(([
-  name,
-  schema,
-]) => ({
-  fileName: getJSONSchemaFileName(name),
-  name,
-  schema,
-}))
+log.step('Searching for TypeScript schemas')
+
+const schemas = await import('../schemas/ts-schemas')
+
+const schemaEntries = Object
+  .entries(schemas)
+  .map(([
+    name,
+    schema,
+  ]) => ({
+    fileName: getJSONSchemaFileName(name),
+    name,
+    schema,
+  }))
+
+note(
+  schemaEntries.map(entry => `${entry.name}`).join('\n'),
+  `${schemaEntries.length} TypeScript schemas found`,
+)
+
+log.step('Generating JSON schemas')
 
 await tasks(schemaEntries.map(entry => ({
   task: async () => {
     try {
-      const filePath = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'json-schemas', entry.fileName)
+      const filePath = join(dirname(fileURLToPath(import.meta.url)), '..', 'schemas', 'json-schemas', entry.fileName)
 
       await fsExtra.ensureFile(filePath)
       await fsExtra.writeJson(filePath, entry.schema, {
@@ -41,7 +53,7 @@ await tasks(schemaEntries.map(entry => ({
 
       return `Generated ${entry.fileName}`
     } catch (error) {
-      throw new Error(`Failed to generate JSON schemas for ${entry.name}`, { cause: error })
+      throw new Error(`Failed to generate JSON schema for ${entry.name}`, { cause: error })
     }
   },
   title: `Generating ${entry.name}`,

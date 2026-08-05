@@ -71,10 +71,6 @@
         },
         "dependencies": {
           "type": "object",
-          "required": [
-            "registry",
-            "npm"
-          ],
           "properties": {
             "registry": {
               "type": "array",
@@ -125,10 +121,6 @@
             },
             "npm": {
               "type": "object",
-              "required": [
-                "dependencies",
-                "devDependencies"
-              ],
               "properties": {
                 "dependencies": {
                   "type": "object",

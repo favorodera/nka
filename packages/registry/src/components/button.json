@@ -1,9 +1,16 @@
 {
-  "$schema": "../json-schemas/component.json",
+  "$schema": "../../schemas/json-schemas/component.json",
   "name": "button",
   "type": "component",
   "files": [
     "button/button.vue",
     "button/index.ts"
-  ]
+  ],
+  "dependencies": {
+    "npm": {
+      "dependencies": {
+        "reka-ui": "^3.0.0"
+      }
+    }
+  }
 }

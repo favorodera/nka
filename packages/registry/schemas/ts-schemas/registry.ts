@@ -1,13 +1,15 @@
 import { type Static, Type } from 'typebox'
-import { RegistryItemSchema } from './shared/item'
+import { RegistryItemReferenceSchema } from './shared/reference'
 
 export const RegistrySchema = Type.Object({
-  items: Type.Array(
-    RegistryItemSchema,
-    {
-      description: 'Registry items.',
-    },
-  ),
+  version: Type.String({
+    description: 'Registry version.',
+    examples: ['0.1.0'],
+  }),
+
+  items: Type.Array(RegistryItemReferenceSchema, {
+    description: 'Registry item references.',
+  }),
 }, {
   $id: 'Registry',
   $schema: 'https://json-schema.org/draft/2020-12/schema',
