@@ -15,10 +15,11 @@ export const ComponentSchema = Type.Intersect([
       minItems: 1,
     }),
 
-    dependencies: RegistryDependenciesSchema,
+    dependencies: Type.Optional(RegistryDependenciesSchema),
   }),
 ], {
   $id: 'Component',
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
   description: 'A component registry item.',
   title: 'Component',
 })

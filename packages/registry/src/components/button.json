@@ -1,1 +1,9 @@
-{}
+{
+  "$schema": "../json-schemas/component.json",
+  "name": "button",
+  "type": "component",
+  "files": [
+    "button/button.vue",
+    "button/index.ts"
+  ]
+}

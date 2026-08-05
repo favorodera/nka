@@ -1,0 +1,274 @@
+{
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique registry item identifier.",
+                    "examples": [
+                      "alert",
+                      "button",
+                      "docs-default"
+                    ],
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "component"
+                      },
+                      {
+                        "type": "string",
+                        "const": "utility"
+                      },
+                      {
+                        "type": "string",
+                        "const": "template"
+                      }
+                    ],
+                    "$id": "RegistryItemType",
+                    "description": "Supported registry item types.",
+                    "title": "Registry Item Type"
+                  }
+                },
+                "$id": "RegistryItemReference",
+                "description": "A reference to a registry item.",
+                "title": "Registry Item Reference"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "files"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "component",
+                    "description": "The registry item type, restricted to component."
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "$id": "RegistryFile",
+                      "description": "A file belonging to a registry item.",
+                      "examples": [
+                        "components/alert.vue",
+                        "components/alert/index.ts",
+                        "utils/props.ts"
+                      ],
+                      "title": "Registry File"
+                    },
+                    "description": "Files associated with the component.",
+                    "minItems": 1
+                  },
+                  "dependencies": {
+                    "type": "object",
+                    "required": [
+                      "registry",
+                      "npm"
+                    ],
+                    "properties": {
+                      "registry": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "type"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Unique registry item identifier.",
+                              "examples": [
+                                "alert",
+                                "button",
+                                "docs-default"
+                              ],
+                              "pattern": "^[a-z][a-z0-9-]*$"
+                            },
+                            "type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "const": "component"
+                                },
+                                {
+                                  "type": "string",
+                                  "const": "utility"
+                                },
+                                {
+                                  "type": "string",
+                                  "const": "template"
+                                }
+                              ],
+                              "$id": "RegistryItemType",
+                              "description": "Supported registry item types.",
+                              "title": "Registry Item Type"
+                            }
+                          },
+                          "$id": "RegistryItemReference",
+                          "description": "A reference to a registry item.",
+                          "title": "Registry Item Reference"
+                        },
+                        "default": [],
+                        "description": "Registry item dependencies.",
+                        "uniqueItems": true
+                      },
+                      "npm": {
+                        "type": "object",
+                        "required": [
+                          "dependencies",
+                          "devDependencies"
+                        ],
+                        "properties": {
+                          "dependencies": {
+                            "type": "object",
+                            "patternProperties": {
+                              "^.*$": {
+                                "type": "string",
+                                "description": "A valid npm version specifier."
+                              }
+                            },
+                            "default": {}
+                          },
+                          "devDependencies": {
+                            "type": "object",
+                            "patternProperties": {
+                              "^.*$": {
+                                "type": "string",
+                                "description": "A valid npm version specifier."
+                              }
+                            },
+                            "default": {}
+                          }
+                        }
+                      }
+                    },
+                    "$id": "RegistryDependencies",
+                    "description": "Dependencies required by a registry item.",
+                    "title": "Registry Dependencies"
+                  }
+                }
+              }
+            ],
+            "$id": "Component",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "A component registry item.",
+            "title": "Component"
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique registry item identifier.",
+                    "examples": [
+                      "alert",
+                      "button",
+                      "docs-default"
+                    ],
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "component"
+                      },
+                      {
+                        "type": "string",
+                        "const": "utility"
+                      },
+                      {
+                        "type": "string",
+                        "const": "template"
+                      }
+                    ],
+                    "$id": "RegistryItemType",
+                    "description": "Supported registry item types.",
+                    "title": "Registry Item Type"
+                  }
+                },
+                "$id": "RegistryItemReference",
+                "description": "A reference to a registry item.",
+                "title": "Registry Item Reference"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "repository"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "template",
+                    "description": "The registry item type, restricted to template."
+                  },
+                  "repository": {
+                    "type": "object",
+                    "required": [
+                      "source"
+                    ],
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "description": "Repository source supported by giget.",
+                        "examples": [
+                          "github:nka-ui/docs-starter",
+                          "github:nka-ui/docs-starter#main",
+                          "github:nka-ui/docs-starter/templates/default",
+                          "gitlab:foo/bar"
+                        ]
+                      }
+                    },
+                    "$id": "RegistryRepository",
+                    "description": "A repository source for repository-based registry items.",
+                    "title": "Registry Repository"
+                  }
+                }
+              }
+            ],
+            "$id": "Template",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "A template registry item.",
+            "title": "Template"
+          }
+        ],
+        "$id": "RegistryItem",
+        "description": "A single installable registry item.",
+        "title": "Registry Item"
+      },
+      "description": "Registry items."
+    }
+  },
+  "$id": "Registry",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "The root registry manifest.",
+  "title": "Registry"
+}

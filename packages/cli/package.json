@@ -24,7 +24,9 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -46,6 +48,7 @@
     "c12": "catalog:vendor",
     "citty": "catalog:vendor",
     "fs-extra": "catalog:vendor",
+    "gitget": "catalog:vendor",
     "nypm": "catalog:vendor",
     "pathe": "catalog:vendor"
   },

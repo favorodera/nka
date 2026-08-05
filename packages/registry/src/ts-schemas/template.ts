@@ -13,6 +13,7 @@ export const TemplateSchema = Type.Intersect([
   }),
 ], {
   $id: 'Template',
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
   description: 'A template registry item.',
   title: 'Template',
 })

@@ -1,6 +1,6 @@
 import { type Static, Type } from 'typebox'
-import { ComponentSchema } from './component'
-import { TemplateSchema } from './template'
+import { ComponentSchema } from '../component'
+import { TemplateSchema } from '../template'
 
 export const RegistryItemSchema = Type.Union([
   ComponentSchema,
