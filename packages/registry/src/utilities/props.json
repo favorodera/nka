@@ -2,7 +2,5 @@
   "$schema": "../../schemas/json-schemas/utility.json",
   "name": "props",
   "type": "utility",
-  "files": [
-    "props.ts"
-  ]
+  "files": ["props.ts"]
 }
