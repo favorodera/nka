@@ -41,8 +41,8 @@
     "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix",
     "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
-    "build-registry": "tsx scripts/build-registry.ts"
-
+    "build-registry": "tsx scripts/build-registry.ts",
+    "prebuild": "pnpm generate-json-schemas && pnpm build-registry"
   },
   "dependencies": {
     "@clack/prompts": "catalog:vendor",
