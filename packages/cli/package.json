@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@clack/prompts": "catalog:vendor",
+    "@nka/registry": "workspace:*",
     "c12": "catalog:vendor",
     "citty": "catalog:vendor",
     "fs-extra": "catalog:vendor",
