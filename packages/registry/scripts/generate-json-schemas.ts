@@ -64,4 +64,4 @@ note(
   `${schemaEntries.length} JSON schemas generated`,
 )
 
-outro('Generated JSON schemas successfully')
+outro('JSON schemas generated successfully')
