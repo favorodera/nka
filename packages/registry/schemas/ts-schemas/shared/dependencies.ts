@@ -9,6 +9,11 @@ const VersionRange = Type.String({
   description: 'A valid npm version specifier.',
 })
 
+export const NPMSchema = Type.Partial(Type.Object({
+  dependencies: Type.Record(PackageName, VersionRange),
+  devDependencies: Type.Record(PackageName, VersionRange),
+}))
+
 export const RegistryDependenciesSchema = Type.Object({
   registry: Type.Optional(Type.Array(RegistryItemReferenceSchema, {
     default: [],
@@ -16,23 +21,7 @@ export const RegistryDependenciesSchema = Type.Object({
     uniqueItems: true,
   })),
 
-  npm: Type.Optional(Type.Object({
-    dependencies: Type.Optional(Type.Record(
-      PackageName,
-      VersionRange,
-      {
-        default: {},
-      },
-    )),
-
-    devDependencies: Type.Optional(Type.Record(
-      PackageName,
-      VersionRange,
-      {
-        default: {},
-      },
-    )),
-  })),
+  npm: Type.Optional(NPMSchema),
 }, {
   $id: 'RegistryDependencies',
   description: 'Dependencies required by a registry item.',

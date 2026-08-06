@@ -56,6 +56,38 @@
         "title": "Registry Item Reference"
       },
       "description": "Registry item references."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "npm": {
+          "type": "object",
+          "properties": {
+            "dependencies": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string",
+                  "description": "A valid npm version specifier."
+                }
+              }
+            },
+            "devDependencies": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string",
+                  "description": "A valid npm version specifier."
+                }
+              }
+            }
+          }
+        }
+      },
+      "$id": "RegistryMetadata",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Global installation metadata shared by all registry items.",
+      "title": "Registry Metadata"
     }
   },
   "$id": "Registry",

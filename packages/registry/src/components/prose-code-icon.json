@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schemas/json-schemas/component.json",
+  "name": "prose-code-icon",
+  "type": "component",
+  "files": [
+    "src/components/prose-code-icon/prose-code-icon.vue",
+    "src/components/prose-code-icon/index.ts",
+    "src/components/prose-code-icon/utils.ts"
+  ],
+  "dependencies": {
+    "registry": [
+      {
+        "name": "icon",
+        "type": "component"
+      }
+    ]
+  }
+}

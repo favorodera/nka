@@ -3,14 +3,7 @@
   "name": "button",
   "type": "component",
   "files": [
-    "button/button.vue",
-    "button/index.ts"
-  ],
-  "dependencies": {
-    "npm": {
-      "dependencies": {
-        "reka-ui": "^3.0.0"
-      }
-    }
-  }
+    "src/components/button/button.vue",
+    "src/components/button/index.ts"
+  ]
 }

@@ -1,4 +1,5 @@
 import { type Static, Type } from 'typebox'
+import { MetadataSchema } from './metadata'
 import { RegistryItemReferenceSchema } from './shared/reference'
 
 export const RegistrySchema = Type.Object({
@@ -10,6 +11,8 @@ export const RegistrySchema = Type.Object({
   items: Type.Array(RegistryItemReferenceSchema, {
     description: 'Registry item references.',
   }),
+
+  metadata: Type.Optional(MetadataSchema),
 }, {
   $id: 'Registry',
   $schema: 'https://json-schema.org/draft/2020-12/schema',

@@ -129,8 +129,7 @@
                       "type": "string",
                       "description": "A valid npm version specifier."
                     }
-                  },
-                  "default": {}
+                  }
                 },
                 "devDependencies": {
                   "type": "object",
@@ -139,8 +138,7 @@
                       "type": "string",
                       "description": "A valid npm version specifier."
                     }
-                  },
-                  "default": {}
+                  }
                 }
               }
             }

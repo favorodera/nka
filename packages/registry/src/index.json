@@ -6,9 +6,34 @@
       "type": "component"
     },
     {
+      "name": "icon",
+      "type": "component"
+    },
+    {
+      "name": "prose-code-icon",
+      "type": "component"
+    },
+    {
       "name": "props",
+      "type": "utility"
+    },
+    {
+      "name": "styling",
       "type": "utility"
     }
   ],
+  "metadata": {
+    "$schema": "../schemas/json-schemas/metadata.json",
+    "npm": {
+      "dependencies": {
+        "tailwindcss": "^4.3.3",
+        "@tailwindcss/vite": "^4.3.3",
+        "@vueuse/core": "^14.4.0",
+        "tailwind-variants": "^3.3.0",
+        "tailwind-merge": "^3.6.0",
+        "reka-ui": "^2.10.1"
+      }
+    }
+  },
   "version": "0.0.0"
 }

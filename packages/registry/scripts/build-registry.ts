@@ -4,10 +4,9 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join, normalize } from 'pathe'
 import { glob } from 'tinyglobby'
 import Schema from 'typebox/schema'
-
-import { version } from '../package.json'
-
 import type { RegistryItemReference } from '../schemas/ts-schemas/shared/reference'
+import { version } from '../package.json'
+import { type Metadata, MetadataSchema } from '../schemas/ts-schemas/metadata'
 import { RegistryItemSchema } from '../schemas/ts-schemas/shared/item'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -16,6 +15,7 @@ const REGISTRY_DIR = join(__dirname, '../src')
 const REGISTRY_INDEX = join(REGISTRY_DIR, 'index.json')
 
 const registryItems: Array<RegistryItemReference> = []
+let metadata: Metadata
 
 intro('Building registry')
 
@@ -27,7 +27,10 @@ await tasks([
       const itemFiles = await glob('**/*.json', {
         absolute: true,
         cwd: REGISTRY_DIR,
-        ignore: ['**/index.json'],
+        ignore: [
+          '**/index.json',
+          '**/metadata.json',
+        ],
       })
 
       message(`Discovered ${itemFiles.length} registry items`)
@@ -59,6 +62,27 @@ await tasks([
   },
 
   {
+    title: 'Reading registry metadata',
+
+    async task(message) {
+      const registryMetadata = await fsExtra.readJson(join(REGISTRY_DIR, 'metadata.json'), {
+        encoding: 'utf8',
+      })
+
+      message('Validating registry metadata')
+
+      const parsedMetadata = Schema.Parse(
+        MetadataSchema,
+        registryMetadata,
+      )
+
+      metadata = parsedMetadata
+
+      return `Processed registry metadata`
+    },
+  },
+
+  {
     title: 'Building registry index',
 
     async task(message) {
@@ -79,6 +103,7 @@ await tasks([
         {
           $schema: '../schemas/json-schemas/registry.json',
           items: registryItems,
+          metadata,
           version,
         },
         {
