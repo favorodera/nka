@@ -7,7 +7,7 @@ export default factory({
   },
 })
   .append({
-    files: ['content/**/*.md'],
+    files: ['src/**/*.vue'],
     rules: {
       'tailwind/no-unknown-classes': [
         'error',
