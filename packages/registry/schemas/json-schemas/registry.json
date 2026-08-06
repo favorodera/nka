@@ -8,9 +8,7 @@
     "version": {
       "type": "string",
       "description": "Registry version.",
-      "examples": [
-        "0.1.0"
-      ]
+      "examples": ["0.1.0"]
     },
     "items": {
       "type": "array",
