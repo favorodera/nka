@@ -11,7 +11,7 @@ import { type Metadata, MetadataSchema } from '../ts-schemas/metadata'
 import { type Registry, RegistrySchema } from '../ts-schemas/registry'
 import { type Item, ItemSchema } from '../ts-schemas/shared/item'
 
-type WithSchema<TSchema> = TSchema & { $schema: string }
+type With$Schema<TSchema> = TSchema & { $schema: string }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -30,7 +30,7 @@ const metadataDependenciesRef = [
   'tailwind-merge',
   'reka-ui',
 ]
-const metadata: WithSchema<Metadata> = {
+const metadata: With$Schema<Metadata> = {
   $schema: '../json-schemas/metadata.json',
   source: {
     baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}`,
@@ -122,7 +122,7 @@ await tasks([
       const { $schema: _, ...restParsedMetadata } = parsedMetadata
 
       message('Validating registry index')
-      const registryIndexRef: WithSchema<Registry> = {
+      const registryIndexRef: With$Schema<Registry> = {
         $schema: '../json-schemas/registry.json',
         items: registryItems,
         metadata: restParsedMetadata,

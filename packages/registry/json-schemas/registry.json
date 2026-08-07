@@ -1,6 +1,8 @@
 {
   "type": "object",
-  "required": ["items"],
+  "required": [
+    "items"
+  ],
   "properties": {
     "items": {
       "type": "array",
@@ -55,7 +57,9 @@
       "properties": {
         "source": {
           "type": "object",
-          "required": ["baseUrl"],
+          "required": [
+            "baseUrl"
+          ],
           "properties": {
             "baseUrl": {
               "type": "string",
@@ -67,7 +71,9 @@
         "version": {
           "type": "string",
           "description": "Registry format version.",
-          "examples": ["0.1.0"]
+          "examples": [
+            "0.1.0"
+          ]
         },
         "packages": {
           "type": "object",
