@@ -24,7 +24,9 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -49,6 +51,7 @@
     "fs-extra": "catalog:vendor",
     "gitget": "catalog:vendor",
     "nypm": "catalog:vendor",
+    "ofetch": "catalog:vendor",
     "pathe": "catalog:vendor"
   },
   "devDependencies": {

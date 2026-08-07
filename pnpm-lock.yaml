@@ -103,6 +103,9 @@ catalogs:
     nypm:
       specifier: ^0.6.9
       version: 0.6.9
+    ofetch:
+      specifier: ^1.5.1
+      version: 1.5.1
     pathe:
       specifier: ^2.0.3
       version: 2.0.3
@@ -238,6 +241,9 @@ importers:
       nypm:
         specifier: catalog:vendor
         version: 0.6.9
+      ofetch:
+        specifier: catalog:vendor
+        version: 1.5.1
       pathe:
         specifier: catalog:vendor
         version: 2.0.3
@@ -301,18 +307,12 @@ importers:
       '@types/fs-extra':
         specifier: catalog:tooling
         version: 11.0.4
-      '@vitest/ui':
-        specifier: catalog:tooling
-        version: 4.1.10(vitest@4.1.10)
       tsdown:
         specifier: catalog:tooling
         version: 0.22.14(@tsdown/css@0.22.14)(@volar/typescript@2.4.28(typescript@6.0.3))(tsx@4.23.5)(typescript@6.0.3)(vue-tsc@3.3.9(typescript@6.0.3))
       tsx:
         specifier: catalog:tooling
         version: 4.23.5
-      vitest:
-        specifier: catalog:tooling
-        version: 4.1.10(@types/node@26.1.2)(@vitest/ui@4.1.10)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.5)(yaml@2.9.0))
 
   packages/ui:
     dependencies:
