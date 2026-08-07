@@ -1,0 +1,72 @@
+{
+  "allOf": [
+    {
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique registry item name.",
+          "examples": [
+            "button",
+            "docs-default"
+          ],
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "component"
+            },
+            {
+              "type": "string",
+              "const": "template"
+            },
+            {
+              "type": "string",
+              "const": "utility"
+            }
+          ],
+          "description": "Type of registry item.",
+          "examples": [
+            "component",
+            "template",
+            "utility"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "repository",
+        "type"
+      ],
+      "properties": {
+        "repository": {
+          "type": "object",
+          "required": ["source"],
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Repository source supported by giget.",
+              "examples": [
+                "github:foo/bar",
+                "gitlab:foo/bar"
+              ]
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "const": "template"
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

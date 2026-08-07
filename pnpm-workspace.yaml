@@ -34,6 +34,7 @@ catalogs:
     vite: ^8.1.4
     vitest: ^4.1.10
     vue-tsc: ^3.3.7
+    yaml: ^2.9.0
   vendor:
     '@clack/prompts': ^1.7.0
     '@comark/vue': ^0.5.1

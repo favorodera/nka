@@ -1,6 +1,6 @@
 {
-  "$schema": "../../schemas/json-schemas/utility.json",
+  "$schema": "../../json-schemas/utility.json",
   "name": "props",
   "type": "utility",
-  "files": ["src/utils/props.ts"]
+  "files": ["packages/ui/src/utils/props.ts"]
 }

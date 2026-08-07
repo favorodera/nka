@@ -4,26 +4,82 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join, normalize } from 'pathe'
 import { glob } from 'tinyglobby'
 import Schema from 'typebox/schema'
-import type { RegistryItemReference } from '../schemas/ts-schemas/shared/reference'
+import { parse as parseYaml } from 'yaml'
+import type { ItemBase } from '../ts-schemas/shared/base'
 import { version } from '../package.json'
-import { type Metadata, MetadataSchema } from '../schemas/ts-schemas/metadata'
-import { RegistryItemSchema } from '../schemas/ts-schemas/shared/item'
+import { type Metadata, MetadataSchema } from '../ts-schemas/metadata'
+import { type Registry, RegistrySchema } from '../ts-schemas/registry'
+import { type Item, ItemSchema } from '../ts-schemas/shared/item'
+
+type WithSchema<TSchema> = TSchema & { $schema: string }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const REGISTRY_DIR = join(__dirname, '../src')
 const REGISTRY_INDEX = join(REGISTRY_DIR, 'index.json')
+const REGISTRY_METADATA = join(REGISTRY_DIR, 'metadata.json')
+const PNPM_WORKSPACE = join(__dirname, '../../../pnpm-workspace.yaml')
 
-const registryItems: Array<RegistryItemReference> = []
-let metadata: Metadata
+const registryItems: Array<ItemBase> = []
 
-intro('Building registry')
+const metadataDependenciesRef = [
+  'tailwindcss',
+  '@tailwindcss/vite',
+  '@vueuse/core',
+  'tailwind-variants',
+  'tailwind-merge',
+  'reka-ui',
+]
+const metadata: WithSchema<Metadata> = {
+  $schema: '../json-schemas/metadata.json',
+  source: {
+    baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}`,
+  },
+  version,
+}
+
+intro('Registry builder')
 
 await tasks([
   {
-    title: 'Scanning registry',
-
     async task(message) {
+      message('Reading pnpm workspace yaml')
+      const workspaceYaml = await fsExtra.readFile(PNPM_WORKSPACE, 'utf8')
+
+      message('Parsing workspace yaml')
+      const parsedYaml = parseYaml(workspaceYaml)
+
+      message('Extracting dependencies')
+      const vendorCatalog = parsedYaml.catalogs?.vendor || {}
+
+      metadata.packages = {}
+
+      for (const name of metadataDependenciesRef) {
+        if (vendorCatalog[name]) {
+          metadata.packages[name] = vendorCatalog[name]
+        } else {
+          throw new Error(`Dependency ${name} not found in workspace vendor catalog`)
+        }
+      }
+
+      message('Saving metadata')
+      await fsExtra.ensureFile(REGISTRY_METADATA)
+      await fsExtra.writeJson(
+        REGISTRY_METADATA,
+        metadata,
+        {
+          spaces: 2,
+        },
+      )
+
+      return 'Registry metadata built'
+    },
+    title: 'Building registry metadata',
+  },
+
+  {
+    async task(message) {
+      message('Scanning registry directory')
       const itemFiles = await glob('**/*.json', {
         absolute: true,
         cwd: REGISTRY_DIR,
@@ -45,7 +101,7 @@ await tasks([
         message(`Validating ${normalize(itemFile)}`)
 
         const parsedRegistryItem = Schema.Parse(
-          RegistryItemSchema,
+          ItemSchema,
           registryItem,
         )
 
@@ -57,69 +113,46 @@ await tasks([
         message(`Indexed ${parsedRegistryItem.type}:${parsedRegistryItem.name}`)
       }
 
-      return `Processed ${itemFiles.length} registry items`
-    },
-  },
-
-  {
-    title: 'Reading registry metadata',
-
-    async task(message) {
-      const registryMetadata = await fsExtra.readJson(join(REGISTRY_DIR, 'metadata.json'), {
-        encoding: 'utf8',
-      })
-
       message('Validating registry metadata')
-
       const parsedMetadata = Schema.Parse(
         MetadataSchema,
-        registryMetadata,
+        metadata,
+      ) as typeof metadata
+
+      const { $schema: _, ...restParsedMetadata } = parsedMetadata
+
+      message('Validating registry index')
+      const registryIndexRef: WithSchema<Registry> = {
+        $schema: '../json-schemas/registry.json',
+        items: registryItems,
+        metadata: restParsedMetadata,
+      }
+
+      const parsedRegistryIndex = Schema.Parse(
+        RegistrySchema,
+        registryIndexRef,
       )
 
-      metadata = parsedMetadata
-
-      return `Processed registry metadata`
-    },
-  },
-
-  {
-    title: 'Building registry index',
-
-    async task(message) {
-      message('Sorting registry items')
-
-      registryItems.sort((itemA, itemB) => {
-        if (itemA.type !== itemB.type) {
-          return itemA.type.localeCompare(itemB.type)
-        }
-
-        return itemA.name.localeCompare(itemB.name)
-      })
-
       message('Writing registry index')
-
+      await fsExtra.ensureFile(REGISTRY_INDEX)
       await fsExtra.writeJson(
         REGISTRY_INDEX,
-        {
-          $schema: '../schemas/json-schemas/registry.json',
-          items: registryItems,
-          metadata,
-          version,
-        },
+        parsedRegistryIndex,
         {
           encoding: 'utf8',
           spaces: 2,
         },
       )
 
-      return `Generated index with ${registryItems.length} items`
+      return 'Registry index built'
     },
+    title: 'Building registry index',
   },
 ])
 
-const titles: Record<string, string> = {
+const itemTypesRef: Record<Item['type'], string> = {
   component: 'Components',
-  theme: 'Themes',
+  template: 'Templates',
   utility: 'Utilities',
 }
 
@@ -128,7 +161,7 @@ const summary = Object.entries(Object.groupBy(registryItems, item => item.type))
     type,
     items,
   ]) => {
-    const title = titles[type] ?? type
+    const title = itemTypesRef[type as Item['type']] ?? type
     const list = items
       .map(item => `${item.name}`)
       .join('\n')
@@ -142,4 +175,4 @@ note(
   `Registry Summary (${registryItems.length} items)`,
 )
 
-outro('Registry built successfully')
+outro('Done')

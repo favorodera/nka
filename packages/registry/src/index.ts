@@ -1,1 +1,1 @@
-export { type Registry } from '../schemas/ts-schemas'
+export { type Registry } from '../ts-schemas/registry'

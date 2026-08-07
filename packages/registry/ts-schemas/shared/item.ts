@@ -3,14 +3,10 @@ import { ComponentSchema } from '../component'
 import { TemplateSchema } from '../template'
 import { UtilitySchema } from '../utility'
 
-export const RegistryItemSchema = Type.Union([
+export const ItemSchema = Type.Union([
   ComponentSchema,
   TemplateSchema,
   UtilitySchema,
-], {
-  $id: 'RegistryItem',
-  description: 'A single installable registry item.',
-  title: 'Registry Item',
-})
+])
 
-export type RegistryItem = Static<typeof RegistryItemSchema>
+export type Item = Static<typeof ItemSchema>

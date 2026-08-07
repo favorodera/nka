@@ -53,6 +53,7 @@
     "@favorodera/eslint-config": "catalog:tooling",
     "@types/fs-extra": "catalog:tooling",
     "tsdown": "catalog:tooling",
-    "tsx": "catalog:tooling"
+    "tsx": "catalog:tooling",
+    "yaml": "catalog:tooling"
   }
 }

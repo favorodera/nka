@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "required": [
+    "source",
+    "version"
+  ],
+  "properties": {
+    "source": {
+      "type": "object",
+      "required": ["baseUrl"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "description": "Base URL used to resolve files in the registry.",
+          "format": "uri"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "Registry format version.",
+      "examples": ["0.1.0"]
+    },
+    "packages": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "string",
+          "description": "Package version range."
+        }
+      },
+      "description": "Installable NPM packages."
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

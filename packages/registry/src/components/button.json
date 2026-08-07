@@ -1,9 +1,9 @@
 {
-  "$schema": "../../schemas/json-schemas/component.json",
+  "$schema": "../../json-schemas/component.json",
   "name": "button",
   "type": "component",
   "files": [
-    "src/components/button/button.vue",
-    "src/components/button/index.ts"
+    "packages/ui/src/components/button/button.vue",
+    "packages/ui/src/components/button/index.ts"
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "$schema": "../../schemas/json-schemas/utility.json",
+  "$schema": "../../json-schemas/utility.json",
   "name": "styling",
   "type": "utility",
-  "files": ["src/utils/styling.ts"]
+  "files": ["packages/ui/src/utils/styling.ts"]
 }

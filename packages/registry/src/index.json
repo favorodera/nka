@@ -1,5 +1,5 @@
 {
-  "$schema": "../schemas/json-schemas/registry.json",
+  "$schema": "../json-schemas/registry.json",
   "items": [
     {
       "name": "button",
@@ -23,17 +23,17 @@
     }
   ],
   "metadata": {
-    "$schema": "../schemas/json-schemas/metadata.json",
-    "npm": {
-      "dependencies": {
-        "tailwindcss": "^4.3.3",
-        "@tailwindcss/vite": "^4.3.3",
-        "@vueuse/core": "^14.4.0",
-        "tailwind-variants": "^3.3.0",
-        "tailwind-merge": "^3.6.0",
-        "reka-ui": "^2.10.1"
-      }
+    "source": {
+      "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/tags/v0.0.0"
+    },
+    "version": "0.0.0",
+    "packages": {
+      "tailwindcss": "^4.3.3",
+      "@tailwindcss/vite": "^4.3.3",
+      "@vueuse/core": "^14.4.0",
+      "tailwind-variants": "^3.3.0",
+      "tailwind-merge": "^3.6.0",
+      "reka-ui": "^2.10.1"
     }
-  },
-  "version": "0.0.0"
+  }
 }

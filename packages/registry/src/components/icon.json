@@ -1,17 +1,15 @@
 {
-  "$schema": "../../schemas/json-schemas/component.json",
+  "$schema": "../../json-schemas/component.json",
   "name": "icon",
   "type": "component",
   "files": [
-    "src/components/icon/icon.vue",
-    "src/components/icon/index.ts",
-    "src/components/icon/utils.ts"
+    "packages/ui/src/components/icon/icon.vue",
+    "packages/ui/src/components/icon/index.ts",
+    "packages/ui/src/components/icon/utils.ts"
   ],
   "dependencies": {
-    "npm": {
-      "dependencies": {
-        "@iconify/vue": "^5.0.1"
-      }
+    "packages": {
+      "@iconify/vue": "^5.0.1"
     }
   }
 }

@@ -1,6 +1,4 @@
-/**
- * Configuration for Nka.
- */
+/** Configuration for Nka. */
 export interface NkaConfig {
   /** Component installation and import configuration. */
   components: {
@@ -39,4 +37,17 @@ export interface NkaConfig {
      */
     import: string
   }
+
+  /**
+   * Custom registry sources.
+   * Each key identifies a registry and its value points to the registry index.
+   * @example
+   * ```ts
+   * registries: {
+   *   acme: "https://registry.acme.dev/index.json",
+   *   julio: "https://julio.dev/nka/index.json",
+   * }
+   * ```
+   */
+  registries?: Record<string, string>
 }

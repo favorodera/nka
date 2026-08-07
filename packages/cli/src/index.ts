@@ -1,10 +1,10 @@
 import { defineCommand, runMain } from 'citty'
-import { VERSION } from './constants'
+import { version } from '../package.json'
 
 export * from './types'
 
 const main = defineCommand({
-  meta: { name: 'nka', version: VERSION },
+  meta: { name: 'nka', version },
   subCommands: {},
 })
 

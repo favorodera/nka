@@ -57,6 +57,9 @@ catalogs:
     vue-tsc:
       specifier: ^3.3.7
       version: 3.3.9
+    yaml:
+      specifier: ^2.9.0
+      version: 2.9.0
   vendor:
     '@clack/prompts':
       specifier: ^1.7.0
@@ -313,6 +316,9 @@ importers:
       tsx:
         specifier: catalog:tooling
         version: 4.23.5
+      yaml:
+        specifier: catalog:tooling
+        version: 2.9.0
 
   packages/ui:
     dependencies:
