@@ -26,16 +26,16 @@ export interface NkaConfig {
     /**
      * Directory where shared utilities are installed.
      * This path is relative to the project root.
-     * @example "lib"
-     * @example "src/lib"
+     * @example "utils"
+     * @example "src/utils"
      */
     dir: string
 
     /**
      * Module specifier used when rewriting utility imports.
      * Installed components will import utilities using this value.
-     * @example "@/lib"
-     * @example "~/lib"
+     * @example "@/utils"
+     * @example "~/utils"
      */
     import: string
   }

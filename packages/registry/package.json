@@ -37,8 +37,6 @@
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build",
-    "test": "vitest",
-    "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix",
     "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
     "build-registry": "tsx scripts/build-registry.ts",
@@ -54,9 +52,7 @@
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
     "@types/fs-extra": "catalog:tooling",
-    "@vitest/ui": "catalog:tooling",
     "tsdown": "catalog:tooling",
-    "tsx": "catalog:tooling",
-    "vitest": "catalog:tooling"
+    "tsx": "catalog:tooling"
   }
 }
