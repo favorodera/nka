@@ -1,5 +1,5 @@
+import type { WithClass } from '@nka/utils/props'
 import { cn } from 'tailwind-variants'
-import type { WithClass } from './props'
 
 /**
  * Normalizes class input to be used with Tailwind Variants' `cn` utility.

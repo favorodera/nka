@@ -5,6 +5,10 @@
     "moduleDetection": "force",
     "module": "preserve",
     "moduleResolution": "bundler",
+    "paths": {
+      "@nka/components/*": ["./src/components/*"],
+      "@nka/utils/*": ["./src/utils/*"]
+    },
     "resolveJsonModule": true,
     "types": ["node"],
     "strict": true,

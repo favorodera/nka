@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
 import { Primitive, useForwardProps } from 'reka-ui'
 import { type ButtonProps, buttonVariants } from '.'
-import { normalizeClass } from '../../utils/styling'
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   as: 'button',

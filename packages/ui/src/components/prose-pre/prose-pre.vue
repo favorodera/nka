@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { Button } from '@nka/components/button'
+import { Icon, iconsConfig } from '@nka/components/icon'
+import { ProseCodeIcon } from '@nka/components/prose-code-icon'
+import { normalizeClass } from '@nka/utils/styling'
 import { useClipboard } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import { type ProsePreProps, prosePreVariants } from '.'
-import { normalizeClass } from '../../utils/styling'
-import { Button } from '../button'
-import { Icon, iconsConfig } from '../icon'
-import { ProseCodeIcon } from '../prose-code-icon'
 
 defineOptions({
   inheritAttrs: false,

@@ -23,7 +23,16 @@
 
   <p>
     <a href="./packages/core">
-      <img src="https://img.shields.io/badge/Core-blue?style=plastic&logo=vuedotjs&logoColor=white" alt="Nka Core">
+      <img src="https://img.shields.io/badge/Core-blue?style=plastic&logo=typescript&logoColor=white" alt="Nka Core">
+    </a>
+    <a href="./packages/cli">
+      <img src="https://img.shields.io/badge/CLI-blue?style=plastic&logo=typescript&logoColor=white" alt="Nka CLI">
+    </a>
+    <a href="./packages/registry">
+      <img src="https://img.shields.io/badge/Registry-blue?style=plastic&logo=typescript&logoColor=white" alt="Nka Registry">
+    </a>
+    <a href="./packages/ui">
+      <img src="https://img.shields.io/badge/UI-blue?style=plastic&logo=vuedotjs&logoColor=white" alt="Nka UI">
     </a>
   </p>
 </div>

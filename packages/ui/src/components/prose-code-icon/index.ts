@@ -1,5 +1,5 @@
+import type { IconProps } from '@nka/components/icon'
 import { tv, type VariantProps } from 'tailwind-variants'
-import type { IconProps } from '../icon'
 
 // Variants
 export const proseCodeIconVariants = tv({

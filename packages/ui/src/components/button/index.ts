@@ -1,5 +1,5 @@
+import type { WithClass } from '@nka/utils/props'
 import { tv, type VariantProps } from 'tailwind-variants'
-import type { WithClass } from '../../utils/props'
 
 // Variants
 export const buttonVariants = tv({

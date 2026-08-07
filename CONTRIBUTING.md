@@ -1,125 +1,149 @@
-# Contributing to NotForm
+# Contributing to Nka
 
-Thank you for your interest in contributing to NotForm! We appreciate your time and effort in helping to improve this project.
+Thank you for your interest in contributing to Nka.
 
----
-
-## Code of Conduct
-
-By participating in this project, you agree to abide by the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
-
----
+Nka is an open-code documentation engine for the Vue ecosystem. Every contribution—whether it's fixing a bug, improving documentation, or implementing a new feature—helps move the project forward.
 
 ## Getting Started
 
 ### Prerequisites
 
-  - [Node.js](https://nodejs.org/) (v20 or later)
-  - [pnpm](https://pnpm.io/installation) (v11 or later)
+- Node.js 22+
+- pnpm 11+
 
 ### Setup
 
 ```bash
 git clone https://github.com/favorodera/nka.git
 cd nka
+
 pnpm install
 pnpm dev
 ```
 
----
+### Repository Structure
+
+```text
+apps/
+  storybook/          Internal component playground
+
+packages/
+  cli/                Command-line interface
+  core/               Shared runtime utilities
+  registry/           Registry source and schemas
+  ui/                 Internal UI bundle for Storybook and examples
+```
+
+The `registry` and `ui` packages are internal workspace packages used to develop and validate the project. They are not intended to be consumed directly by applications.
 
 ## Development Workflow
 
-### Branch Naming
+Create a dedicated branch for your work.
 
-| Pattern | Use |
-|---------|-----|
-| `feat/<feature-name>` | New features |
-| `fix/<issue-description>` | Bug fixes |
-| `docs/<what-changed>` | Documentation changes |
-| `chore/<task>` | Maintenance tasks |
+| Pattern | Purpose |
+| --- | --- |
+| `feat/...` | New features |
+| `fix/...` | Bug fixes |
+| `docs/...` | Documentation |
+| `refactor/...` | Refactoring |
+| `chore/...` | Maintenance |
 
-### Commit Messages
+Nka follows the Conventional Commits specification.
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/).These are used to generate changelogs automatically.
+Examples:
 
-| Prefix | Use |
-|--------|-----|
-| `feat:` | A new feature |
-| `fix:` | A bug fix |
-| `docs:` | Documentation only |
-| `style:` | No logic change |
-| `refactor:` | Neither fix nor feature |
-| `perf:` | Performance improvement |
-| `test:` | Adding or correcting tests |
-| `chore:` | Build process or tooling |
-
-### Code Style
-
-This project is written exclusively in TypeScript. We use [Eslint](https://eslint.org/) and [`@favorodera/eslint-config`](https://www.npmjs.com/package/@favorodera/eslint-config) for linting and code formatting.
-
-```bash
-pnpm lint       # check linting errors
-pnpm typecheck  # verify TypeScript types
+```text
+feat(cli): resolve registry dependencies
+fix(registry): validate repository schema
+docs: improve installation guide
 ```
 
----
-
-## Testing
-
-We use [Vitest](https://vitest.dev/) for testing.
-
-```bash
-pnpm test         # run all tests
-pnpm test:watch   # watch mode with ui
-```
-
-When adding new features or fixing bugs, please include tests as this helps us validate upcoming features before they are fully integrated.
-
----
-
-## Pull Request Process
-
-1. Ensure your code follows the project's coding standards
-2. Update documentation if you're changing functionality
-3. Add or update tests as appropriate
-4. Run the full validation suite:
+Before opening a pull request, ensure the project passes validation.
 
 ```bash
 pnpm ready
 ```
 
-5. Commit using Conventional Commits and open a Pull Request.
-6. Push your branch and open a Pull Request.
+## Architecture Guidelines
 
----
+Nka is guided by a few core principles. Contributions should follow these principles whenever possible.
+
+### Open Code
+
+Registry items are copied into the user's project and become part of their codebase. Avoid introducing abstractions that prevent developers from understanding, modifying, or owning the generated source.
+
+### Registry First
+
+Everything installable should be represented as a registry item. This includes components, utilities, templates, themes, typesets, starters, and future installable resources.
+
+### Vue Ecosystem
+
+Nka is built for the Vue ecosystem. Shared packages should remain framework-agnostic, while framework-specific functionality belongs in adapters.
+
+### Public APIs
+
+Each registry module should expose a single public entry through its `index.ts`.
+
+Prefer:
+
+```ts
+import { Button } from '@nka/components/button'
+```
+
+Instead of:
+
+```ts
+import Button from '@nka/components/button/button.vue'
+```
+
+Within the same registry module, use relative imports.
+
+### Canonical Imports
+
+Imports between registry modules should always use the reserved `@nka/*` namespaces.
+
+```ts
+import { Button } from '@nka/components/button'
+import { normalizeClass } from '@nka/utils/styling'
+```
+
+These imports are rewritten by the CLI during installation according to the user's configuration.
+
+### Keep It Simple
+
+Prefer extending existing systems over introducing new ones. New configuration options should only be added when they solve a real problem and cannot be addressed through existing conventions.
+
+## Pull Requests
+
+Before submitting a pull request:
+
+- Ensure `pnpm ready` passes.
+- Update documentation when behavior changes.
+- Add or update tests when introducing new functionality.
+- Keep each pull request focused on a single concern.
+- For significant architectural changes, open a discussion before implementation.
 
 ## Reporting Bugs
 
-  Before filing a report, check existing issues. When you do file one, include:
+When reporting a bug, please include:
 
-  - A clear, descriptive title
-  - Steps to reproduce
-  - Expected vs. actual behaviour
-  - Your environment (OS, Node.js version, pnpm version)
-
----
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Environment details
 
 ## Suggesting Features
 
-We welcome feature suggestions! Please open an issue describing:
+Feature requests should explain:
 
-- The problem you're trying to solve
-- Your proposed solution
-- Any alternatives you've considered
+- The problem being solved
+- The proposed solution
+- Alternative approaches that were considered
 
----
+For larger proposals, please start a GitHub Discussion before implementation.
 
-## Questions?
+## Need Help?
 
-  If you have questions, feel free to:
+If you're unsure about an implementation or architectural decision, open a GitHub Discussion before writing code.
 
-  - Open a [Discussion](https://github.com/favorodera/nka/discussions)
-  - Check the [Documentation](https://nka.vercel.app/)
-
-  Thank you for contributing! 🎉
+Thanks for helping build Nka!
