@@ -5,3 +5,9 @@ export default factory({
   tailwind: false,
   vue: false,
 })
+  .append({
+    files: ['**/*.ts'],
+    rules: {
+      'new-cap': ['off'],
+    },
+  })
