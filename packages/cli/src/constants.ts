@@ -11,7 +11,7 @@ export const NKA_CONFIG_DEFAULTS = {
   registries: {
     nka: DEFAULT_REGISTRY_INDEX,
   },
-} satisfies Partial<NkaConfig>;
+} satisfies Partial<NkaConfig>
 
 /** HTTP headers required when fetching raw content from the GitHub API. */
 export const GITHUB_RAW_FETCH_HEADERS: HeadersInit = {

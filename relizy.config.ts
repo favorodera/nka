@@ -1,8 +1,6 @@
 import { defineConfig } from 'relizy'
 
-const packages = [
-  'packages/*',
-]
+const packages = ['packages/*']
 
 export default defineConfig({
   monorepo: {

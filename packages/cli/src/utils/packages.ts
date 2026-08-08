@@ -38,7 +38,6 @@ export async function installDependency(name: string, version: string, cwd: stri
   }
 }
 
-
 /**
  * Uninstalls a package from the current project.
  * @param name The name of the package to uninstall.
