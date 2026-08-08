@@ -56,6 +56,7 @@
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",
     "@tsdown/css": "catalog:tooling",
+    "@types/fs-extra": "catalog:tooling",
     "@vitest/ui": "catalog:tooling",
     "tsdown": "catalog:tooling",
     "vitest": "catalog:tooling"
