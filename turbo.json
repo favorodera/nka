@@ -36,8 +36,5 @@
     "postinstall": {
       "outputs": [".nuxt/**"]
     },
-    "prepublishOnly": {
-      "outputs": []
-    }
   }
 }
