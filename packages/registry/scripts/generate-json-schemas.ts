@@ -51,8 +51,7 @@ await tasks([
         try {
           const filePath = join(dirname(fileURLToPath(import.meta.url)), '..', 'json-schemas', fileName)
 
-          await fsExtra.ensureFile(filePath)
-          await fsExtra.writeJson(filePath, schema, {
+          await fsExtra.outputJSON(filePath, schema, {
             spaces: 2,
           })
 

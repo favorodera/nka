@@ -64,8 +64,7 @@ await tasks([
       }
 
       message('Saving metadata')
-      await fsExtra.ensureFile(REGISTRY_METADATA)
-      await fsExtra.writeJson(
+      await fsExtra.outputJSON(
         REGISTRY_METADATA,
         metadata,
         {
@@ -135,8 +134,7 @@ await tasks([
       )
 
       message('Writing registry index')
-      await fsExtra.ensureFile(REGISTRY_INDEX)
-      await fsExtra.writeJson(
+      await fsExtra.outputJSON(
         REGISTRY_INDEX,
         parsedRegistryIndex,
         {
