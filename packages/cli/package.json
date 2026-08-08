@@ -50,7 +50,8 @@
     "gitget": "catalog:vendor",
     "nypm": "catalog:vendor",
     "ofetch": "catalog:vendor",
-    "pathe": "catalog:vendor"
+    "pathe": "catalog:vendor",
+    "typebox": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",

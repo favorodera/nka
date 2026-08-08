@@ -42,6 +42,14 @@
     "build-registry": "tsx scripts/build-registry.ts",
     "prebuild": "pnpm generate-json-schemas && pnpm build-registry"
   },
+  "peerDependencies": {
+    "typebox": "catalog:vendor"
+  },
+  "peerDependenciesMeta": {
+    "typebox": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@clack/prompts": "catalog:vendor",
     "fs-extra": "catalog:vendor",

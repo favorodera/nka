@@ -250,6 +250,9 @@ importers:
       pathe:
         specifier: catalog:vendor
         version: 2.0.3
+      typebox:
+        specifier: catalog:vendor
+        version: 1.3.10
     devDependencies:
       '@favorodera/eslint-config':
         specifier: catalog:tooling

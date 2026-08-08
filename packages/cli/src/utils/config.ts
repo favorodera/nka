@@ -1,6 +1,6 @@
 import { loadConfig } from 'c12'
-import type { NkaConfig } from '../types'
-import { CONFIG_FILE_NAME } from '../constants'
+import type { NkaConfig } from '../types/config'
+import { NKA_CONFIG_FILE_NAME } from '../constants'
 
 /**
  * Loads the user's Nka configuration.
@@ -11,7 +11,7 @@ import { CONFIG_FILE_NAME } from '../constants'
 export async function loadNkaConfig(cwd: string) {
   const { config, configFile } = await loadConfig<NkaConfig>({
     cwd,
-    name: CONFIG_FILE_NAME,
+    name: NKA_CONFIG_FILE_NAME,
   })
 
   if (!configFile) {
