@@ -15,6 +15,15 @@ export const MetadataSchema = Type.Object({
   }),
 
   packages: Type.Optional(PackageDependenciesSchema),
+
+  name: Type.String({
+    description: 'Name of the registry.',
+    examples: [
+      'julio-ui',
+      'acme-ui',
+    ],
+    pattern: '^[a-z][a-z0-9-]*$',
+  }),
 }, {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
 })

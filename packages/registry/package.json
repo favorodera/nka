@@ -2,7 +2,7 @@
   "name": "@nka/registry",
   "type": "module",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "description": "Components, utilities, and templates registry for Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
@@ -26,7 +26,7 @@
   },
   "files": ["dist"],
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "engines": {
     "node": ">=22.0.0",
