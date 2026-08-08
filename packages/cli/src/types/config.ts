@@ -40,7 +40,7 @@ export interface NkaConfig {
 
   /**
    * Custom registry sources.
-   * Each key identifies a registry and its value points to the registry index.
+   * Each key identifies a registry and its value points to the registry manifest/index.
    * @example
    * ```ts
    * registries: {
