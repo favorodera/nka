@@ -17,7 +17,7 @@ on:
           - premajor
 
       prerelease_id:
-        description: 'Prerelease identifier, such as alpha, beta, or rc'
+        description: 'Prerelease identifier, such as alpha or beta'
         required: false
         type: string
         default: alpha
