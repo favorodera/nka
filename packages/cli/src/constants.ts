@@ -4,8 +4,11 @@ import { version } from '../package.json'
 /** The URL of the default registry index. */
 export const DEFAULT_REGISTRY_INDEX = `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/packages/registry/src/index.json`
 
-/** Base name of the user configuration file created by `nka init`. */
-export const NKA_CONFIG_FILE_NAME = 'nka'
+/** Base name of user configuration file. */
+export const NKA_CONFIG_FILE_BASE_NAME = 'nka'
+
+/** File name of user configuration file. */
+export const NKA_CONFIG_FILE_NAME = `${NKA_CONFIG_FILE_BASE_NAME}.config.ts`
 
 export const NKA_CONFIG_DEFAULTS = {
   registries: {
