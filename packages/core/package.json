@@ -37,6 +37,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
     "test": "vitest",
     "test:watch": "vitest watch --ui",
     "lint": "eslint . --fix"

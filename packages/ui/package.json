@@ -43,6 +43,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "vue-tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
     "lint": "eslint . --fix"
   },
   "dependencies": {

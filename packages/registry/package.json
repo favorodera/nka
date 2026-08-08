@@ -33,12 +33,14 @@
     "pnpm": ">=11.0.0"
   },
   "scripts": {
-    "build": "pnpm generate-json-schemas && pnpm build-registry && tsdown",
+    "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
     "lint": "eslint . --fix",
     "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
-    "build-registry": "tsx scripts/build-registry.ts"
+    "build-registry": "tsx scripts/build-registry.ts",
+    "prebuild": "pnpm generate-json-schemas && pnpm build-registry"
   },
   "peerDependencies": {
     "typebox": "catalog:vendor"
