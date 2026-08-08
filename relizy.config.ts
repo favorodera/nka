@@ -2,15 +2,15 @@ import { defineConfig } from 'relizy'
 
 const packages = [
   'packages/*',
-  'adapters/*',
 ]
 
 export default defineConfig({
   monorepo: {
+    includePrivates: true,
     packages,
     versionMode: 'unified',
   },
-  projectName: 'notform',
+  projectName: 'nka',
   publish: {
     access: 'public',
     buildCmd: 'pnpm build',
