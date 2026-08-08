@@ -10,7 +10,7 @@ export async function createDirectory(path: string) {
   try {
     await fsExtra.ensureDir(path)
   } catch (error) {
-    throw new Error(`Failed to create directory ${path}`, { cause: error })
+    throw new Error(`Failed to create directory "${path}"`, { cause: error })
   }
 }
 
@@ -24,7 +24,7 @@ export async function writeToFile(path: string, content: string) {
   try {
     await fsExtra.outputFile(path, content, 'utf8')
   } catch (error) {
-    throw new Error(`Failed to write ${path}`, { cause: error })
+    throw new Error(`Failed to write path "${path}"`, { cause: error })
   }
 }
 
@@ -43,7 +43,7 @@ export async function confirmOverwrite(path: string) {
 
   const answer = await confirm({
     initialValue: false,
-    message: `${path} already exists. Overwrite?`,
+    message: `Path "${path}" already exists. Overwrite?`,
   })
 
   if (isCancel(answer)) {

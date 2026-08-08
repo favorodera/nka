@@ -15,7 +15,7 @@ export async function loadNkaConfig(cwd: string) {
   })
 
   if (!configFile) {
-    throw new Error(`Nka config file not found in ${cwd}. Run \`nka init\` first.`)
+    throw new Error(`Nka config file not found in "${cwd}". Run \`nka init\` first.`)
   }
 
   return { config, configFile }
