@@ -1,4 +1,4 @@
-import { cancel, group, intro, tasks, text } from '@clack/prompts'
+import { cancel, group, intro, outro, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
 import { join } from 'pathe'
 import type { NkaConfig } from '../types/config'
@@ -199,6 +199,8 @@ export function init() {
           title: `Installing registry dependencies`,
         },
       ])
+
+      outro('Initialization Complete!')
     },
   })
 }
