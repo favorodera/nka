@@ -25,8 +25,8 @@ export function init() {
       // Collect all user choices so they aren't prompted again
       const userChoices = await group(
         {
-          components:  () =>  group({
-            dir: () =>  text({
+          components: () => group({
+            dir: () => text({
               initialValue: 'src/components/nka',
               message: 'Where do you want to store components?',
               placeholder: 'src/components/nka',
@@ -140,13 +140,13 @@ export function init() {
 
             message('Writing to disk')
             await writeToFile(themeStyleSheetPath, themeStyleSheet)
-            
+
             message('Downloading prose stylesheet')
             const proseStyleSheet = await nkaTextFetch(`${DEFAULT_STYLESHEETS_DIR_URL}/prose.css`)
 
             message('Writing to disk')
             await writeToFile(proseStyleSheetPath, proseStyleSheet)
-            
+
             return `Created styles directory in "${userChoices.styles.dir}"`
           },
           title: `Creating styles directory in "${userChoices.styles.dir}"`,

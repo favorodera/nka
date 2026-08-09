@@ -14,7 +14,10 @@ export async function fetchRegistryIndex(url: string): Promise<Registry> {
   try {
     const registryIndex = await nkaJsonFetch<Registry>(url)
 
-    const [isValid, validationErrors] = Schema.Errors(RegistrySchema, registryIndex)
+    const [
+      isValid,
+      validationErrors,
+    ] = Schema.Errors(RegistrySchema, registryIndex)
 
     if (!isValid) {
       throw new Error(`Invalid registry index from "${url}".`, { cause: validationErrors })
