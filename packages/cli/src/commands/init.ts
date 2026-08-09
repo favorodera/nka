@@ -38,37 +38,37 @@ export function init() {
         {
           components: () => group({
             dir: () => text({
-              initialValue: 'src/components/nka',
+              initialValue: 'src/components',
               message: 'Where do you want to store components?',
-              placeholder: 'src/components/nka',
+              placeholder: 'src/components',
             }),
 
             import: () => text({
-              initialValue: '@/components/nka',
+              initialValue: '@/components',
               message: 'What import alias should components use?',
-              placeholder: '@/components/nka',
+              placeholder: '@/components',
             }),
           }),
 
           utils: () => group({
             dir: () => text({
-              initialValue: 'src/utils/nka',
+              initialValue: 'src/utils',
               message: 'Where do you want to store utilities?',
-              placeholder: 'src/utils/nka',
+              placeholder: 'src/utils',
             }),
 
             import: () => text({
-              initialValue: '@/utils/nka',
+              initialValue: '@/utils',
               message: 'What import alias should utilities use?',
-              placeholder: '@/utils/nka',
+              placeholder: '@/utils',
             }),
           }),
 
           styles: () => group({
             dir: () => text({
-              initialValue: 'src/assets/css/nka',
+              initialValue: 'src/assets/css',
               message: 'Where do you want to store Nka styles?',
-              placeholder: 'src/assets/css/nka',
+              placeholder: 'src/assets/css',
             }),
           }),
         },
