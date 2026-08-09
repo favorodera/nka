@@ -93,23 +93,13 @@
                       },
                       {
                         "type": "string",
-                        "const": "template"
-                      },
-                      {
-                        "type": "string",
                         "const": "utility"
                       }
-                    ],
-                    "description": "Type of registry item.",
-                    "examples": [
-                      "component",
-                      "template",
-                      "utility"
                     ]
                   }
                 }
               },
-              "description": "Registry item dependencies.",
+              "description": "Component and utility registry dependencies.",
               "uniqueItems": true
             },
             "packages": {
