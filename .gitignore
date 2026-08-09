@@ -49,3 +49,7 @@ coverage/
 .cache/
 temp/
 tmp/
+
+# Skip the executable script for internal testing
+packages/cli/bin/*
+!packages/cli/bin/nka.mjs

@@ -20,3 +20,24 @@ export async function loadNkaConfig(cwd: string) {
 
   return { config, configFile }
 }
+
+/**
+ * Generates the content of the Nka configuration file based on the user's choices.
+ * @param userChoices An object containing the user's choices.
+ * @returns The content of the Nka configuration file as a string.
+ */
+export function generateNkaConfigContent(userChoices: Pick<NkaConfig, 'components' | 'utils'>) {
+  return `import { defineConfig } from '@nka/core'
+
+  export default defineConfig({
+    components: {
+      dir: '${userChoices.components.dir}',
+      import: '${userChoices.components.import}',
+    },
+    utils: {
+      dir: '${userChoices.utils.dir}',
+      import: '${userChoices.utils.import}',
+    },
+  })
+`
+}

@@ -31,9 +31,10 @@ export async function writeToFile(path: string, content: string) {
 /**
  * Prompts the user to confirm before overwriting an existing path.
  * @param path The absolute path to the file or directory to potentially overwrite.
+ * @param label Optional human-readable path-label for the path.
  * @returns Whether the user wants to overwrite the file.
  */
-export async function confirmOverwrite(path: string) {
+export async function confirmOverwrite(path: string, label?: string) {
   const pathExists = await fsExtra.pathExists(path)
 
   // If file doesn't exist, return true as there is nothing to overwrite
@@ -43,7 +44,7 @@ export async function confirmOverwrite(path: string) {
 
   const answer = await confirm({
     initialValue: false,
-    message: `Path "${path}" already exists. Overwrite?`,
+    message: `Path "${label || path}" already exists. Overwrite?`,
   })
 
   if (isCancel(answer)) {
