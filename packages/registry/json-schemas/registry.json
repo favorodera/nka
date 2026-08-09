@@ -1,7 +1,8 @@
 {
   "type": "object",
   "required": [
-    "items"
+    "items",
+    "metadata"
   ],
   "properties": {
     "items": {

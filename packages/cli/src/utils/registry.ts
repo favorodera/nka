@@ -20,7 +20,6 @@ export function resolveRegistry(name = DEFAULT_REGISTRY_NAME): ResolvedRegistry 
   }
 
   return {
-    baseUrl: new URL('.', indexUrl).href,
     indexUrl,
     name,
   }

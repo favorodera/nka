@@ -161,10 +161,10 @@ export function init() {
 
             message('Preparing stylesheets paths and urls')
             const themeStyleSheetPath = join(normalizedUserChoices.styles.dir, 'theme.css')
-            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.source.baseUrl)
+            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.content.metadata.source.baseUrl)
 
             const proseStyleSheetPath = join(normalizedUserChoices.styles.dir, 'prose.css')
-            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.source.baseUrl)
+            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.content.metadata.source.baseUrl)
 
             message('Downloading theme stylesheet')
             const themeStyleSheet = await nkaTextFetch(themeStyleSheetUrl.href)

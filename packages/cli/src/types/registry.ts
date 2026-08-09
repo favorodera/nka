@@ -5,7 +5,4 @@ export interface ResolvedRegistry {
 
   /** URL of the registry index. */
   indexUrl: string
-
-  /** Base URL from which registry files can be fetched. */
-  baseUrl: string
 }

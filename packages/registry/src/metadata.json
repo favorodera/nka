@@ -2,7 +2,7 @@
   "$schema": "../json-schemas/metadata.json",
   "name": "nka",
   "source": {
-    "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/heads/main"
+    "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/"
   },
   "version": "0.0.0",
   "packages": {
