@@ -4,8 +4,6 @@ import type { NkaConfig } from '../types/config'
 import { NKA_CONFIG_DEFAULTS } from '../constants'
 import { nkaJsonFetch } from './network'
 
-let registryIndexCache: Registry | undefined
-
 /**
  * Fetches and validates a registry index.
  * @param url URL of the registry index.
@@ -14,20 +12,15 @@ let registryIndexCache: Registry | undefined
  */
 export async function fetchRegistryIndex(url: string): Promise<Registry> {
   try {
-    if (!registryIndexCache) {
-      registryIndexCache = await nkaJsonFetch<Registry>(url)
-    }
+    const registryIndex = await nkaJsonFetch<Registry>(url)
 
-    const [
-      isValid,
-      validationErrors,
-    ] = Schema.Errors(RegistrySchema, registryIndexCache)
+    const [isValid, validationErrors] = Schema.Errors(RegistrySchema, registryIndex)
 
     if (!isValid) {
       throw new Error(`Invalid registry index from "${url}".`, { cause: validationErrors })
     }
 
-    return registryIndexCache
+    return registryIndex
   } catch (error) {
     throw new Error(`Failed to fetch registry index from "${url}".`, { cause: error })
   }

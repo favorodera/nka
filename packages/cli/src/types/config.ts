@@ -38,6 +38,17 @@ export interface NkaConfig {
     import: string
   }
 
+  /** Theme and typeset stylesheet configuration. */
+  styles: {
+    /**
+     * Directory where Nka theme styles are installed.
+     * This path is relative to the project root.
+     * @example "assets/css/nka"
+     * @example "src/assets/css/nka"
+     */
+    dir: string
+  }
+
   /**
    * Custom registry sources.
    * Each key identifies a registry and its value points to the registry manifest/index.
