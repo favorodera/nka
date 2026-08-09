@@ -1,8 +1,8 @@
 import { factory } from '@favorodera/eslint-config'
 
 export default factory({
-  ignores: ['apps/playground/**/*'],
+  pnpm: false,
   tailwind: false,
   test: false,
-  vue: false,
 })
+

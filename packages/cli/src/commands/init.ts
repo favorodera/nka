@@ -1,14 +1,25 @@
 import { cancel, group, intro, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
 import { join } from 'pathe'
-import { DEFAULT_STYLESHEETS_DIR_URL, NKA_CONFIG_FILE_NAME } from '../constants'
+import type { NkaConfig } from '../types/config'
+import { NKA_CONFIG_FILE_NAME } from '../constants'
 import { generateNkaConfigContent } from '../utils/config'
-import { confirmOverwrite, createDirectory, writeToFile } from '../utils/file-system'
+import {
+  confirmOverwrite,
+  createDirectory,
+  writeToFile,
+} from '../utils/file-system'
 import { nkaTextFetch } from '../utils/network'
+import { installDependency } from '../utils/packages'
+import { fetchRegistryIndex } from '../utils/registry'
 
 /**
- * Command for initializing a new Nka project.
- * @returns Command that can be used to initialize a new Nka project.
+ * Initializes Nka in the current project.
+ *
+ * The command collects the user's configuration, resolves the default Nka
+ * registry, installs registry-level dependencies, and creates the configured
+ * directories and stylesheets.
+ * @returns The Nka initialization command.
  */
 export function init() {
   return defineCommand({
@@ -22,7 +33,7 @@ export function init() {
       const cwd = process.cwd()
       const nkaConfigPath = join(cwd, NKA_CONFIG_FILE_NAME)
 
-      // Collect all user choices so they aren't prompted again
+      /** Collects all initialization options before performing operations. */
       const userChoices = await group(
         {
           components: () => group({
@@ -56,7 +67,7 @@ export function init() {
           styles: () => group({
             dir: () => text({
               initialValue: 'src/assets/css/nka',
-              message: 'Where do you want to store theme styles?',
+              message: 'Where do you want to store Nka styles?',
               placeholder: 'src/assets/css/nka',
             }),
           }),
@@ -69,8 +80,8 @@ export function init() {
         },
       )
 
-      // Resolve and normalize user choices for operations.
-      const normalizedUserChoices = {
+      /** Resolve and normalize user choices for operations. */
+      const normalizedUserChoices: NkaConfig = {
         ...userChoices,
         components: {
           ...userChoices.components,
@@ -86,6 +97,9 @@ export function init() {
         },
       }
 
+      /** Resolve the registry once before performing initialization tasks. */
+      const registryIndex = await fetchRegistryIndex()
+
       // Ask all overwrite questions before any file operations begin.
       const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath, NKA_CONFIG_FILE_NAME)
       const shouldWriteComponentsDir = await confirmOverwrite(normalizedUserChoices.components.dir, userChoices.components.dir)
@@ -96,33 +110,47 @@ export function init() {
         {
           enabled: shouldWriteNkaConfig,
           async task(message) {
-            message('Building config content.')
-            const nkaConfigContent = generateNkaConfigContent(userChoices)
+            message('Building configuration.')
 
-            message('Writing to disk.')
-            await writeToFile(nkaConfigPath, nkaConfigContent)
+            const nkaConfigContent
+              = generateNkaConfigContent(userChoices)
 
-            return `Created Nka config in "${NKA_CONFIG_FILE_NAME}"`
+            message('Writing configuration.')
+
+            await writeToFile(
+              nkaConfigPath,
+              nkaConfigContent,
+            )
+
+            return `Created "${NKA_CONFIG_FILE_NAME}"`
           },
-          title: `Creating Nka config in "${NKA_CONFIG_FILE_NAME}"`,
+          title: 'Creating Nka configuration',
         },
 
         {
           enabled: shouldWriteComponentsDir,
           async task() {
             await createDirectory(normalizedUserChoices.components.dir)
-            return `Created components directory in "${userChoices.components.dir}"`
+
+            return (
+              `Created components directory in `
+              + `"${userChoices.components.dir}"`
+            )
           },
-          title: `Creating components directory in "${userChoices.components.dir}"`,
+          title: 'Creating components directory',
         },
 
         {
           enabled: shouldWriteUtilsDir,
           async task() {
             await createDirectory(normalizedUserChoices.utils.dir)
-            return `Created utilities directory in "${userChoices.utils.dir}"`
+
+            return (
+              `Created utilities directory in `
+              + `"${userChoices.utils.dir}"`
+            )
           },
-          title: `Creating utilities directory in "${userChoices.utils.dir}"`,
+          title: 'Creating utilities directory',
         },
 
         {
@@ -131,25 +159,44 @@ export function init() {
             await createDirectory(normalizedUserChoices.styles.dir)
             message(`Created styles directory in "${userChoices.styles.dir}"`)
 
-            message('Preparing stylesheets paths')
+            message('Preparing stylesheets paths and urls')
             const themeStyleSheetPath = join(normalizedUserChoices.styles.dir, 'theme.css')
+            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.source.baseUrl)
+
             const proseStyleSheetPath = join(normalizedUserChoices.styles.dir, 'prose.css')
+            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.source.baseUrl)
 
             message('Downloading theme stylesheet')
-            const themeStyleSheet = await nkaTextFetch(`${DEFAULT_STYLESHEETS_DIR_URL}/theme.css`)
+            const themeStyleSheet = await nkaTextFetch(themeStyleSheetUrl.href)
 
-            message('Writing to disk')
+            message('Writing theme stylesheet.')
             await writeToFile(themeStyleSheetPath, themeStyleSheet)
 
             message('Downloading prose stylesheet')
-            const proseStyleSheet = await nkaTextFetch(`${DEFAULT_STYLESHEETS_DIR_URL}/prose.css`)
+            const proseStyleSheet = await nkaTextFetch(proseStyleSheetUrl.href)
 
-            message('Writing to disk')
+            message('Writing prose stylesheet.')
             await writeToFile(proseStyleSheetPath, proseStyleSheet)
 
-            return `Created styles directory in "${userChoices.styles.dir}"`
+            return `Created Nka styles in "${userChoices.styles.dir}"`
           },
-          title: `Creating styles directory in "${userChoices.styles.dir}"`,
+          title: 'Installing Nka styles',
+        },
+
+        {
+          enabled: Object.keys(registryIndex.content.metadata?.packages ?? {}).length > 0,
+          async task(message) {
+            for (const [
+              name,
+              version,
+            ] of Object.entries(registryIndex.content.metadata?.packages ?? {})) {
+              message(`Installing ${name}@${version}`)
+              await installDependency(name, version, cwd)
+            }
+
+            return 'Installed registry dependencies'
+          },
+          title: `Installing registry dependencies`,
         },
       ])
     },
