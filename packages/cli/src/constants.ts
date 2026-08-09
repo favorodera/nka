@@ -1,5 +1,4 @@
 import type { NkaConfig } from './types/config'
-import { version } from '../package.json'
 
 /** Name of the built-in Nka registry. */
 export const DEFAULT_REGISTRY_NAME = 'nka'
@@ -10,7 +9,8 @@ export const DEFAULT_REGISTRY_NAME = 'nka'
  * The registry is pinned to the current Nka release so that CLI releases
  * always consume a matching registry version.
  */
-export const DEFAULT_REGISTRY_INDEX = `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/packages/registry/src/index.json`
+export const DEFAULT_REGISTRY_INDEX = `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/packages/registry/src/index.json`
+// export const DEFAULT_REGISTRY_INDEX = `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/packages/registry/src/index.json`
 
 /** Base name of the Nka configuration file. */
 export const NKA_CONFIG_FILE_BASE_NAME = 'nka'

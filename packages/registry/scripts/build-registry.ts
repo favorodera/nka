@@ -34,7 +34,8 @@ const metadata: With$Schema<Metadata> = {
   $schema: '../json-schemas/metadata.json',
   name: 'nka',
   source: {
-    baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}`,
+    baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main`,
+    // baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}`,
   },
   version,
 }
