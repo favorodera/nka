@@ -168,6 +168,9 @@ importers:
       '@nka/cli':
         specifier: workspace:*
         version: link:../../packages/cli
+      '@nka/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@nka/ui':
         specifier: workspace:*
         version: link:../../packages/ui

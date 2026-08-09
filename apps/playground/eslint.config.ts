@@ -5,4 +5,3 @@ export default factory({
   tailwind: false,
   test: false,
 })
-

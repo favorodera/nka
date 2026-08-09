@@ -25,7 +25,7 @@
   "metadata": {
     "name": "nka",
     "source": {
-      "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/tags/v0.0.0"
+      "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/heads/main"
     },
     "version": "0.0.0",
     "packages": {
