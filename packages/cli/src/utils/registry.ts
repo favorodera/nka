@@ -45,11 +45,15 @@ export async function fetchRegistryIndex(name = DEFAULT_REGISTRY_NAME): Promise<
     ] = Schema.Errors(RegistrySchema, registryIndex)
 
     if (!isValid) {
-      throw new Error(`Invalid registry index from "${source.indexUrl}".`, { cause: validationErrors })
+      throw new Error(`Invalid registry index from "${source.indexUrl}".`, {
+        cause: JSON.stringify(validationErrors),
+      })
     }
 
     return { content: registryIndex, source }
   } catch (error) {
-    throw new Error(`Failed to fetch registry "${source.name}" from "${source.indexUrl}".`, { cause: error })
+    throw new Error(`Failed to fetch registry "${source.name}" from "${source.indexUrl}".`, {
+      cause: error
+    })
   }
 }

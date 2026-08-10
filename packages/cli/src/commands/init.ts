@@ -1,4 +1,4 @@
-import { cancel, group, intro, outro, tasks, text } from '@clack/prompts'
+import { cancel, group, intro, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
 import { join } from 'pathe'
 import type { NkaConfig } from '../types/config'
@@ -16,15 +16,14 @@ import { fetchRegistryIndex } from '../utils/registry'
 /**
  * Initializes Nka in the current project.
  *
- * The command collects the user's configuration, resolves the default Nka
- * registry, installs registry-level dependencies, and creates the configured
- * directories and stylesheets.
- * @returns The Nka initialization command.
+ * Prompts for project paths, creates the Nka configuration,
+ * installs required dependencies, and adds the default styles.
+ * @returns The Nka init command.
  */
 export function init() {
   return defineCommand({
     meta: {
-      description: 'Initialize Nka project',
+      description: 'Initialize Nka in your project',
       name: 'init',
     },
     async run() {
@@ -199,8 +198,6 @@ export function init() {
           title: `Installing registry package dependencies`,
         },
       ])
-
-      outro('Initialization Complete!')
     },
   })
 }

@@ -34,7 +34,9 @@ export async function installDependency(name: string, version: string, cwd: stri
 
     return `Package "${name}" installed successfully.`
   } catch (error) {
-    throw new Error(`Failed to install package "${name}"`, { cause: error })
+    throw new Error(`Failed to install package "${name}"`, {
+      cause: error,
+    })
   }
 }
 
@@ -67,6 +69,8 @@ export async function uninstallDependency(name: string, cwd: string) {
 
     return `Package "${name}" uninstalled successfully.`
   } catch (error) {
-    throw new Error(`Failed to uninstall package "${name}"`, { cause: error })
+    throw new Error(`Failed to uninstall package "${name}"`, {
+      cause: error,
+    })
   }
 }

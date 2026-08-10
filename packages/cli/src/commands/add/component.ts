@@ -2,25 +2,20 @@ import { intro } from '@clack/prompts'
 import { defineCommand } from 'citty'
 
 /**
- * Adds a component to the user's project.
- * @returns The add component command.
+ * Adds a component from the Nka registry to the project.
+ * @returns The Nka add component command.
  */
 export function component() {
   return defineCommand({
-    args: {
-      name: {
-        description: 'Name of component to add',
-        required: true,
-        type: 'positional',
-        valueHint: 'Name of component',
-      },
-    },
+  
+
     meta: {
-      description: 'Add component',
+      description: 'Add one or more components to the project',
       name: 'component',
     },
-    async run(context) {
-      intro(`Adding ${context.args.name}`)
+    async run({args}) {
+      const componentNames = args._ as string[]
+      const cwd = process.cwd()
     },
   })
 }
