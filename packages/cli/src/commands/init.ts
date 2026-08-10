@@ -161,10 +161,10 @@ export function init() {
 
             message('Preparing stylesheets paths and urls')
             const themeStyleSheetPath = join(normalizedUserChoices.styles.dir, 'theme.css')
-            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.content.metadata.source.baseUrl)
+            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.content.metadata.baseUrl)
 
             const proseStyleSheetPath = join(normalizedUserChoices.styles.dir, 'prose.css')
-            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.content.metadata.source.baseUrl)
+            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.content.metadata.baseUrl)
 
             message('Downloading theme stylesheet')
             const themeStyleSheet = await nkaTextFetch(themeStyleSheetUrl.href)
@@ -194,9 +194,9 @@ export function init() {
               await installDependency(name, version, cwd)
             }
 
-            return 'Installed registry dependencies'
+            return 'Installed registry package dependencies'
           },
-          title: `Installing registry dependencies`,
+          title: `Installing registry package dependencies`,
         },
       ])
 

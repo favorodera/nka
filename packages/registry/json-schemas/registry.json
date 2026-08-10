@@ -52,23 +52,15 @@
     "metadata": {
       "type": "object",
       "required": [
-        "source",
+        "baseUrl",
         "version",
         "name"
       ],
       "properties": {
-        "source": {
-          "type": "object",
-          "required": [
-            "baseUrl"
-          ],
-          "properties": {
-            "baseUrl": {
-              "type": "string",
-              "description": "Base URL used to resolve files in the registry.",
-              "format": "uri"
-            }
-          }
+        "baseUrl": {
+          "type": "string",
+          "description": "Base URL used to resolve files in the registry.",
+          "format": "uri"
         },
         "version": {
           "type": "string",

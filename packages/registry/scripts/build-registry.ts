@@ -32,11 +32,9 @@ const metadataDependenciesRef = [
 ]
 const metadata: With$Schema<Metadata> = {
   $schema: '../json-schemas/metadata.json',
+  baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/`,
+  // baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/`,
   name: 'nka',
-  source: {
-    baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/`,
-    // baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/`,
-  },
   version,
 }
 

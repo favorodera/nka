@@ -2,11 +2,9 @@ import { type Static, Type } from 'typebox'
 import { PackageDependenciesSchema } from './shared/dependencies'
 
 export const MetadataSchema = Type.Object({
-  source: Type.Object({
-    baseUrl: Type.String({
-      description: 'Base URL used to resolve files in the registry.',
-      format: 'uri',
-    }),
+  baseUrl: Type.String({
+    description: 'Base URL used to resolve files in the registry.',
+    format: 'uri',
   }),
 
   version: Type.String({
