@@ -10,9 +10,12 @@ export async function createDirectory(path: string) {
   try {
     await fsExtra.ensureDir(path)
   } catch (error) {
-    throw new Error(`Failed to create directory "${path}"`, {
-      cause: error,
-    })
+    throw new Error(
+      `Failed to create directory "${path}"`,
+      {
+        cause: error,
+      },
+    )
   }
 }
 
@@ -26,9 +29,12 @@ export async function writeToFile(path: string, content: string) {
   try {
     await fsExtra.outputFile(path, content, 'utf8')
   } catch (error) {
-    throw new Error(`Failed to write path "${path}"`, {
-      cause: error,
-    })
+    throw new Error(
+      `Failed to write path "${path}"`,
+      {
+        cause: error,
+      },
+    )
   }
 }
 

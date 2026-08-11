@@ -1,41 +1,32 @@
 import { type Registry, RegistrySchema } from '@nka/registry'
 import Schema from 'typebox/schema'
-import type { ResolvedRegistry } from '../types/registry'
-import { DEFAULT_REGISTRY_NAME, NKA_CONFIG_DEFAULTS } from '../constants'
+import type { FetchedRegistryIndex, NkaConfig, ResolvedRegistrySource } from '../types'
 import { nkaJsonFetch } from './network'
 
 /**
- * Resolves a registry source by name.
- *
- * When no name is provided, the built-in Nka registry is used.
- * @param name Registry name.
+ * Resolves a registry name to its URL from the config's registries map.
+ * @param name Registry name to look up.
+ * @param registries Registries map from the Nka config.
  * @returns The resolved registry source.
- * @throws If the requested registry is not configured.
+ * @throws If the registry name is not configured.
  */
-export function resolveRegistry(name = DEFAULT_REGISTRY_NAME): ResolvedRegistry {
-  const indexUrl = NKA_CONFIG_DEFAULTS.registries?.[name as keyof typeof NKA_CONFIG_DEFAULTS.registries]
+export function resolveRegistryUrl(name: string, registries: NkaConfig['registries']): ResolvedRegistrySource {
+  const indexUrl = registries[name]
 
   if (!indexUrl) {
     throw new Error(`Registry "${name}" is not configured.`)
   }
 
-  return {
-    indexUrl,
-    name,
-  }
+  return { indexUrl, name }
 }
 
 /**
- * Fetches and validates a registry index.
- *
- * When no registry name is provided, the built-in Nka registry is used.
- * @param name Registry name.
+ * Fetches and validates a registry index from a resolved source.
+ * @param source The resolved registry source from {@link resolveRegistryUrl}.
  * @returns The validated registry index and its source.
- * @throws If the registry cannot be fetched or is invalid.
+ * @throws If the fetch fails or the index is invalid.
  */
-export async function fetchRegistryIndex(name = DEFAULT_REGISTRY_NAME): Promise<{ content: Registry, source: ResolvedRegistry }> {
-  const source = resolveRegistry(name)
-
+export async function fetchRegistryIndex(source: ResolvedRegistrySource): Promise<FetchedRegistryIndex> {
   try {
     const registryIndex = await nkaJsonFetch<Registry>(source.indexUrl)
 
@@ -45,15 +36,21 @@ export async function fetchRegistryIndex(name = DEFAULT_REGISTRY_NAME): Promise<
     ] = Schema.Errors(RegistrySchema, registryIndex)
 
     if (!isValid) {
-      throw new Error(`Invalid registry index from "${source.indexUrl}".`, {
-        cause: JSON.stringify(validationErrors),
-      })
+      throw new Error(
+        `Invalid registry index from "${source.indexUrl}".`,
+        {
+          cause: JSON.stringify(validationErrors),
+        },
+      )
     }
 
     return { content: registryIndex, source }
   } catch (error) {
-    throw new Error(`Failed to fetch registry "${source.name}" from "${source.indexUrl}".`, {
-      cause: error
-    })
+    throw new Error(
+      `Failed to fetch registry "${source.name}" from "${source.indexUrl}".`,
+      {
+        cause: error,
+      },
+    )
   }
 }

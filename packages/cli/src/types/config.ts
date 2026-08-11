@@ -60,5 +60,5 @@ export interface NkaConfig {
    * }
    * ```
    */
-  registries?: Record<string, string>
+  registries: Record<string, string>
 }

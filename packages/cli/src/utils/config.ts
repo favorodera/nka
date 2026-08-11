@@ -1,11 +1,11 @@
 import { loadConfig } from 'c12'
-import type { NkaConfig } from '../types/config'
+import type { NkaConfig } from '../types'
 import { NKA_CONFIG_FILE_BASE_NAME } from '../constants'
 
 /**
  * Loads the user's Nka configuration.
  * @param cwd Absolute path to the project root.
- * @returns The user's configuration.
+ * @returns The resolved c12 configuration result.
  * @throws If config file is not found.
  */
 export async function loadNkaConfig(cwd: string) {
@@ -18,26 +18,21 @@ export async function loadNkaConfig(cwd: string) {
     throw new Error(`Nka config file not found in "${cwd}". Run \`nka init\` first.`)
   }
 
-  return { config, configFile }
+  return config
 }
 
 /**
  * Generates the content of the Nka configuration file based on the user's choices.
- * @param userChoices An object containing the user's choices.
+ * @param config The Nka configuration to serialize.
  * @returns The content of the Nka configuration file as a string.
  */
-export function generateNkaConfigContent(userChoices: Pick<NkaConfig, 'components' | 'utils'>) {
-  return `import { defineConfig } from '@nka/core'
+export function generateNkaConfigContent(config: NkaConfig) {
+  const configContent = JSON.stringify(config, undefined, 2)
+    .replaceAll(/"([^"]+)":/g, '$1:')
+    .replaceAll('"', '\'')
 
-  export default defineConfig({
-    components: {
-      dir: '${userChoices.components.dir}',
-      import: '${userChoices.components.import}',
-    },
-    utils: {
-      dir: '${userChoices.utils.dir}',
-      import: '${userChoices.utils.import}',
-    },
-  })
+  return `import { defineNkaConfig } from '@nka/core'
+
+export default defineNkaConfig(${configContent})
 `
 }
