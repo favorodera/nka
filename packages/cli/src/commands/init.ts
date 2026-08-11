@@ -111,10 +111,10 @@ export function init() {
       }
 
       // Ask all overwrite questions before any file operations begin.
-      const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath, NKA_CONFIG_FILE_NAME)
-      const shouldWriteComponentsDir = await confirmOverwrite(resolvedPaths.components, userChoices.components.dir)
-      const shouldWriteStylesDir = await confirmOverwrite(resolvedPaths.styles, userChoices.styles.dir)
-      const shouldWriteUtilsDir = await confirmOverwrite(resolvedPaths.utils, userChoices.utils.dir)
+      const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath, cwd)
+      const shouldWriteComponentsDir = await confirmOverwrite(resolvedPaths.components, cwd)
+      const shouldWriteStylesDir = await confirmOverwrite(resolvedPaths.styles, cwd)
+      const shouldWriteUtilsDir = await confirmOverwrite(resolvedPaths.utils, cwd)
 
       await tasks([
         {

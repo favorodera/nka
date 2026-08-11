@@ -1,9 +1,10 @@
-import type { Registry } from '@nka/registry'
-import { intro, outro, tasks } from '@clack/prompts'
+import { intro, outro, spinner, tasks } from '@clack/prompts'
 import { defineCommand } from 'citty'
-import type { NkaConfig, ResolvedRegistryItems } from '../../types'
+import { basename } from 'pathe'
 import { DEFAULT_REGISTRY_NAME } from '../../constants'
 import { loadNkaConfig } from '../../utils/config'
+import { confirmRegistryItemsOverwrites, resolveItemInstallPath, writeToFile } from '../../utils/file-system'
+import { nkaTextFetch } from '../../utils/network'
 import { fetchRegistry, resolveRegistryItems, resolveRegistrySource } from '../../utils/registry'
 
 /**
@@ -31,54 +32,70 @@ export function component() {
       /** The current working directory. */
       const cwd = process.cwd()
 
-      /** Nka config populated inside the config load task. */
-      let nkaConfig: NkaConfig
-
-      /** Registry populated inside the registry fetch task. */
-      let registry: Registry
-
-      /** Resolved registry items populated inside the registry items resolve task. */
-      let resolvedRegistryItems: ResolvedRegistryItems
-
       const components = args._ as Array<string>
 
       if (components.length === 0) {
         throw new Error('No components specified. Usage: nka add component <component...>')
       }
 
+      const spin = spinner({
+        cancelMessage: 'Operation cancelled by user.',
+        errorMessage: 'Operation failed unexpectedly.',
+      })
+
+      spin.start('Loading Nka config')
+      const nkaConfig = await loadNkaConfig(cwd)
+      spin.stop('Loaded Nka config')
+
+      spin.start('Resolving registry')
+      const source = resolveRegistrySource(args.registry, nkaConfig.registries)
+      spin.stop('Resolved registry')
+
+      spin.start('Fetching registry')
+      const registry = await fetchRegistry(source)
+      spin.stop(`Fetched registry "${source.name}"`)
+
+      spin.start('Resolving registry items')
+      const itemsToResolve = components.map(name => ({
+        name,
+        type: 'component' as const,
+      }))
+      const resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
+      spin.stop('Resolved registry items')
+
+      // Ask all overwrite questions before any file operations begin.
+      const shouldWriteChoices = await confirmRegistryItemsOverwrites(
+        [
+          ...resolvedRegistryItems.components.values(),
+          ...resolvedRegistryItems.utilities.values(),
+        ],
+        nkaConfig,
+        cwd,
+      )
+
       await tasks([
         {
-          async task() {
-            nkaConfig = await loadNkaConfig(cwd)
-
-            return `Loaded Nka config`
-          },
-          title: 'Loading Nka config',
-        },
-
-        {
           async task(message) {
-            message('Resolving registry')
-            const source = resolveRegistrySource(args.registry, nkaConfig.registries)
+            for (const component of resolvedRegistryItems.components.values()) {
+              message(`Installing ${component.name}...`)
 
-            message('Fetching registry')
-            registry = await fetchRegistry(source)
+              for (const file of component.files) {
+                const targetUrl = new URL(file, registry.metadata.baseUrl).href
+                const targetPath = resolveItemInstallPath(component, file, nkaConfig, cwd)
 
-            return `Fetched registry "${source.name}"`
+                if (shouldWriteChoices.get(targetPath)) {
+                  message(`Fetching ${component.name} (${basename(file)})`)
+                  const fileContent = await nkaTextFetch(targetUrl)
+
+                  message(`Writing ${component.name} (${basename(file)})`)
+                  await writeToFile(targetPath, fileContent)
+                }
+              }
+            }
+
+            return 'Installed component(s)'
           },
-          title: 'Fetching registry',
-        },
-
-        {
-          async task(message) {
-            message('Resolving registry items')
-            
-            const itemsToResolve = components.map((name) => ({ name, type: 'component' as const }))
-            resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
-
-            return `Resolved registry items`
-          },
-          title: 'Resolving registry items',
+          title: 'Installing component(s)',
         },
       ])
 
