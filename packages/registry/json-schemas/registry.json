@@ -8,44 +8,324 @@
     "items": {
       "type": "array",
       "items": {
-        "type": "object",
-        "required": [
-          "name",
-          "type"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Unique registry item name.",
-            "examples": [
-              "button",
-              "docs-default"
-            ],
-            "pattern": "^[a-z][a-z0-9-]*$"
-          },
-          "type": {
-            "anyOf": [
+        "anyOf": [
+          {
+            "allOf": [
               {
-                "type": "string",
-                "const": "component"
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique registry item name.",
+                    "examples": [
+                      "button",
+                      "docs-default"
+                    ],
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "component"
+                      },
+                      {
+                        "type": "string",
+                        "const": "template"
+                      },
+                      {
+                        "type": "string",
+                        "const": "utility"
+                      }
+                    ],
+                    "description": "Type of registry item.",
+                    "examples": [
+                      "component",
+                      "template",
+                      "utility"
+                    ]
+                  }
+                }
               },
               {
-                "type": "string",
-                "const": "template"
-              },
-              {
-                "type": "string",
-                "const": "utility"
+                "type": "object",
+                "required": [
+                  "type",
+                  "files"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "component"
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Path to a registry item file.",
+                      "examples": [
+                        "components/alert.vue",
+                        "utils/props.ts"
+                      ]
+                    },
+                    "description": "Files included with the component.",
+                    "minItems": 1
+                  },
+                  "dependencies": {
+                    "type": "object",
+                    "properties": {
+                      "registry": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "type"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Unique registry item name.",
+                              "examples": [
+                                "button",
+                                "docs-default"
+                              ],
+                              "pattern": "^[a-z][a-z0-9-]*$"
+                            },
+                            "type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "const": "component"
+                                },
+                                {
+                                  "type": "string",
+                                  "const": "utility"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "description": "Component and utility registry dependencies.",
+                        "uniqueItems": true
+                      },
+                      "packages": {
+                        "type": "object",
+                        "patternProperties": {
+                          "^.*$": {
+                            "type": "string",
+                            "description": "Package version range."
+                          }
+                        },
+                        "description": "Installable NPM packages."
+                      }
+                    }
+                  }
+                }
               }
             ],
-            "description": "Type of registry item.",
-            "examples": [
-              "component",
-              "template",
-              "utility"
-            ]
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique registry item name.",
+                    "examples": [
+                      "button",
+                      "docs-default"
+                    ],
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "component"
+                      },
+                      {
+                        "type": "string",
+                        "const": "template"
+                      },
+                      {
+                        "type": "string",
+                        "const": "utility"
+                      }
+                    ],
+                    "description": "Type of registry item.",
+                    "examples": [
+                      "component",
+                      "template",
+                      "utility"
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "type"
+                ],
+                "properties": {
+                  "repository": {
+                    "type": "object",
+                    "required": [
+                      "source"
+                    ],
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "description": "Repository source supported by giget.",
+                        "examples": [
+                          "github:foo/bar",
+                          "gitlab:foo/bar"
+                        ]
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "template"
+                  }
+                }
+              }
+            ],
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique registry item name.",
+                    "examples": [
+                      "button",
+                      "docs-default"
+                    ],
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "component"
+                      },
+                      {
+                        "type": "string",
+                        "const": "template"
+                      },
+                      {
+                        "type": "string",
+                        "const": "utility"
+                      }
+                    ],
+                    "description": "Type of registry item.",
+                    "examples": [
+                      "component",
+                      "template",
+                      "utility"
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "files"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "utility"
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Path to a registry item file.",
+                      "examples": [
+                        "components/alert.vue",
+                        "utils/props.ts"
+                      ]
+                    },
+                    "description": "Files included with the utility.",
+                    "minItems": 1
+                  },
+                  "dependencies": {
+                    "type": "object",
+                    "properties": {
+                      "registry": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "type"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Unique registry item name.",
+                              "examples": [
+                                "button",
+                                "docs-default"
+                              ],
+                              "pattern": "^[a-z][a-z0-9-]*$"
+                            },
+                            "type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "const": "component"
+                                },
+                                {
+                                  "type": "string",
+                                  "const": "utility"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "description": "Component and utility registry dependencies.",
+                        "uniqueItems": true
+                      },
+                      "packages": {
+                        "type": "object",
+                        "patternProperties": {
+                          "^.*$": {
+                            "type": "string",
+                            "description": "Package version range."
+                          }
+                        },
+                        "description": "Installable NPM packages."
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           }
-        }
+        ]
       },
       "description": "Registry items."
     },
@@ -65,7 +345,9 @@
         "version": {
           "type": "string",
           "description": "Registry format version.",
-          "examples": ["0.1.0"]
+          "examples": [
+            "0.1.0"
+          ]
         },
         "packages": {
           "type": "object",

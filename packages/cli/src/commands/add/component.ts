@@ -1,9 +1,10 @@
+import type { Registry } from '@nka/registry'
 import { intro, outro, tasks } from '@clack/prompts'
 import { defineCommand } from 'citty'
-import type { FetchedRegistryIndex, NkaConfig } from '../../types'
+import type { NkaConfig, ResolvedRegistryItems } from '../../types'
 import { DEFAULT_REGISTRY_NAME } from '../../constants'
 import { loadNkaConfig } from '../../utils/config'
-import { fetchRegistryIndex, resolveRegistryUrl } from '../../utils/registry'
+import { fetchRegistry, resolveRegistryItems, resolveRegistrySource } from '../../utils/registry'
 
 /**
  * Adds a component from the Nka registry to the project.
@@ -33,8 +34,11 @@ export function component() {
       /** Nka config populated inside the config load task. */
       let nkaConfig: NkaConfig
 
-      /** Registry index populated inside the registry fetch task. */
-      let registryIndex: FetchedRegistryIndex
+      /** Registry populated inside the registry fetch task. */
+      let registry: Registry
+
+      /** Resolved registry items populated inside the registry items resolve task. */
+      let resolvedRegistryItems: ResolvedRegistryItems
 
       const components = args._ as Array<string>
 
@@ -55,14 +59,26 @@ export function component() {
         {
           async task(message) {
             message('Resolving registry')
-            const source = resolveRegistryUrl(args.registry, nkaConfig.registries)
+            const source = resolveRegistrySource(args.registry, nkaConfig.registries)
 
-            message('Fetching registry index')
-            registryIndex = await fetchRegistryIndex(source)
+            message('Fetching registry')
+            registry = await fetchRegistry(source)
 
             return `Fetched registry "${source.name}"`
           },
-          title: 'Fetching registry index',
+          title: 'Fetching registry',
+        },
+
+        {
+          async task(message) {
+            message('Resolving registry items')
+            
+            const itemsToResolve = components.map((name) => ({ name, type: 'component' as const }))
+            resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
+
+            return `Resolved registry items`
+          },
+          title: 'Resolving registry items',
         },
       ])
 

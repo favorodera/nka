@@ -30,7 +30,7 @@ function getJSONSchemaFileName(schemaName: string) {
   return `${fileName}.json`
 }
 
-intro('JSON schemas generator')
+intro('Generating JSON schemas')
 
 const schemaEntries = Object
   .entries(schemas)
@@ -72,4 +72,4 @@ note(
   `${schemaEntries.length} JSON schemas generated`,
 )
 
-outro('Done')
+outro('JSON schemas generated')

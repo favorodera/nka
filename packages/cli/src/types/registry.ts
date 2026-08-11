@@ -1,4 +1,4 @@
-import type { Registry } from '@nka/registry'
+import type { Component, Utility } from '@nka/registry'
 
 /** The resolved source of a registry. */
 export interface ResolvedRegistrySource {
@@ -6,14 +6,17 @@ export interface ResolvedRegistrySource {
   readonly name: string
 
   /** The URL of the registry index. */
-  readonly indexUrl: string
+  readonly url: string
 }
 
-/** A registry index that has been fetched from a resolved source. */
-export interface FetchedRegistryIndex {
-  /** The content of the registry index. */
-  content: Registry
+/** A resolved collection of registry items, their dependencies, and required packages. */
+export interface ResolvedRegistryItems {
+  /** Map of component names to their full component definitions. */
+  components: Map<string, Component>
 
-  /** The source of the registry index. */
-  source: ResolvedRegistrySource
+  /** Map of utility names to their full utility definitions. */
+  utilities: Map<string, Utility>
+
+  /** Map of package names to their required version ranges. */
+  packages: Map<string, string>
 }

@@ -5,13 +5,10 @@ import { dirname, join, normalize } from 'pathe'
 import { glob } from 'tinyglobby'
 import Schema from 'typebox/schema'
 import { parse as parseYaml } from 'yaml'
-import type { ItemBase } from '../ts-schemas/shared/base'
 import { version } from '../package.json'
 import { type Metadata, MetadataSchema } from '../ts-schemas/metadata'
-import { type Registry, RegistrySchema } from '../ts-schemas/registry'
+import { RegistrySchema } from '../ts-schemas/registry'
 import { type Item, ItemSchema } from '../ts-schemas/shared/item'
-
-type With$Schema<TSchema> = TSchema & { $schema: string }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -20,7 +17,7 @@ const REGISTRY_INDEX = join(REGISTRY_DIR, 'index.json')
 const REGISTRY_METADATA = join(REGISTRY_DIR, 'metadata.json')
 const PNPM_WORKSPACE = join(__dirname, '../../../pnpm-workspace.yaml')
 
-const registryItems: Array<ItemBase> = []
+const registryItems: Array<Item> = []
 
 const metadataDependenciesRef = [
   'tailwindcss',
@@ -30,15 +27,14 @@ const metadataDependenciesRef = [
   'tailwind-merge',
   'reka-ui',
 ]
-const metadata: With$Schema<Metadata> = {
+const metadata: Metadata & { $schema: string } = {
   $schema: '../json-schemas/metadata.json',
   baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/`,
-  // baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/`,
   name: 'nka',
   version,
 }
 
-intro('Registry builder')
+intro('Building registry')
 
 await tasks([
   {
@@ -78,7 +74,7 @@ await tasks([
 
   {
     async task(message) {
-      message('Scanning registry directory')
+      message('Scanning registry directories for registry items')
       const itemFiles = await glob('**/*.json', {
         absolute: true,
         cwd: REGISTRY_DIR,
@@ -104,10 +100,7 @@ await tasks([
           registryItem,
         )
 
-        registryItems.push({
-          name: parsedRegistryItem.name,
-          type: parsedRegistryItem.type,
-        })
+        registryItems.push(parsedRegistryItem)
 
         message(`Indexed ${parsedRegistryItem.type}:${parsedRegistryItem.name}`)
       }
@@ -116,20 +109,16 @@ await tasks([
       const parsedMetadata = Schema.Parse(
         MetadataSchema,
         metadata,
-      ) as typeof metadata
-
-      const { $schema: _, ...restParsedMetadata } = parsedMetadata
+      )
 
       message('Validating registry index')
-      const registryIndexRef: With$Schema<Registry> = {
-        $schema: '../json-schemas/registry.json',
-        items: registryItems,
-        metadata: restParsedMetadata,
-      }
-
       const parsedRegistryIndex = Schema.Parse(
         RegistrySchema,
-        registryIndexRef,
+        {
+          $schema: '../json-schemas/registry.json',
+          items: registryItems,
+          metadata: parsedMetadata,
+        },
       )
 
       message('Writing registry index')
@@ -173,4 +162,4 @@ note(
   `Registry Summary (${registryItems.length} items)`,
 )
 
-outro('Done')
+outro('Registry built')

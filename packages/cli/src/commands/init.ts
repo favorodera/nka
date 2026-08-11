@@ -1,7 +1,8 @@
+import type { Registry } from '@nka/registry'
 import { cancel, group, intro, outro, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
 import { join } from 'pathe'
-import type { FetchedRegistryIndex, NkaConfig } from '../types'
+import type { NkaConfig } from '../types'
 import { DEFAULT_NKA_CONFIG, DEFAULT_REGISTRY_NAME, NKA_CONFIG_FILE_NAME } from '../constants'
 import { generateNkaConfigContent } from '../utils/config'
 import {
@@ -11,7 +12,7 @@ import {
 } from '../utils/file-system'
 import { nkaTextFetch } from '../utils/network'
 import { installDependency } from '../utils/packages'
-import { fetchRegistryIndex, resolveRegistryUrl } from '../utils/registry'
+import { fetchRegistry, resolveRegistrySource } from '../utils/registry'
 
 /**
  * Initializes Nka in the current project.
@@ -32,8 +33,8 @@ export function init() {
       /** The current working directory. */
       const cwd = process.cwd()
 
-      /** Registry index populated inside the registry fetch task. */
-      let registryIndex: FetchedRegistryIndex
+      /** Registry populated inside the registry fetch task. */
+      let registry: Registry
 
       const nkaConfigPath = join(cwd, NKA_CONFIG_FILE_NAME)
 
@@ -119,14 +120,14 @@ export function init() {
         {
           async task(message) {
             message('Resolving registry')
-            const source = resolveRegistryUrl(DEFAULT_REGISTRY_NAME, nkaConfig.registries)
+            const source = resolveRegistrySource(DEFAULT_REGISTRY_NAME, nkaConfig.registries)
 
-            message('Fetching registry index')
-            registryIndex = await fetchRegistryIndex(source)
+            message('Fetching registry')
+            registry = await fetchRegistry(source)
 
             return `Fetched registry "${source.name}"`
           },
-          title: 'Fetching registry index',
+          title: 'Fetching registry',
         },
 
         {
@@ -174,10 +175,10 @@ export function init() {
 
             message('Preparing stylesheets paths and urls')
             const themeStyleSheetPath = join(resolvedPaths.styles, 'theme.css')
-            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registryIndex.content.metadata.baseUrl)
+            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registry.metadata.baseUrl)
 
             const proseStyleSheetPath = join(resolvedPaths.styles, 'prose.css')
-            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registryIndex.content.metadata.baseUrl)
+            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registry.metadata.baseUrl)
 
             message('Downloading theme stylesheet')
             const themeStyleSheet = await nkaTextFetch(themeStyleSheetUrl.href)
@@ -198,7 +199,7 @@ export function init() {
 
         {
           async task(message) {
-            const packages = registryIndex.content.metadata.packages ?? {}
+            const packages = registry.metadata.packages ?? {}
 
             if (Object.keys(packages).length === 0) {
               return 'No registry package dependencies'

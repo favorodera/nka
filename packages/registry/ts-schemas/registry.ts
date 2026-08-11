@@ -1,9 +1,9 @@
 import { type Static, Type } from 'typebox'
 import { MetadataSchema } from './metadata'
-import { ItemBaseSchema } from './shared/base'
+import { ItemSchema } from './shared/item'
 
 export const RegistrySchema = Type.Object({
-  items: Type.Array(ItemBaseSchema, {
+  items: Type.Array(ItemSchema, {
     description: 'Registry items.',
   }),
 
