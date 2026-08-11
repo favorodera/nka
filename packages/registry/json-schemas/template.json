@@ -49,9 +49,7 @@
       "properties": {
         "repository": {
           "type": "object",
-          "required": [
-            "source"
-          ],
+          "required": ["source"],
           "properties": {
             "source": {
               "type": "string",
