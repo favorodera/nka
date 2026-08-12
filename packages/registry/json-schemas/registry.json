@@ -142,42 +142,6 @@
               }
             },
             "$schema": "https://json-schema.org/draft/2020-12/schema"
-          },
-          {
-            "type": "object",
-            "required": [
-              "name",
-              "repository",
-              "type"
-            ],
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "Item name.",
-                "pattern": "^[a-z][a-z0-9-]*$"
-              },
-              "repository": {
-                "type": "object",
-                "required": [
-                  "source"
-                ],
-                "properties": {
-                  "source": {
-                    "type": "string",
-                    "description": "Repository source supported by giget.",
-                    "examples": [
-                      "github:foo/bar",
-                      "gitlab:foo/bar"
-                    ]
-                  }
-                }
-              },
-              "type": {
-                "type": "string",
-                "const": "template"
-              }
-            },
-            "$schema": "https://json-schema.org/draft/2020-12/schema"
           }
         ]
       },

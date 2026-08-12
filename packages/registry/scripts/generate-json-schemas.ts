@@ -5,14 +5,12 @@ import { dirname, join } from 'pathe'
 import { ComponentSchema } from '../ts-schemas/component'
 import { MetadataSchema } from '../ts-schemas/metadata'
 import { RegistrySchema } from '../ts-schemas/registry'
-import { TemplateSchema } from '../ts-schemas/template'
 import { UtilitySchema } from '../ts-schemas/utility'
 
 const schemas = {
   ComponentSchema,
   MetadataSchema,
   RegistrySchema,
-  TemplateSchema,
   UtilitySchema,
 }
 

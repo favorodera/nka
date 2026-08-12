@@ -1,8 +1,0 @@
-{
-  "$schema": "../../json-schemas/template.json",
-  "name": "favorodera",
-  "type": "template",
-  "repository": {
-    "source": "gh:favorodera/favorodera"
-  }
-}
