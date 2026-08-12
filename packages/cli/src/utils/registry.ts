@@ -1,7 +1,9 @@
 import { type Item, type ItemBase, type Registry, RegistrySchema } from '@nka/registry'
+import { basename } from 'pathe'
 import Schema from 'typebox/schema'
 import type { NkaConfig, ResolvedRegistryItems, ResolvedRegistrySource } from '../types'
-import { nkaJsonFetch } from './network'
+import { resolveItemInstallPath, writeToFile } from './file-system'
+import { nkaJsonFetch, nkaTextFetch } from './network'
 
 /**
  * Resolves a registry name to its source from config.
@@ -140,4 +142,36 @@ export function resolveRegistryItems(items: Array<ItemBase>, registry: Registry)
   }
 
   return result
+}
+
+/**
+ * Installs registry items by fetching and writing their files.
+ * @param items Items to install.
+ * @param registry Source registry.
+ * @param config Nka config.
+ * @param shouldWrite Overwrite decisions by target path.
+ * @param message Progress callback.
+ */
+export async function installRegistryItems(items: Iterable<Item>, registry: Registry, config: NkaConfig, shouldWrite: Map<string, boolean>, message: (msg: string) => void) {
+  for (const item of items) {
+    message(`Installing ${item.name}`)
+
+    switch (item.type) {
+      case 'component':
+      case 'utility': {
+        for (const file of item.files) {
+          const targetUrl = new URL(file, registry.metadata.baseUrl).href
+          const targetPath = resolveItemInstallPath(item, file, config)
+
+          if (shouldWrite.get(targetPath)) {
+            message(`Fetching ${item.name} (${basename(file)})`)
+            const content = await nkaTextFetch(targetUrl)
+
+            message(`Writing ${item.name} (${basename(file)})`)
+            await writeToFile(targetPath, content)
+          }
+        }
+      }
+    }
+  }
 }

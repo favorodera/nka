@@ -7,25 +7,25 @@ import { installDependency } from '../../utils/packages'
 import { fetchAndValidateRegistry, installRegistryItems, resolveRegistryItems, resolveRegistrySource } from '../../utils/registry'
 
 /**
- * Add component command.
+ * Add utility command.
  * @returns The command definition.
  */
-export function component() {
+export function utility() {
   return defineCommand({
     args: {
       registry: COMMON_COMMAND_ARGS.registry,
     },
     meta: {
-      description: 'Add component(s) to the project',
-      name: 'component',
+      description: 'Add utility(ies) to the project',
+      name: 'utility',
     },
     async run({ args }) {
-      intro('Adding components')
+      intro('Adding utilities')
 
-      const components = args._ as Array<string>
+      const utilities = args._ as Array<string>
 
-      if (components.length === 0) {
-        throw new Error('No components specified. Usage: nka add component <component...>')
+      if (utilities.length === 0) {
+        throw new Error('No utilities specified. Usage: nka add utility <utility...>')
       }
 
       const spin = spinner({
@@ -46,9 +46,9 @@ export function component() {
       spin.stop(`Registry "${source.name}" fetched`)
 
       spin.start('Resolving items')
-      const itemsToResolve = components.map(name => ({
+      const itemsToResolve = utilities.map(name => ({
         name,
-        type: 'component' as const,
+        type: 'utility' as const,
       }))
       const resolved = resolveRegistryItems(itemsToResolve, registry)
       spin.stop('Items resolved')
@@ -63,19 +63,6 @@ export function component() {
 
       await tasks([
         {
-          async task(message) {
-            await installRegistryItems(
-              resolved.components.values(),
-              registry,
-              nkaConfig,
-              shouldWrite,
-              message,
-            )
-            return 'Components installed'
-          },
-          title: 'Installing components',
-        },
-        {
           enabled: resolved.utilities.size > 0,
           async task(message) {
             await installRegistryItems(
@@ -88,6 +75,19 @@ export function component() {
             return 'Utilities installed'
           },
           title: 'Installing utilities',
+        },
+        {
+          async task(message) {
+            await installRegistryItems(
+              resolved.components.values(),
+              registry,
+              nkaConfig,
+              shouldWrite,
+              message,
+            )
+            return 'Components installed'
+          },
+          title: 'Installing components',
         },
         {
           enabled: resolved.packages.size > 0,
@@ -104,7 +104,7 @@ export function component() {
         },
       ])
 
-      outro('Components added')
+      outro('Utilities added')
     },
   })
 }

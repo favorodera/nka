@@ -1,3 +1,4 @@
+import type { EnumArgDef, PositionalArgDef, StringArgDef } from 'citty'
 import type { NkaConfig } from './types'
 
 /** Built-in registry name. */
@@ -18,3 +19,14 @@ export const NKA_CONFIG_FILE_BASE_NAME = 'nka'
 
 /** Config file name. */
 export const NKA_CONFIG_FILE_NAME = `${NKA_CONFIG_FILE_BASE_NAME}.config.ts`
+
+/** Common arguments for commands. */
+export const COMMON_COMMAND_ARGS: Record<string, EnumArgDef | PositionalArgDef | StringArgDef> = {
+  registry: {
+    alias: 'r',
+    default: DEFAULT_REGISTRY_NAME,
+    description: 'Registry name',
+    required: true,
+    type: 'string',
+  },
+}

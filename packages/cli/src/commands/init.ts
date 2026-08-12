@@ -10,10 +10,9 @@ import {
   createDirectory,
   writeToFile,
 } from '../utils/file-system'
-import { installRegistryItems } from '../utils/install'
 import { nkaTextFetch } from '../utils/network'
 import { installDependency } from '../utils/packages'
-import { fetchAndValidateRegistry, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
+import { fetchAndValidateRegistry, installRegistryItems, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
 
 /**
  * Initialize Nka in the current project.
@@ -201,8 +200,7 @@ export function init() {
               name,
               version,
             ] of Object.entries(registry.metadata.dependencies?.packages ?? {})) {
-              message(`Installing ${name}@${version}`)
-              await installDependency(name, version)
+              await installDependency(name, version, message)
             }
             return 'Packages installed'
           },

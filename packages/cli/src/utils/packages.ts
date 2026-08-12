@@ -6,10 +6,10 @@ import { join } from 'pathe'
  * Installs a package if not already present.
  * @param name The name of the package to install.
  * @param version The version of the package to install.
- * @returns A message indicating the result of the installation.
+ * @param message Optional progress callback.
  * @throws If the package fails to install.
  */
-export async function installDependency(name: string, version: string) {
+export async function installDependency(name: string, version: string, message?: (message: string) => void) {
   try {
     const cwd = process.cwd()
     const packageJSON = await fsExtra.readJson(join(cwd, 'package.json'))
@@ -19,11 +19,13 @@ export async function installDependency(name: string, version: string) {
     }
 
     if (name in installed) {
-      return `Package ${name} already installed.`
+      message?.(`Package "${name}" already installed.`)
+      return
     }
 
+    message?.(`Installing ${name}@${version}`)
     await addDependency(`${name}@${version}`, { cwd, silent: true })
-    return `Package "${name}" installed.`
+    message?.(`Package "${name}" installed.`)
   } catch (error) {
     throw new Error(`Failed to install package "${name}"`, { cause: error })
   }
@@ -32,10 +34,10 @@ export async function installDependency(name: string, version: string) {
 /**
  * Uninstalls a package if present.
  * @param name The name of the package to uninstall.
- * @returns A message indicating the result of the uninstallation.
+ * @param message Optional progress callback.
  * @throws If the package fails to uninstall.
  */
-export async function uninstallDependency(name: string) {
+export async function uninstallDependency(name: string, message?: (message: string) => void) {
   try {
     const cwd = process.cwd()
     const packageJSON = await fsExtra.readJson(join(cwd, 'package.json'))
@@ -45,11 +47,13 @@ export async function uninstallDependency(name: string) {
     }
 
     if (!(name in installed)) {
-      return `Package ${name} not installed.`
+      message?.(`Package "${name}" not installed.`)
+      return
     }
 
+    message?.(`Uninstalling ${name}`)
     await removeDependency(name, { cwd, silent: true })
-    return `Package "${name}" uninstalled.`
+    message?.(`Package "${name}" uninstalled.`)
   } catch (error) {
     throw new Error(`Failed to uninstall package "${name}"`, { cause: error })
   }
