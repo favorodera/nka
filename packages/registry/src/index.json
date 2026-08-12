@@ -35,7 +35,9 @@
         "packages/ui/src/components/prose-code-icon/utils.ts"
       ],
       "dependencies": {
-        "components": ["icon"]
+        "components": [
+          "icon"
+        ]
       }
     },
     {
@@ -58,13 +60,17 @@
       "$schema": "../../json-schemas/utility.json",
       "name": "props",
       "type": "utility",
-      "files": ["packages/ui/src/utils/props.ts"]
+      "files": [
+        "packages/ui/src/utils/props.ts"
+      ]
     },
     {
       "$schema": "../../json-schemas/utility.json",
       "name": "styling",
       "type": "utility",
-      "files": ["packages/ui/src/utils/styling.ts"]
+      "files": [
+        "packages/ui/src/utils/styling.ts"
+      ]
     }
   ],
   "metadata": {
