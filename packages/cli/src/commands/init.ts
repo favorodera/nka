@@ -1,17 +1,19 @@
 import { cancel, group, intro, outro, spinner, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
-import { join } from 'pathe'
+import { basename, join } from 'pathe'
 import type { NkaConfig } from '../types'
 import { DEFAULT_NKA_CONFIG, DEFAULT_REGISTRY_NAME, NKA_CONFIG_FILE_NAME } from '../constants'
 import { generateNkaConfigContent } from '../utils/config'
 import {
   confirmOverwrite,
+  confirmRegistryItemsOverwrites,
   createDirectory,
+  resolveItemInstallPath,
   writeToFile,
 } from '../utils/file-system'
 import { nkaTextFetch } from '../utils/network'
 import { installDependency } from '../utils/packages'
-import { fetchRegistry, resolveRegistrySource } from '../utils/registry'
+import { fetchRegistry, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
 
 /**
  * Initializes Nka in the current project.
@@ -193,12 +195,51 @@ export function init() {
         },
 
         {
-          enabled: Object.keys(registry.metadata.packages ?? {}).length === 0,
+          enabled: !!registry.metadata.dependencies?.utilities?.length,
+          async task(message) {
+            message('Resolving registry items')
+            const itemsToResolve = (registry.metadata.dependencies?.utilities ?? []).map(name => ({
+              name,
+              type: 'utility' as const,
+            }))
+            const resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
+            message('Resolved registry items')
+
+            // Ask all overwrite questions before any file operations begin.
+            const shouldWriteChoices = await confirmRegistryItemsOverwrites(
+              [...resolvedRegistryItems.utilities.values()],
+              nkaConfig,
+            )
+
+            for (const utility of resolvedRegistryItems.utilities.values()) {
+              message(`Installing ${utility.name}...`)
+
+              for (const file of utility.files) {
+                const targetUrl = new URL(file, registry.metadata.baseUrl).href
+                const targetPath = resolveItemInstallPath(utility, file, nkaConfig)
+
+                if (shouldWriteChoices.get(targetPath)) {
+                  message(`Fetching ${utility.name} (${basename(file)})`)
+                  const fileContent = await nkaTextFetch(targetUrl)
+
+                  message(`Writing ${utility.name} (${basename(file)})`)
+                  await writeToFile(targetPath, fileContent)
+                }
+              }
+            }
+
+            return 'Installed registry utilities'
+          },
+          title: 'Installing registry utilities',
+        },
+
+        {
+          enabled: !!registry.metadata.dependencies?.packages,
           async task(message) {
             for (const [
               name,
               version,
-            ] of Object.entries(registry.metadata.packages ?? {})) {
+            ] of Object.entries(registry.metadata.dependencies?.packages ?? {})) {
               message(`Installing ${name}@${version}`)
               await installDependency(name, version)
             }

@@ -349,15 +349,35 @@
             "0.1.0"
           ]
         },
-        "packages": {
+        "dependencies": {
           "type": "object",
-          "patternProperties": {
-            "^.*$": {
-              "type": "string",
-              "description": "Package version range."
+          "properties": {
+            "packages": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string",
+                  "description": "Package version range."
+                }
+              },
+              "description": "Installable NPM packages."
+            },
+            "utilities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Unique registry item name.",
+                "examples": [
+                  "button",
+                  "docs-default"
+                ],
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "description": "Utilities required by the registry.",
+              "uniqueItems": true
             }
           },
-          "description": "Installable NPM packages."
+          "description": "Dependencies required by the whole registry."
         },
         "name": {
           "type": "string",

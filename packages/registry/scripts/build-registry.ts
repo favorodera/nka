@@ -5,6 +5,7 @@ import { dirname, join, normalize } from 'pathe'
 import { glob } from 'tinyglobby'
 import Schema from 'typebox/schema'
 import { parse as parseYaml } from 'yaml'
+import type { Dependencies } from '../ts-schemas/shared/dependencies'
 import { version } from '../package.json'
 import { type Metadata, MetadataSchema } from '../ts-schemas/metadata'
 import { RegistrySchema } from '../ts-schemas/registry'
@@ -27,12 +28,19 @@ const metadataDependenciesRef = [
   'tailwind-merge',
   'reka-ui',
 ]
-const metadata: Metadata & { $schema: string } = {
+const metadata = {
   $schema: '../json-schemas/metadata.json',
   baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/`,
+  dependencies: {
+    packages: {} as Dependencies['packages'],
+    utilities: [
+      'styling',
+      'props',
+    ],
+  },
   name: 'nka',
   version,
-}
+} satisfies Metadata & { $schema: string }
 
 intro('Building registry')
 
@@ -48,11 +56,11 @@ await tasks([
       message('Extracting dependencies')
       const vendorCatalog = parsedYaml.catalogs?.vendor || {}
 
-      metadata.packages = {}
+      metadata.dependencies.packages = {}
 
       for (const name of metadataDependenciesRef) {
         if (vendorCatalog[name]) {
-          metadata.packages[name] = vendorCatalog[name]
+          metadata.dependencies.packages[name] = vendorCatalog[name]
         } else {
           throw new Error(`Dependency ${name} not found in workspace vendor catalog`)
         }

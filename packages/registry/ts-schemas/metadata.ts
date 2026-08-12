@@ -1,4 +1,5 @@
 import { type Static, Type } from 'typebox'
+import { ItemNameSchema } from './shared/base'
 import { PackageDependenciesSchema } from './shared/dependencies'
 
 export const MetadataSchema = Type.Object({
@@ -12,7 +13,19 @@ export const MetadataSchema = Type.Object({
     examples: ['0.1.0'],
   }),
 
-  packages: Type.Optional(PackageDependenciesSchema),
+  dependencies: Type.Optional(Type.Object(
+    {
+      packages: Type.Optional(PackageDependenciesSchema),
+
+      utilities: Type.Optional(Type.Array(ItemNameSchema, {
+        description: 'Utilities required by the registry.',
+        uniqueItems: true,
+      })),
+    },
+    {
+      description: 'Dependencies required by the whole registry.',
+    },
+  )),
 
   name: Type.String({
     description: 'Name of the registry.',
