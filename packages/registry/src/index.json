@@ -57,6 +57,14 @@
       }
     },
     {
+      "$schema": "../../json-schemas/template.json",
+      "name": "favorodera",
+      "type": "template",
+      "repository": {
+        "source": "gh:favorodera/favorodera"
+      }
+    },
+    {
       "$schema": "../../json-schemas/utility.json",
       "name": "props",
       "type": "utility",

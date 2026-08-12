@@ -163,6 +163,61 @@ importers:
         specifier: catalog:tooling
         version: 6.0.3
 
+  apps/playground:
+    dependencies:
+      '@iconify/vue':
+        specifier: ^5.0.1
+        version: 5.0.1(vue@3.5.41(typescript@6.0.3))
+      '@nka/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
+      '@nka/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@nka/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vueuse/core':
+        specifier: ^14.4.0
+        version: 14.4.0(vue@3.5.41(typescript@6.0.3))
+      reka-ui:
+        specifier: ^2.10.1
+        version: 2.10.3(vue@3.5.41(typescript@6.0.3))
+      tailwind-merge:
+        specifier: ^3.6.0
+        version: 3.6.0
+      tailwind-variants:
+        specifier: ^3.3.0
+        version: 3.3.1(tailwind-merge@3.6.0)(tailwindcss@4.3.3)
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      vue:
+        specifier: catalog:vendor
+        version: 3.5.41(typescript@6.0.3)
+    devDependencies:
+      '@favorodera/eslint-config':
+        specifier: catalog:tooling
+        version: 1.0.4(@typescript-eslint/eslint-plugin@8.67.0(@typescript-eslint/parser@8.67.0(eslint@10.8.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(@typescript-eslint/parser@8.67.0(eslint@10.8.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(@vue/compiler-sfc@3.5.41)(eslint@10.8.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(tailwindcss@4.3.3)(typescript@6.0.3)(vitest@4.1.10)
+      '@tsconfig/node24':
+        specifier: catalog:tooling
+        version: 24.0.4
+      '@vitejs/plugin-vue':
+        specifier: catalog:tooling
+        version: 6.0.8(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
+      '@vue/tsconfig':
+        specifier: catalog:tooling
+        version: 0.9.1(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
+      vite:
+        specifier: catalog:tooling
+        version: 8.2.1(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
+      vue-tsc:
+        specifier: catalog:tooling
+        version: 3.3.9(typescript@6.0.3)
+
   apps/storybook:
     dependencies:
       '@comark/vue':

@@ -28,5 +28,6 @@ export const COMMON_COMMAND_ARGS: Record<string, EnumArgDef | PositionalArgDef |
     description: 'Registry name',
     required: true,
     type: 'string',
+    valueHint: 'registry-name',
   },
 }
