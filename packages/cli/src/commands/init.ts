@@ -195,7 +195,7 @@ export function init() {
         },
 
         {
-          enabled: !!registry.metadata.dependencies?.utilities?.length,
+          enabled: (registry.metadata.dependencies?.utilities ?? []).length > 0,
           async task(message) {
             message('Resolving registry items')
             const itemsToResolve = (registry.metadata.dependencies?.utilities ?? []).map(name => ({
