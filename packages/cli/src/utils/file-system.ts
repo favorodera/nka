@@ -40,13 +40,14 @@ export async function writeToFile(path: string, content: string) {
 /**
  * Prompts the user before overwriting an existing path.
  * @param path Absolute path to check.
- * @param cwd Current working directory.
  * @returns Whether the path may be overwritten.
  */
-export async function confirmOverwrite(path: string, cwd: string) {
+export async function confirmOverwrite(path: string) {
   if (!await fsExtra.pathExists(path)) {
     return true
   }
+
+  const cwd = process.cwd()
 
   const answer = await confirm({
     initialValue: false,
@@ -67,10 +68,7 @@ export async function confirmOverwrite(path: string, cwd: string) {
  * @param config Nka configuration.
  * @returns Configured installation directory.
  */
-export function resolveItemDirectory(
-  type: Item['type'],
-  config: NkaConfig,
-) {
+export function resolveItemDirectory(type: Item['type'], config: NkaConfig) {
   switch (type) {
     case 'component': {
       return config.components.dir
@@ -94,16 +92,12 @@ export function resolveItemDirectory(
  * @param item Registry item.
  * @param file Registry source file path.
  * @param config Nka configuration.
- * @param cwd Current working directory.
  * @returns Absolute local installation path.
  */
-export function resolveItemInstallPath(
-  item: Item,
-  file: string,
-  config: NkaConfig,
-  cwd: string,
-) {
+export function resolveItemInstallPath(item: Item, file: string, config: NkaConfig) {
   const directory = resolveItemDirectory(item.type, config)
+  const cwd = process.cwd()
+
   const fileName = basename(file)
 
   if (item.type === 'component') {
@@ -120,38 +114,46 @@ export function resolveItemInstallPath(
  * owns its installation directory. Utilities use file-level confirmation.
  * @param items Registry items.
  * @param config Nka configuration.
- * @param cwd Current working directory.
  * @returns Overwrite decisions keyed by local installation path.
  */
-export async function confirmRegistryItemsOverwrites(
-  items: Iterable<Item>,
-  config: NkaConfig,
-  cwd: string,
-) {
+export async function confirmRegistryItemsOverwrites(items: Iterable<Item>, config: NkaConfig) {
+  const cwd = process.cwd()
+
   const decisions = new Map<string, boolean>()
 
   for (const item of items) {
-    if (!('files' in item) || !item.files) continue
+    if ('files' in item) {
+      switch (item.type) {
+        case 'component': {
+          const directory = resolveItemDirectory(item.type, config)
+          const itemDirectory = join(cwd, directory, item.name)
 
-    if (item.type === 'component') {
-      const directory = resolveItemDirectory(item.type, config)
-      const itemDirectory = join(cwd, directory, item.name)
+          // Prompt once per component directory
+          const shouldOverwrite = await confirmOverwrite(itemDirectory)
 
-      // Prompt once per component directory
-      const shouldOverwrite = await confirmOverwrite(itemDirectory, cwd)
+          for (const file of item.files) {
+            const targetPath = resolveItemInstallPath(item, file, config)
+            decisions.set(targetPath, shouldOverwrite)
+          }
 
-      for (const file of item.files) {
-        const targetPath = resolveItemInstallPath(item, file, config, cwd)
-        decisions.set(targetPath, shouldOverwrite)
-      }
-    } else {
-      // Prompt per file for utilities
-      for (const file of item.files) {
-        const targetPath = resolveItemInstallPath(item, file, config, cwd)
-        decisions.set(
-          targetPath,
-          await confirmOverwrite(targetPath, cwd),
-        )
+          break
+        }
+
+        case 'utility': {
+          // Prompt per file for utilities
+          for (const file of item.files) {
+            const targetPath = resolveItemInstallPath(item, file, config)
+            decisions.set(
+              targetPath,
+              await confirmOverwrite(targetPath),
+            )
+          }
+          break
+        }
+
+        default: {
+          break
+        }
       }
     }
   }

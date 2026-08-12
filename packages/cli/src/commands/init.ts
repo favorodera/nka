@@ -1,5 +1,4 @@
-import type { Registry } from '@nka/registry'
-import { cancel, group, intro, outro, tasks, text } from '@clack/prompts'
+import { cancel, group, intro, outro, spinner, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
 import { join } from 'pathe'
 import type { NkaConfig } from '../types'
@@ -30,11 +29,12 @@ export function init() {
     async run() {
       intro('Initializing Nka project')
 
-      /** The current working directory. */
       const cwd = process.cwd()
 
-      /** Registry populated inside the registry fetch task. */
-      let registry: Registry
+      const spin = spinner({
+        cancelMessage: 'Operation cancelled by user.',
+        errorMessage: 'Operation failed unexpectedly.',
+      })
 
       const nkaConfigPath = join(cwd, NKA_CONFIG_FILE_NAME)
 
@@ -111,25 +111,20 @@ export function init() {
       }
 
       // Ask all overwrite questions before any file operations begin.
-      const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath, cwd)
-      const shouldWriteComponentsDir = await confirmOverwrite(resolvedPaths.components, cwd)
-      const shouldWriteStylesDir = await confirmOverwrite(resolvedPaths.styles, cwd)
-      const shouldWriteUtilsDir = await confirmOverwrite(resolvedPaths.utils, cwd)
+      const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath)
+      const shouldWriteComponentsDir = await confirmOverwrite(resolvedPaths.components)
+      const shouldWriteStylesDir = await confirmOverwrite(resolvedPaths.styles)
+      const shouldWriteUtilsDir = await confirmOverwrite(resolvedPaths.utils)
+
+      spin.start('Resolving registry')
+      const source = resolveRegistrySource(DEFAULT_REGISTRY_NAME, nkaConfig.registries)
+      spin.stop('Resolved registry')
+
+      spin.start('Fetching registry')
+      const registry = await fetchRegistry(source)
+      spin.stop(`Fetched registry "${source.name}"`)
 
       await tasks([
-        {
-          async task(message) {
-            message('Resolving registry')
-            const source = resolveRegistrySource(DEFAULT_REGISTRY_NAME, nkaConfig.registries)
-
-            message('Fetching registry')
-            registry = await fetchRegistry(source)
-
-            return `Fetched registry "${source.name}"`
-          },
-          title: 'Fetching registry',
-        },
-
         {
           enabled: shouldWriteNkaConfig,
           async task(message) {
@@ -198,19 +193,14 @@ export function init() {
         },
 
         {
+          enabled: Object.keys(registry.metadata.packages ?? {}).length === 0,
           async task(message) {
-            const packages = registry.metadata.packages ?? {}
-
-            if (Object.keys(packages).length === 0) {
-              return 'No registry package dependencies'
-            }
-
             for (const [
               name,
               version,
-            ] of Object.entries(packages)) {
+            ] of Object.entries(registry.metadata.packages ?? {})) {
               message(`Installing ${name}@${version}`)
-              await installDependency(name, version, cwd)
+              await installDependency(name, version)
             }
 
             return 'Installed registry package dependencies'

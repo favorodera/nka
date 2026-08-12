@@ -6,12 +6,13 @@ import { join } from 'pathe'
  * Installs a package in the current project.
  * @param name The name of the package to install.
  * @param version The version of the package to install.
- * @param cwd The absolute path to the project root.
  * @returns A message indicating the result of the installation.
  * @throws If the package fails to install.
  */
-export async function installDependency(name: string, version: string, cwd: string) {
+export async function installDependency(name: string, version: string) {
   try {
+    const cwd = process.cwd()
+
     const packageJSONPath = join(cwd, 'package.json')
 
     const packageJSON = await fsExtra.readJson(packageJSONPath)
@@ -46,12 +47,13 @@ export async function installDependency(name: string, version: string, cwd: stri
 /**
  * Uninstalls a package from the current project.
  * @param name The name of the package to uninstall.
- * @param cwd The absolute path to the project root.
  * @returns A message indicating the result of the uninstallation.
  * @throws If the package fails to uninstall.
  */
-export async function uninstallDependency(name: string, cwd: string) {
+export async function uninstallDependency(name: string) {
   try {
+    const cwd = process.cwd()
+
     const packageJSONPath = join(cwd, 'package.json')
 
     const packageJSON = await fsExtra.readJson(packageJSONPath)

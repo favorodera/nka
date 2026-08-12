@@ -29,9 +29,6 @@ export function component() {
     async run({ args }) {
       intro('Adding component(s)')
 
-      /** The current working directory. */
-      const cwd = process.cwd()
-
       const components = args._ as Array<string>
 
       if (components.length === 0) {
@@ -44,7 +41,7 @@ export function component() {
       })
 
       spin.start('Loading Nka config')
-      const nkaConfig = await loadNkaConfig(cwd)
+      const nkaConfig = await loadNkaConfig()
       spin.stop('Loaded Nka config')
 
       spin.start('Resolving registry')
@@ -70,7 +67,6 @@ export function component() {
           ...resolvedRegistryItems.utilities.values(),
         ],
         nkaConfig,
-        cwd,
       )
 
       await tasks([
@@ -81,7 +77,7 @@ export function component() {
 
               for (const file of component.files) {
                 const targetUrl = new URL(file, registry.metadata.baseUrl).href
-                const targetPath = resolveItemInstallPath(component, file, nkaConfig, cwd)
+                const targetPath = resolveItemInstallPath(component, file, nkaConfig)
 
                 if (shouldWriteChoices.get(targetPath)) {
                   message(`Fetching ${component.name} (${basename(file)})`)
@@ -96,6 +92,31 @@ export function component() {
             return 'Installed component(s)'
           },
           title: 'Installing component(s)',
+        },
+
+        {
+          enabled: resolvedRegistryItems.utilities.size > 0,
+          async task(message) {
+            for (const utility of resolvedRegistryItems.utilities.values()) {
+              message(`Installing ${utility.name}...`)
+
+              for (const file of utility.files) {
+                const targetUrl = new URL(file, registry.metadata.baseUrl).href
+                const targetPath = resolveItemInstallPath(utility, file, nkaConfig)
+
+                if (shouldWriteChoices.get(targetPath)) {
+                  message(`Fetching ${utility.name} (${basename(file)})`)
+                  const fileContent = await nkaTextFetch(targetUrl)
+
+                  message(`Writing ${utility.name} (${basename(file)})`)
+                  await writeToFile(targetPath, fileContent)
+                }
+              }
+            }
+
+            return 'Installed utility(ies)'
+          },
+          title: 'Installing utility(ies)',
         },
       ])
 

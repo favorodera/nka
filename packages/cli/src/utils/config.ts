@@ -1,21 +1,23 @@
 import { loadConfig } from 'c12'
+import { relative } from 'pathe'
 import type { NkaConfig } from '../types'
-import { NKA_CONFIG_FILE_BASE_NAME } from '../constants'
+import { NKA_CONFIG_FILE_BASE_NAME, NKA_CONFIG_FILE_NAME } from '../constants'
 
 /**
  * Loads the user's Nka configuration.
- * @param cwd Absolute path to the project root.
  * @returns The resolved c12 configuration result.
  * @throws If config file is not found.
  */
-export async function loadNkaConfig(cwd: string) {
+export async function loadNkaConfig() {
+  const cwd = process.cwd()
+
   const { config, configFile } = await loadConfig<NkaConfig>({
     cwd,
     name: NKA_CONFIG_FILE_BASE_NAME,
   })
 
   if (!configFile) {
-    throw new Error(`Nka config file not found in "${cwd}". Run \`nka init\` first.`)
+    throw new Error(`Nka config file not found in "${relative(cwd, NKA_CONFIG_FILE_NAME)}". Run \`nka init\` first.`)
   }
 
   return config
