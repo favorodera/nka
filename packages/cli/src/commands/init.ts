@@ -12,7 +12,12 @@ import {
 } from '../utils/file-system'
 import { nkaTextFetch } from '../utils/network'
 import { installDependency } from '../utils/packages'
-import { fetchAndValidateRegistry, installRegistryItems, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
+import {
+  fetchAndValidateRegistry,
+  installRegistryItems,
+  resolveRegistryItems,
+  resolveRegistrySource,
+} from '../utils/registry'
 
 /**
  * Initialize Nka in the current project.
