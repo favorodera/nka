@@ -4,36 +4,30 @@ import { PackageDependenciesSchema } from './shared/dependencies'
 
 export const MetadataSchema = Type.Object({
   baseUrl: Type.String({
-    description: 'Base URL used to resolve files in the registry.',
+    description: 'Base URL for resolving registry files.',
     format: 'uri',
   }),
-
-  version: Type.String({
-    description: 'Registry format version.',
-    examples: ['0.1.0'],
-  }),
-
   dependencies: Type.Optional(Type.Object(
     {
       packages: Type.Optional(PackageDependenciesSchema),
-
       utilities: Type.Optional(Type.Array(ItemNameSchema, {
-        description: 'Utilities required by the registry.',
+        description: 'Required utilities.',
         uniqueItems: true,
       })),
     },
-    {
-      description: 'Dependencies required by the whole registry.',
-    },
+    { description: 'Registry-wide dependencies.' },
   )),
-
   name: Type.String({
-    description: 'Name of the registry.',
+    description: 'Registry name.',
     examples: [
       'julio-ui',
       'acme-ui',
     ],
     pattern: '^[a-z][a-z0-9-]*$',
+  }),
+  version: Type.String({
+    description: 'Registry format version.',
+    examples: ['0.1.0'],
   }),
 }, {
   $schema: 'https://json-schema.org/draft/2020-12/schema',

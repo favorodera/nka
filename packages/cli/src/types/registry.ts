@@ -1,20 +1,20 @@
 import type { Component, Utility } from '@nka/registry'
 
-/** The resolved source of a registry. */
+/** Resolved registry source. */
 export interface ResolvedRegistrySource {
   /** The name of the registry. */
-  readonly name: string
+  name: string
 
   /** The URL of the registry index. */
-  readonly url: string
+  url: string
 }
 
-/** A resolved collection of registry items, their dependencies, and required packages. */
+/** Resolved items and their package dependencies. */
 export interface ResolvedRegistryItems {
-  /** Map of component names to their full component definitions. */
+  /** Map of component names to their component metadata. */
   components: Map<string, Component>
 
-  /** Map of utility names to their full utility definitions. */
+  /** Map of utility names to their utility metadata. */
   utilities: Map<string, Utility>
 
   /** Map of package names to their required version ranges. */

@@ -9,7 +9,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Unique registry item name.",
+          "description": "Item name.",
           "examples": [
             "button",
             "docs-default"
@@ -31,7 +31,7 @@
               "const": "utility"
             }
           ],
-          "description": "Type of registry item.",
+          "description": "Item type.",
           "examples": [
             "component",
             "template",
@@ -55,7 +55,7 @@
           "properties": {
             "source": {
               "type": "string",
-              "description": "Repository source supported by giget.",
+              "description": "Giget source (e.g. github:foo/bar).",
               "examples": [
                 "github:foo/bar",
                 "gitlab:foo/bar"

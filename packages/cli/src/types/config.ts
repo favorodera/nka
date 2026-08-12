@@ -1,64 +1,29 @@
-/** Configuration for Nka. */
+/** Nka configuration. */
 export interface NkaConfig {
-  /** Component installation and import configuration. */
+  /** Component install path and import alias. */
   components: {
-    /**
-     * Directory where components are installed.
-     * This path is relative to the project root.
-     * @example "components"
-     * @example "src/components"
-     */
+    /** Relative directory for components. */
     dir: string
 
-    /**
-     * Module specifier used when rewriting component imports.
-     * Installed components will import other components using this value.
-     * @example "@/components"
-     * @example "~/components"
-     */
+    /** Import alias for components (e.g. "@/components"). */
     import: string
   }
 
-  /** Shared utility installation and import configuration. */
+  /** Utility install path and import alias. */
   utils: {
-    /**
-     * Directory where shared utilities are installed.
-     * This path is relative to the project root.
-     * @example "utils"
-     * @example "src/utils"
-     */
+    /** Relative directory for utilities. */
     dir: string
 
-    /**
-     * Module specifier used when rewriting utility imports.
-     * Installed components will import utilities using this value.
-     * @example "@/utils"
-     * @example "~/utils"
-     */
+    /** Import alias for utilities (e.g. "@/utils"). */
     import: string
   }
 
-  /** Theme and typeset stylesheet configuration. */
+  /** Stylesheet install path. */
   styles: {
-    /**
-     * Directory where Nka theme styles are installed.
-     * This path is relative to the project root.
-     * @example "assets/css/nka"
-     * @example "src/assets/css/nka"
-     */
+    /** Relative directory for Nka styles. */
     dir: string
   }
 
-  /**
-   * Custom registry sources.
-   * Each key identifies a registry and its value points to the registry manifest/index.
-   * @example
-   * ```ts
-   * registries: {
-   *   acme: "https://registry.acme.dev/index.json",
-   *   julio: "https://julio.dev/nka/index.json",
-   * }
-   * ```
-   */
+  /** Named registry sources (name → index URL). */
   registries: Record<string, string>
 }

@@ -6,14 +6,12 @@ import { FileSchema } from './shared/file'
 export const UtilitySchema = Type.Intersect([
   ItemBaseSchema,
   Type.Object({
-    type: Type.Literal('utility'),
-
+    dependencies: Type.Optional(DependenciesSchema),
     files: Type.Array(FileSchema, {
-      description: 'Files included with the utility.',
+      description: 'Utility files.',
       minItems: 1,
     }),
-
-    dependencies: Type.Optional(DependenciesSchema),
+    type: Type.Literal('utility'),
   }),
 ], {
   $schema: 'https://json-schema.org/draft/2020-12/schema',

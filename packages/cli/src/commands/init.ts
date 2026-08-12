@@ -1,6 +1,6 @@
 import { cancel, group, intro, outro, spinner, tasks, text } from '@clack/prompts'
 import { defineCommand } from 'citty'
-import { basename, join } from 'pathe'
+import { join } from 'pathe'
 import type { NkaConfig } from '../types'
 import { DEFAULT_NKA_CONFIG, DEFAULT_REGISTRY_NAME, NKA_CONFIG_FILE_NAME } from '../constants'
 import { generateNkaConfigContent } from '../utils/config'
@@ -8,19 +8,16 @@ import {
   confirmOverwrite,
   confirmRegistryItemsOverwrites,
   createDirectory,
-  resolveItemInstallPath,
   writeToFile,
 } from '../utils/file-system'
+import { installRegistryItems } from '../utils/install'
 import { nkaTextFetch } from '../utils/network'
 import { installDependency } from '../utils/packages'
-import { fetchRegistry, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
+import { fetchAndValidateRegistry, resolveRegistryItems, resolveRegistrySource } from '../utils/registry'
 
 /**
- * Initializes Nka in the current project.
- *
- * Prompts for project paths, creates the Nka configuration,
- * installs required dependencies, and adds the default styles.
- * @returns The Nka init command.
+ * Initialize Nka in the current project.
+ * @returns The command definition.
  */
 export function init() {
   return defineCommand({
@@ -29,65 +26,59 @@ export function init() {
       name: 'init',
     },
     async run() {
-      intro('Initializing Nka project')
+      intro('Initializing Nka')
 
       const cwd = process.cwd()
 
       const spin = spinner({
-        cancelMessage: 'Operation cancelled by user.',
-        errorMessage: 'Operation failed unexpectedly.',
+        cancelMessage: 'Cancelled.',
+        errorMessage: 'Failed.',
       })
 
       const nkaConfigPath = join(cwd, NKA_CONFIG_FILE_NAME)
 
-      /** Collects all initialization options before performing operations. */
       const userChoices = await group(
         {
           components: () => group({
             dir: () => text({
               initialValue: 'src/components',
-              message: 'Where do you want to store components?',
+              message: 'Components directory?',
               placeholder: 'src/components',
             }),
-
             import: () => text({
               initialValue: '@/components',
-              message: 'What import alias should components use?',
+              message: 'Components import alias?',
               placeholder: '@/components',
             }),
           }),
-
-          utils: () => group({
-            dir: () => text({
-              initialValue: 'src/utils',
-              message: 'Where do you want to store utilities?',
-              placeholder: 'src/utils',
-            }),
-
-            import: () => text({
-              initialValue: '@/utils',
-              message: 'What import alias should utilities use?',
-              placeholder: '@/utils',
-            }),
-          }),
-
           styles: () => group({
             dir: () => text({
               initialValue: 'src/assets/css',
-              message: 'Where do you want to store Nka styles?',
+              message: 'Styles directory?',
               placeholder: 'src/assets/css',
+            }),
+          }),
+          utils: () => group({
+            dir: () => text({
+              initialValue: 'src/utils',
+              message: 'Utilities directory?',
+              placeholder: 'src/utils',
+            }),
+            import: () => text({
+              initialValue: '@/utils',
+              message: 'Utilities import alias?',
+              placeholder: '@/utils',
             }),
           }),
         },
         {
           onCancel: () => {
-            cancel('Operation cancelled by user.')
+            cancel('Cancelled.')
             process.exit(0)
           },
         },
       )
 
-      /** The full Nka config to write — user paths + default registries. */
       const nkaConfig: NkaConfig = {
         components: {
           dir: userChoices.components.dir,
@@ -105,14 +96,13 @@ export function init() {
         },
       }
 
-      /** Absolute paths resolved from user choices for file operations. */
       const resolvedPaths = {
         components: join(cwd, userChoices.components.dir),
         styles: join(cwd, userChoices.styles.dir),
         utils: join(cwd, userChoices.utils.dir),
       }
 
-      // Ask all overwrite questions before any file operations begin.
+      // All overwrite prompts up-front (dirs + config)
       const shouldWriteNkaConfig = await confirmOverwrite(nkaConfigPath)
       const shouldWriteComponentsDir = await confirmOverwrite(resolvedPaths.components)
       const shouldWriteStylesDir = await confirmOverwrite(resolvedPaths.styles)
@@ -120,119 +110,90 @@ export function init() {
 
       spin.start('Resolving registry')
       const source = resolveRegistrySource(DEFAULT_REGISTRY_NAME, nkaConfig.registries)
-      spin.stop('Resolved registry')
+      spin.stop('Registry resolved')
 
       spin.start('Fetching registry')
-      const registry = await fetchRegistry(source)
-      spin.stop(`Fetched registry "${source.name}"`)
+      const registry = await fetchAndValidateRegistry(source)
+      spin.stop(`Registry "${source.name}" fetched`)
+
+      // Resolve default utilities + their overwrite decisions before any tasks
+      spin.start('Resolving registry utilities')
+      const utilityNames = registry.metadata.dependencies?.utilities ?? []
+      const itemsToResolve = utilityNames.map(name => ({
+        name,
+        type: 'utility' as const,
+      }))
+      const resolvedUtilities = resolveRegistryItems(itemsToResolve, registry)
+      spin.stop('Registry utilities resolved')
+
+      const shouldWriteUtilities = await confirmRegistryItemsOverwrites(
+        [...resolvedUtilities.utilities.values()],
+        nkaConfig,
+      )
 
       await tasks([
         {
           enabled: shouldWriteNkaConfig,
           async task(message) {
-            message('Building configuration.')
-
-            const nkaConfigContent = generateNkaConfigContent(nkaConfig)
-
-            message('Writing configuration.')
-
-            await writeToFile(nkaConfigPath, nkaConfigContent)
-
-            return `Created "${NKA_CONFIG_FILE_NAME}"`
+            message('Writing config')
+            await writeToFile(nkaConfigPath, generateNkaConfigContent(nkaConfig))
+            return `Created ${NKA_CONFIG_FILE_NAME}`
           },
-          title: 'Creating Nka configuration',
+          title: 'Creating config',
         },
-
         {
           enabled: shouldWriteComponentsDir,
           async task() {
             await createDirectory(resolvedPaths.components)
-
-            return (`Created components directory in "${userChoices.components.dir}"`)
+            return `Created ${userChoices.components.dir}`
           },
-          title: 'Creating components directory',
+          title: 'Creating components dir',
         },
-
         {
           enabled: shouldWriteUtilsDir,
           async task() {
             await createDirectory(resolvedPaths.utils)
-
-            return (`Created utilities directory in "${userChoices.utils.dir}"`
-            )
+            return `Created ${userChoices.utils.dir}`
           },
-          title: 'Creating utilities directory',
+          title: 'Creating utilities dir',
         },
-
         {
           enabled: shouldWriteStylesDir,
           async task(message) {
             await createDirectory(resolvedPaths.styles)
-            message(`Created styles directory in "${userChoices.styles.dir}"`)
 
-            message('Preparing stylesheets paths and urls')
-            const themeStyleSheetPath = join(resolvedPaths.styles, 'theme.css')
-            const themeStyleSheetUrl = new URL('packages/ui/src/css/theme.css', registry.metadata.baseUrl)
+            const themePath = join(resolvedPaths.styles, 'theme.css')
+            const prosePath = join(resolvedPaths.styles, 'prose.css')
+            const base = registry.metadata.baseUrl
 
-            const proseStyleSheetPath = join(resolvedPaths.styles, 'prose.css')
-            const proseStyleSheetUrl = new URL('packages/ui/src/css/prose.css', registry.metadata.baseUrl)
+            message('Fetching theme.css')
+            const theme = await nkaTextFetch(new URL('packages/ui/src/css/theme.css', base).href)
+            message('Writing theme.css')
+            await writeToFile(themePath, theme)
 
-            message('Downloading theme stylesheet')
-            const themeStyleSheet = await nkaTextFetch(themeStyleSheetUrl.href)
+            message('Fetching prose.css')
+            const prose = await nkaTextFetch(new URL('packages/ui/src/css/prose.css', base).href)
+            message('Writing prose.css')
+            await writeToFile(prosePath, prose)
 
-            message('Writing theme stylesheet.')
-            await writeToFile(themeStyleSheetPath, themeStyleSheet)
-
-            message('Downloading prose stylesheet')
-            const proseStyleSheet = await nkaTextFetch(proseStyleSheetUrl.href)
-
-            message('Writing prose stylesheet.')
-            await writeToFile(proseStyleSheetPath, proseStyleSheet)
-
-            return `Created Nka styles in "${userChoices.styles.dir}"`
+            return `Created styles in ${userChoices.styles.dir}`
           },
-          title: 'Installing Nka styles',
+          title: 'Installing styles',
         },
-
         {
-          enabled: (registry.metadata.dependencies?.utilities ?? []).length > 0,
+          enabled: resolvedUtilities.utilities.size > 0,
           async task(message) {
-            message('Resolving registry items')
-            const itemsToResolve = (registry.metadata.dependencies?.utilities ?? []).map(name => ({
-              name,
-              type: 'utility' as const,
-            }))
-            const resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
-            message('Resolved registry items')
-
-            // Ask all overwrite questions before any file operations begin.
-            const shouldWriteChoices = await confirmRegistryItemsOverwrites(
-              [...resolvedRegistryItems.utilities.values()],
+            await installRegistryItems(
+              resolvedUtilities.utilities.values(),
+              registry,
               nkaConfig,
+              shouldWriteUtilities,
+              message,
             )
-
-            for (const utility of resolvedRegistryItems.utilities.values()) {
-              message(`Installing ${utility.name}...`)
-
-              for (const file of utility.files) {
-                const targetUrl = new URL(file, registry.metadata.baseUrl).href
-                const targetPath = resolveItemInstallPath(utility, file, nkaConfig)
-
-                if (shouldWriteChoices.get(targetPath)) {
-                  message(`Fetching ${utility.name} (${basename(file)})`)
-                  const fileContent = await nkaTextFetch(targetUrl)
-
-                  message(`Writing ${utility.name} (${basename(file)})`)
-                  await writeToFile(targetPath, fileContent)
-                }
-              }
-            }
-
-            return 'Installed registry utilities'
+            return 'Utilities installed'
           },
-          title: 'Installing registry utilities',
+          title: 'Installing utilities',
         },
-
         {
           enabled: !!registry.metadata.dependencies?.packages,
           async task(message) {
@@ -243,14 +204,13 @@ export function init() {
               message(`Installing ${name}@${version}`)
               await installDependency(name, version)
             }
-
-            return 'Installed registry package dependencies'
+            return 'Packages installed'
           },
-          title: 'Installing registry package dependencies',
+          title: 'Installing packages',
         },
       ])
 
-      outro('Initialization Complete')
+      outro('Initialization complete')
     },
   })
 }

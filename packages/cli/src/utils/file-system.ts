@@ -5,57 +5,49 @@ import { basename, join, relative } from 'pathe'
 import type { NkaConfig } from '../types'
 
 /**
- * Creates a directory and any necessary parent directories.
- * @param path Absolute directory path.
+ * Creates a directory and parents if needed.
+ * @param path Path to the directory to create.
  * @throws If the directory cannot be created.
  */
 export async function createDirectory(path: string) {
   try {
     await fsExtra.ensureDir(path)
   } catch (error) {
-    throw new Error(
-      `Failed to create directory "${path}".`,
-      { cause: error },
-    )
+    throw new Error(`Failed to create directory "${path}".`, { cause: error })
   }
 }
 
 /**
- * Writes content to a file, creating parent directories when necessary.
- * @param path Absolute file path.
- * @param content File content.
- * @throws If the file cannot be written.
+ * Writes content to a file, creating parents if needed.
+ * @param path Path to the file to write.
+ * @param content Content to write to the file.
+ * @throws Error if the file cannot be written.
  */
 export async function writeToFile(path: string, content: string) {
   try {
     await fsExtra.outputFile(path, content, 'utf8')
   } catch (error) {
-    throw new Error(
-      `Failed to write file "${path}".`,
-      { cause: error },
-    )
+    throw new Error(`Failed to write file "${path}".`, { cause: error })
   }
 }
 
 /**
- * Prompts the user before overwriting an existing path.
- * @param path Absolute path to check.
- * @returns Whether the path may be overwritten.
+ * Prompts before overwriting an existing path.
+ * @param path Path to the file or directory to overwrite.
+ * @returns True if the user confirmed the overwrite, false otherwise.
  */
 export async function confirmOverwrite(path: string) {
   if (!await fsExtra.pathExists(path)) {
     return true
   }
 
-  const cwd = process.cwd()
-
   const answer = await confirm({
     initialValue: false,
-    message: `Path "${relative(cwd, path)}" already exists. Overwrite?`,
+    message: `Overwrite "${relative(process.cwd(), path)}"?`,
   })
 
   if (isCancel(answer)) {
-    cancel('Operation cancelled by user.')
+    cancel('Cancelled.')
     process.exit(0)
   }
 
@@ -63,41 +55,36 @@ export async function confirmOverwrite(path: string) {
 }
 
 /**
- * Returns the configured installation directory for a registry item type.
- * @param type Registry item type.
- * @param config Nka configuration.
- * @returns Configured installation directory.
+ * Returns the install directory for an item type.
+ * @param type The type of the item.
+ * @param config The Nka configuration.
+ * @returns The install directory for the item type.
  */
 export function resolveItemDirectory(type: Item['type'], config: NkaConfig) {
   switch (type) {
     case 'component': {
       return config.components.dir
     }
-
     case 'utility': {
       return config.utils.dir
     }
-
     default: {
-      throw new Error(`Cannot determine installation directory for "${type}" items.`)
+      throw new Error(`Cannot determine install directory for "${type}" items.`)
     }
   }
 }
 
 /**
- * Resolves the local installation path for a registry source file.
- *
- * The registry file path is relative to the registry source and is never
- * treated as the user's installation path directly.
- * @param item Registry item.
- * @param file Registry source file path.
- * @param config Nka configuration.
- * @returns Absolute local installation path.
+ * Resolves the local install path for a registry file.
+ * Components install into a named subdirectory; utilities install flat.
+ * @param item The registry item.
+ * @param file The file to install.
+ * @param config The Nka configuration.
+ * @returns The install path for the item file.
  */
 export function resolveItemInstallPath(item: Item, file: string, config: NkaConfig) {
   const directory = resolveItemDirectory(item.type, config)
   const cwd = process.cwd()
-
   const fileName = basename(file)
 
   if (item.type === 'component') {
@@ -108,52 +95,35 @@ export function resolveItemInstallPath(item: Item, file: string, config: NkaConf
 }
 
 /**
- * Checks whether registry items' targets already exist.
- *
- * Components use directory-level overwrite confirmation because a component
- * owns its installation directory. Utilities use file-level confirmation.
- * @param items Registry items.
- * @param config Nka configuration.
- * @returns Overwrite decisions keyed by local installation path.
+ * Collects overwrite decisions for registry items.
+ * Components prompt once per directory; utilities prompt per file.
+ * @param items The registry items to collect overwrite decisions for.
+ * @param config The Nka configuration.
+ * @returns A map of file paths to boolean overwrite decisions.
  */
 export async function confirmRegistryItemsOverwrites(items: Iterable<Item>, config: NkaConfig) {
   const cwd = process.cwd()
-
   const decisions = new Map<string, boolean>()
 
   for (const item of items) {
-    if ('files' in item) {
-      switch (item.type) {
-        case 'component': {
-          const directory = resolveItemDirectory(item.type, config)
-          const itemDirectory = join(cwd, directory, item.name)
+    switch (item.type) {
+      case 'component': {
+        // Prompt once per component directory
+        const itemDirectory = join(cwd, resolveItemDirectory(item.type, config), item.name)
+        const shouldOverwrite = await confirmOverwrite(itemDirectory)
 
-          // Prompt once per component directory
-          const shouldOverwrite = await confirmOverwrite(itemDirectory)
-
-          for (const file of item.files) {
-            const targetPath = resolveItemInstallPath(item, file, config)
-            decisions.set(targetPath, shouldOverwrite)
-          }
-
-          break
+        for (const file of item.files) {
+          decisions.set(resolveItemInstallPath(item, file, config), shouldOverwrite)
         }
-
-        case 'utility': {
-          // Prompt per file for utilities
-          for (const file of item.files) {
-            const targetPath = resolveItemInstallPath(item, file, config)
-            decisions.set(
-              targetPath,
-              await confirmOverwrite(targetPath),
-            )
-          }
-          break
+        break
+      }
+      case 'utility': {
+        // Prompt per file for utilities
+        for (const file of item.files) {
+          const targetPath = resolveItemInstallPath(item, file, config)
+          decisions.set(targetPath, await confirmOverwrite(targetPath))
         }
-
-        default: {
-          break
-        }
+        break
       }
     }
   }

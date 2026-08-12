@@ -2,7 +2,7 @@ import { type Static, Type } from 'typebox'
 
 export const RepositorySchema = Type.Object({
   source: Type.String({
-    description: 'Repository source supported by giget.',
+    description: 'Giget source (e.g. github:foo/bar).',
     examples: [
       'github:foo/bar',
       'gitlab:foo/bar',

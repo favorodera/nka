@@ -1,7 +1,7 @@
 import { type Static, Type } from 'typebox'
 
 export const ItemNameSchema = Type.String({
-  description: 'Unique registry item name.',
+  description: 'Item name.',
   examples: [
     'button',
     'docs-default',
@@ -16,7 +16,7 @@ export const ItemTypeSchema = Type.Union(
     Type.Literal('utility'),
   ],
   {
-    description: 'Type of registry item.',
+    description: 'Item type.',
     examples: [
       'component',
       'template',

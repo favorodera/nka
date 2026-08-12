@@ -9,7 +9,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Unique registry item name.",
+          "description": "Item name.",
           "examples": [
             "button",
             "docs-default"
@@ -31,7 +31,7 @@
               "const": "utility"
             }
           ],
-          "description": "Type of registry item.",
+          "description": "Item type.",
           "examples": [
             "component",
             "template",
@@ -43,30 +43,23 @@
     {
       "type": "object",
       "required": [
-        "type",
-        "files"
+        "files",
+        "type"
       ],
       "properties": {
-        "type": {
-          "type": "string",
-          "const": "utility"
-        },
-        "files": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "description": "Path to a registry item file.",
-            "examples": [
-              "components/alert.vue",
-              "utils/props.ts"
-            ]
-          },
-          "description": "Files included with the utility.",
-          "minItems": 1
-        },
         "dependencies": {
           "type": "object",
           "properties": {
+            "packages": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string",
+                  "description": "Version range."
+                }
+              },
+              "description": "NPM packages."
+            },
             "registry": {
               "type": "array",
               "items": {
@@ -78,7 +71,7 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "Unique registry item name.",
+                    "description": "Item name.",
                     "examples": [
                       "button",
                       "docs-default"
@@ -99,20 +92,27 @@
                   }
                 }
               },
-              "description": "Component and utility registry dependencies.",
+              "description": "Registry item dependencies.",
               "uniqueItems": true
-            },
-            "packages": {
-              "type": "object",
-              "patternProperties": {
-                "^.*$": {
-                  "type": "string",
-                  "description": "Package version range."
-                }
-              },
-              "description": "Installable NPM packages."
             }
           }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "File path relative to registry base.",
+            "examples": [
+              "components/alert.vue",
+              "utils/props.ts"
+            ]
+          },
+          "description": "Utility files.",
+          "minItems": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "utility"
         }
       }
     }

@@ -1,6 +1,9 @@
 import { ofetch } from 'ofetch'
 
-/** Shared configuration for HTTP requests. */
+/**
+ * Shared configuration for HTTP requests.
+ * Includes retry logic and a timeout to handle network issues gracefully.
+ */
 const fetchBaseConfig = {
   retry: 5,
   retryDelay: 1000,
@@ -8,10 +11,8 @@ const fetchBaseConfig = {
 }
 
 /**
- * Fetch client for text-based responses.
- *
- * Intended for source files and other plain-text resources,
- * such as `.ts` or `.vue` files.
+ * Text fetch client for source files.
+ * Suitable for fetching plain text content such as scripts or stylesheets.
  */
 export const nkaTextFetch = ofetch.create({
   ...fetchBaseConfig,
@@ -22,10 +23,8 @@ export const nkaTextFetch = ofetch.create({
 })
 
 /**
- * Fetch client for JSON responses.
- *
- * Intended for APIs, metadata, configuration, and other
- * resources that return JSON data.
+ * JSON fetch client for registry and metadata.
+ * Optimized for structured data like registry indexes and manifests.
  */
 export const nkaJsonFetch = ofetch.create({
   ...fetchBaseConfig,

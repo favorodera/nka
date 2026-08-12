@@ -6,7 +6,6 @@ export const RegistrySchema = Type.Object({
   items: Type.Array(ItemSchema, {
     description: 'Registry items.',
   }),
-
   metadata: MetadataSchema,
 }, {
   $schema: 'https://json-schema.org/draft/2020-12/schema',

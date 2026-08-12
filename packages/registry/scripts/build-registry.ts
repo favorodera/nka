@@ -28,9 +28,10 @@ const metadataDependenciesRef = [
   'tailwind-merge',
   'reka-ui',
 ]
+
 const metadata = {
   $schema: '../json-schemas/metadata.json',
-  baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/`,
+  baseUrl: 'https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/',
   dependencies: {
     packages: {} as Dependencies['packages'],
     utilities: [
@@ -47,13 +48,9 @@ intro('Building registry')
 await tasks([
   {
     async task(message) {
-      message('Reading pnpm workspace yaml')
+      message('Reading workspace')
       const workspaceYaml = await fsExtra.readFile(PNPM_WORKSPACE, 'utf8')
-
-      message('Parsing workspace yaml')
       const parsedYaml = parseYaml(workspaceYaml)
-
-      message('Extracting dependencies')
       const vendorCatalog = parsedYaml.catalogs?.vendor || {}
 
       metadata.dependencies.packages = {}
@@ -66,23 +63,16 @@ await tasks([
         }
       }
 
-      message('Saving metadata')
-      await fsExtra.outputJSON(
-        REGISTRY_METADATA,
-        metadata,
-        {
-          spaces: 2,
-        },
-      )
+      message('Writing metadata')
+      await fsExtra.outputJSON(REGISTRY_METADATA, metadata, { spaces: 2 })
 
-      return 'Registry metadata built'
+      return 'Metadata built'
     },
-    title: 'Building registry metadata',
+    title: 'Building metadata',
   },
-
   {
     async task(message) {
-      message('Scanning registry directories for registry items')
+      message('Scanning items')
       const itemFiles = await glob('**/*.json', {
         absolute: true,
         cwd: REGISTRY_DIR,
@@ -92,56 +82,31 @@ await tasks([
         ],
       })
 
-      message(`Discovered ${itemFiles.length} registry items`)
+      message(`Found ${itemFiles.length} items`)
 
       for (const itemFile of itemFiles) {
-        message(`Reading ${normalize(itemFile)}`)
-
-        const registryItem = await fsExtra.readJson(itemFile, {
-          encoding: 'utf8',
-        })
-
-        message(`Validating ${normalize(itemFile)}`)
-
-        const parsedRegistryItem = Schema.Parse(
-          ItemSchema,
-          registryItem,
-        )
-
-        registryItems.push(parsedRegistryItem)
-
-        message(`Indexed ${parsedRegistryItem.type}:${parsedRegistryItem.name}`)
+        message(`Indexing ${normalize(itemFile)}`)
+        const registryItem = await fsExtra.readJson(itemFile, { encoding: 'utf8' })
+        const parsed = Schema.Parse(ItemSchema, registryItem)
+        registryItems.push(parsed)
       }
 
-      message('Validating registry metadata')
-      const parsedMetadata = Schema.Parse(
-        MetadataSchema,
-        metadata,
-      )
+      const parsedMetadata = Schema.Parse(MetadataSchema, metadata)
+      const parsedRegistry = Schema.Parse(RegistrySchema, {
+        $schema: '../json-schemas/registry.json',
+        items: registryItems,
+        metadata: parsedMetadata,
+      })
 
-      message('Validating registry index')
-      const parsedRegistryIndex = Schema.Parse(
-        RegistrySchema,
-        {
-          $schema: '../json-schemas/registry.json',
-          items: registryItems,
-          metadata: parsedMetadata,
-        },
-      )
+      message('Writing index')
+      await fsExtra.outputJSON(REGISTRY_INDEX, parsedRegistry, {
+        encoding: 'utf8',
+        spaces: 2,
+      })
 
-      message('Writing registry index')
-      await fsExtra.outputJSON(
-        REGISTRY_INDEX,
-        parsedRegistryIndex,
-        {
-          encoding: 'utf8',
-          spaces: 2,
-        },
-      )
-
-      return 'Registry index built'
+      return 'Index built'
     },
-    title: 'Building registry index',
+    title: 'Building index',
   },
 ])
 
@@ -157,17 +122,10 @@ const summary = Object.entries(Object.groupBy(registryItems, item => item.type))
     items,
   ]) => {
     const title = itemTypesRef[type as Item['type']] ?? type
-    const list = items
-      .map(item => `${item.name}`)
-      .join('\n')
-
+    const list = items.map(item => item.name).join('\n')
     return `${title} (${items.length})\n${list}`
   })
   .join('\n\n')
 
-note(
-  summary,
-  `Registry Summary (${registryItems.length} items)`,
-)
-
+note(summary, `Registry summary (${registryItems.length} items)`)
 outro('Registry built')

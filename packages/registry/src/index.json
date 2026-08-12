@@ -44,6 +44,31 @@
       }
     },
     {
+      "$schema": "../../json-schemas/component.json",
+      "name": "prose-pre",
+      "type": "component",
+      "files": [
+        "packages/ui/src/components/prose-pre/prose-pre.vue",
+        "packages/ui/src/components/prose-pre/index.ts"
+      ],
+      "dependencies": {
+        "registry": [
+          {
+            "name": "icon",
+            "type": "component"
+          },
+          {
+            "name": "prose-code-icon",
+            "type": "component"
+          },
+          {
+            "name": "button",
+            "type": "component"
+          }
+        ]
+      }
+    },
+    {
       "$schema": "../../json-schemas/utility.json",
       "name": "props",
       "type": "utility",

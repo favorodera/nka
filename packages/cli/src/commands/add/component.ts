@@ -1,15 +1,14 @@
 import { intro, outro, spinner, tasks } from '@clack/prompts'
 import { defineCommand } from 'citty'
-import { basename } from 'pathe'
 import { DEFAULT_REGISTRY_NAME } from '../../constants'
 import { loadNkaConfig } from '../../utils/config'
-import { confirmRegistryItemsOverwrites, resolveItemInstallPath, writeToFile } from '../../utils/file-system'
-import { nkaTextFetch } from '../../utils/network'
-import { fetchRegistry, resolveRegistryItems, resolveRegistrySource } from '../../utils/registry'
+import { confirmRegistryItemsOverwrites } from '../../utils/file-system'
+import { installRegistryItems } from '../../utils/install'
+import { fetchAndValidateRegistry, resolveRegistryItems, resolveRegistrySource } from '../../utils/registry'
 
 /**
- * Adds a component from the Nka registry to the project.
- * @returns The Nka add component command.
+ * Add component command.
+ * @returns The command definition.
  */
 export function component() {
   return defineCommand({
@@ -17,17 +16,17 @@ export function component() {
       registry: {
         alias: 'r',
         default: DEFAULT_REGISTRY_NAME,
-        description: 'Name of registry to use',
+        description: 'Registry name',
         required: true,
         type: 'string',
       },
     },
     meta: {
-      description: 'Add one or more component(s) to the project',
+      description: 'Add component(s) to the project',
       name: 'component',
     },
     async run({ args }) {
-      intro('Adding component(s)')
+      intro('Adding components')
 
       const components = args._ as Array<string>
 
@@ -36,35 +35,34 @@ export function component() {
       }
 
       const spin = spinner({
-        cancelMessage: 'Operation cancelled by user.',
-        errorMessage: 'Operation failed unexpectedly.',
+        cancelMessage: 'Cancelled.',
+        errorMessage: 'Failed.',
       })
 
-      spin.start('Loading Nka config')
+      spin.start('Loading config')
       const nkaConfig = await loadNkaConfig()
-      spin.stop('Loaded Nka config')
+      spin.stop('Config loaded')
 
       spin.start('Resolving registry')
       const source = resolveRegistrySource(args.registry, nkaConfig.registries)
-      spin.stop('Resolved registry')
+      spin.stop('Registry resolved')
 
       spin.start('Fetching registry')
-      const registry = await fetchRegistry(source)
-      spin.stop(`Fetched registry "${source.name}"`)
+      const registry = await fetchAndValidateRegistry(source)
+      spin.stop(`Registry "${source.name}" fetched`)
 
-      spin.start('Resolving registry items')
+      spin.start('Resolving items')
       const itemsToResolve = components.map(name => ({
         name,
         type: 'component' as const,
       }))
-      const resolvedRegistryItems = resolveRegistryItems(itemsToResolve, registry)
-      spin.stop('Resolved registry items')
+      const resolved = resolveRegistryItems(itemsToResolve, registry)
+      spin.stop('Items resolved')
 
-      // Ask all overwrite questions before any file operations begin.
-      const shouldWriteChoices = await confirmRegistryItemsOverwrites(
+      const shouldWrite = await confirmRegistryItemsOverwrites(
         [
-          ...resolvedRegistryItems.components.values(),
-          ...resolvedRegistryItems.utilities.values(),
+          ...resolved.components.values(),
+          ...resolved.utilities.values(),
         ],
         nkaConfig,
       )
@@ -72,55 +70,34 @@ export function component() {
       await tasks([
         {
           async task(message) {
-            for (const component of resolvedRegistryItems.components.values()) {
-              message(`Installing ${component.name}...`)
-
-              for (const file of component.files) {
-                const targetUrl = new URL(file, registry.metadata.baseUrl).href
-                const targetPath = resolveItemInstallPath(component, file, nkaConfig)
-
-                if (shouldWriteChoices.get(targetPath)) {
-                  message(`Fetching ${component.name} (${basename(file)})`)
-                  const fileContent = await nkaTextFetch(targetUrl)
-
-                  message(`Writing ${component.name} (${basename(file)})`)
-                  await writeToFile(targetPath, fileContent)
-                }
-              }
-            }
-
-            return 'Installed component(s)'
+            await installRegistryItems(
+              resolved.components.values(),
+              registry,
+              nkaConfig,
+              shouldWrite,
+              message,
+            )
+            return 'Components installed'
           },
-          title: 'Installing component(s)',
+          title: 'Installing components',
         },
-
         {
-          enabled: resolvedRegistryItems.utilities.size > 0,
+          enabled: resolved.utilities.size > 0,
           async task(message) {
-            for (const utility of resolvedRegistryItems.utilities.values()) {
-              message(`Installing ${utility.name}...`)
-
-              for (const file of utility.files) {
-                const targetUrl = new URL(file, registry.metadata.baseUrl).href
-                const targetPath = resolveItemInstallPath(utility, file, nkaConfig)
-
-                if (shouldWriteChoices.get(targetPath)) {
-                  message(`Fetching ${utility.name} (${basename(file)})`)
-                  const fileContent = await nkaTextFetch(targetUrl)
-
-                  message(`Writing ${utility.name} (${basename(file)})`)
-                  await writeToFile(targetPath, fileContent)
-                }
-              }
-            }
-
-            return 'Installed utility(ies)'
+            await installRegistryItems(
+              resolved.utilities.values(),
+              registry,
+              nkaConfig,
+              shouldWrite,
+              message,
+            )
+            return 'Utilities installed'
           },
-          title: 'Installing utility(ies)',
+          title: 'Installing utilities',
         },
       ])
 
-      outro('Component(s) added successfully')
+      outro('Components added')
     },
   })
 }

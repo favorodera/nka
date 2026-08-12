@@ -22,54 +22,39 @@ const schemas = {
  * @returns The file name.
  */
 function getJSONSchemaFileName(schemaName: string) {
-  const fileName = schemaName
+  return `${schemaName
     .replace(/Schema$/, '')
     .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
-    .toLowerCase()
-
-  return `${fileName}.json`
+    .toLowerCase()}.json`
 }
 
 intro('Generating JSON schemas')
 
-const schemaEntries = Object
-  .entries(schemas)
-  .map(([
-    name,
-    schema,
-  ]) => ({
-    fileName: getJSONSchemaFileName(name),
-    name,
-    schema,
-  }))
+const schemaEntries = Object.entries(schemas).map(([
+  name,
+  schema,
+]) => ({
+  fileName: getJSONSchemaFileName(name),
+  name,
+  schema,
+}))
 
 await tasks([
   {
     async task(message) {
-      for (const { fileName, name, schema } of schemaEntries) {
+      for (const { fileName, schema } of schemaEntries) {
         message(`Generating ${fileName}`)
-        try {
-          const filePath = join(dirname(fileURLToPath(import.meta.url)), '..', 'json-schemas', fileName)
-
-          await fsExtra.outputJSON(filePath, schema, {
-            spaces: 2,
-          })
-
-          message(`Generated ${fileName}`)
-        } catch (error) {
-          throw new Error(`Failed to generate JSON schema for ${name}`, { cause: error })
-        }
+        const filePath = join(dirname(fileURLToPath(import.meta.url)), '..', 'json-schemas', fileName)
+        await fsExtra.outputJSON(filePath, schema, { spaces: 2 })
       }
-
-      return 'JSON schemas generated'
+      return 'Schemas generated'
     },
-    title: 'Generating JSON schemas',
+    title: 'Generating schemas',
   },
 ])
 
 note(
-  schemaEntries.map(entry => `  ${entry.fileName}`).join('\n'),
-  `${schemaEntries.length} JSON schemas generated`,
+  schemaEntries.map(({ fileName }) => `  ${fileName}`).join('\n'),
+  `${schemaEntries.length} schemas generated`,
 )
-
-outro('JSON schemas generated')
+outro('Done')

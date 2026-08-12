@@ -4,7 +4,7 @@ import type { NkaConfig, ResolvedRegistryItems, ResolvedRegistrySource } from '.
 import { nkaJsonFetch } from './network'
 
 /**
- * Resolves a registry name to its URL from the config's registries map.
+ * Resolves a registry name to its source from config.
  * @param name Registry name to look up.
  * @param registries Registries map from the Nka config.
  * @returns The resolved registry source.
@@ -21,12 +21,12 @@ export function resolveRegistrySource(name: string, registries: NkaConfig['regis
 }
 
 /**
- * Fetches and validates a registry from a resolved source.
- * @param source The resolved registry source from {@link resolveRegistryUrl}.
- * @returns The validated registry and its source.
- * @throws If the fetch fails or the index is invalid.
+ * Fetches and validates a registry.
+ * @param source Resolved registry source.
+ * @returns The validated registry.
+ * @throws If the registry fetch or validation fails.
  */
-export async function fetchRegistry(source: ResolvedRegistrySource): Promise<Registry> {
+export async function fetchAndValidateRegistry(source: ResolvedRegistrySource): Promise<Registry> {
   try {
     const registry = await nkaJsonFetch<Registry>(source.url)
 
@@ -36,46 +36,35 @@ export async function fetchRegistry(source: ResolvedRegistrySource): Promise<Reg
     ] = Schema.Errors(RegistrySchema, registry)
 
     if (!isValid) {
-      throw new Error(
-        `Invalid registry from "${source.url}".`,
-        {
-          cause: JSON.stringify(validationErrors),
-        },
-      )
+      throw new Error(`Invalid registry from "${source.url}".`, {
+        cause: JSON.stringify(validationErrors),
+      })
     }
 
     return registry
   } catch (error) {
-    throw new Error(
-      `Failed to fetch registry "${source.name}" from "${source.url}".`,
-      {
-        cause: error,
-      },
-    )
+    throw new Error(`Failed to fetch registry "${source.name}" from "${source.url}".`, {
+      cause: error,
+    })
   }
 }
 
 /**
- * Creates a unique key for a registry item, used for Map lookups and deduplication.
- * @param type The item type (e.g., 'component', 'utility').
- * @param name The item name (e.g., 'button', 'styling').
- * @returns A composite key in the format `"type:name"`.
+ * Creates a unique key for an item.
+ * @param type Item type.
+ * @param name Item name.
+ * @returns The unique key.
  */
 function itemKey(type: string, name: string) {
   return `${type}:${name}`
 }
 
 /**
- * Resolves a single registry item and recursively collects its dependency tree.
- *
- * It looks up the item in the registry map, adds it to the appropriate
- * component or utility bucket, merges NPM package dependencies, and recurses
- * into any nested registry dependencies.
- * @param reference The item (name and type) to resolve.
- * @param registryMap Pre-built map of all available registry items keyed by `"type:name"`.
- * @param result Accumulator for the resolved components, utilities, and packages.
- * @param visited Set of processed item keys to prevent infinite loops.
- * @throws If the item cannot be found in the registry map.
+ * Resolves one item and its transitive dependencies into the result.
+ * @param reference Item to resolve.
+ * @param registryMap Map of all registry items.
+ * @param result The result object to populate.
+ * @param visited Set of already visited item keys.
  */
 function resolveRegistryItem(reference: ItemBase, registryMap: Map<string, Item>, result: ResolvedRegistryItems, visited: Set<string>) {
   const key = itemKey(reference.type, reference.name)
@@ -102,9 +91,9 @@ function resolveRegistryItem(reference: ItemBase, registryMap: Map<string, Item>
     }
   }
 
-  // Process package dependencies if the item type supports them
+  // Recurse into dependencies
   if ('dependencies' in item && item.dependencies) {
-    // Collect required NPM packages
+    // First, add all required packages to the result map
     if (item.dependencies.packages) {
       for (const [
         name,
@@ -124,13 +113,10 @@ function resolveRegistryItem(reference: ItemBase, registryMap: Map<string, Item>
 }
 
 /**
- * Resolves a list of registry items and their full dependency trees.
- *
- * Collects each item and its transitive dependencies into a normalized
- * collection of components, utilities, and NPM packages.
- * @param items Array of registry items to resolve.
- * @param registry The fetched registry containing all available items.
- * @returns A collection of all required components, utilities, and packages.
+ * Resolves items and their full dependency trees.
+ * @param items Array of items to resolve.
+ * @param registry The registry to resolve from.
+ * @returns An object containing the resolved components, utilities, and packages.
  */
 export function resolveRegistryItems(items: Array<ItemBase>, registry: Registry): ResolvedRegistryItems {
   const result: ResolvedRegistryItems = {
@@ -139,16 +125,16 @@ export function resolveRegistryItems(items: Array<ItemBase>, registry: Registry)
     utilities: new Map(),
   }
 
-  // Pre-build a map for O(1) lookup of available items
+  // Build a flat lookup map for efficient resolution
   const registryMap = new Map<string, Item>()
   for (const item of registry.items) {
     registryMap.set(itemKey(item.type, item.name), item)
   }
 
-  // Track visited items across all root items to avoid redundant resolutions
+  // Track visited items to prevent infinite loops
   const visited = new Set<string>()
 
-  // Resolve each root item; their nested dependencies are handled inside
+  // Process each item and its dependencies
   for (const item of items) {
     resolveRegistryItem(item, registryMap, result, visited)
   }

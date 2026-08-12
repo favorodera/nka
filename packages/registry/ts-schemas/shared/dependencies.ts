@@ -1,25 +1,17 @@
 import { type Static, Type } from 'typebox'
 import { ItemNameSchema } from './base'
 
-const PackageNameSchema = Type.String({
-  description: 'Package name.',
-})
-
-const VersionRangeSchema = Type.String({
-  description: 'Package version range.',
-})
+const PackageNameSchema = Type.String({ description: 'Package name.' })
+const VersionRangeSchema = Type.String({ description: 'Version range.' })
 
 export const PackageDependenciesSchema = Type.Record(
   PackageNameSchema,
   VersionRangeSchema,
-  {
-    description: 'Installable NPM packages.',
-  },
+  { description: 'NPM packages.' },
 )
 
 const RegistryDependenciesSchema = Type.Object({
   name: ItemNameSchema,
-
   type: Type.Union([
     Type.Literal('component'),
     Type.Literal('utility'),
@@ -27,12 +19,11 @@ const RegistryDependenciesSchema = Type.Object({
 })
 
 export const DependenciesSchema = Type.Object({
+  packages: Type.Optional(PackageDependenciesSchema),
   registry: Type.Optional(Type.Array(RegistryDependenciesSchema, {
-    description: 'Component and utility registry dependencies.',
+    description: 'Registry item dependencies.',
     uniqueItems: true,
   })),
-
-  packages: Type.Optional(PackageDependenciesSchema),
 })
 
 export type Dependencies = Static<typeof DependenciesSchema>
