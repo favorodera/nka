@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { Icon } from '@nka/components/icon'
 import { normalizeClass } from '@nka/utils/styling'
 import { computed } from 'vue'
 import { type ProseCodeIconProps, proseCodeIconVariants, resolveIconFromFilename } from '.'
-import { Icon } from '../icon'
 
 const props = defineProps<ProseCodeIconProps>()
 

@@ -3,6 +3,7 @@ import { basename } from 'pathe'
 import Schema from 'typebox/schema'
 import type { NkaConfig, ResolvedRegistryItems, ResolvedRegistrySource } from '../types'
 import { resolveItemInstallPath, writeToFile } from './file-system'
+import { rewriteImports } from './imports'
 import { nkaJsonFetch, nkaTextFetch } from './network'
 
 /**
@@ -165,7 +166,10 @@ export async function installRegistryItems(items: Iterable<Item>, registry: Regi
 
           if (shouldWrite.get(targetPath)) {
             message(`Fetching ${item.name} (${basename(file)})`)
-            const content = await nkaTextFetch(targetUrl)
+            let content = await nkaTextFetch(targetUrl)
+
+            message(`Rewriting imports for ${item.name} (${basename(file)})`)
+            content = rewriteImports(content, config)
 
             message(`Writing ${item.name} (${basename(file)})`)
             await writeToFile(targetPath, content)
