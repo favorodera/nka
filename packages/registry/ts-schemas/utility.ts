@@ -1,19 +1,25 @@
 import { type Static, Type } from 'typebox'
-import { ItemBaseSchema } from './shared/base'
-import { DependenciesSchema } from './shared/dependencies'
-import { FileSchema } from './shared/file'
+import { ItemNameSchema } from './base'
+import { PackageDependenciesSchema } from './dependencies'
+import { FileSchema } from './file'
 
-export const UtilitySchema = Type.Intersect([
-  ItemBaseSchema,
-  Type.Object({
-    dependencies: Type.Optional(DependenciesSchema),
-    files: Type.Array(FileSchema, {
-      description: 'Utility files.',
-      minItems: 1,
-    }),
-    type: Type.Literal('utility'),
+/** Utility — may depend on packages and other utilities only. */
+export const UtilitySchema = Type.Object({
+  dependencies: Type.Optional(Type.Object({
+    packages: Type.Optional(PackageDependenciesSchema),
+    utilities: Type.Optional(Type.Array(ItemNameSchema, {
+      description: 'Utility dependencies.',
+      uniqueItems: true,
+    })),
+  })),
+  files: Type.Array(FileSchema, {
+    description: 'Utility files.',
+    minItems: 1,
+    uniqueItems: true,
   }),
-], {
+  name: ItemNameSchema,
+  type: Type.Literal('utility'),
+}, {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
 })
 

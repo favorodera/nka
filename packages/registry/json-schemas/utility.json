@@ -1,121 +1,60 @@
 {
-  "allOf": [
-    {
+  "type": "object",
+  "required": [
+    "files",
+    "name",
+    "type"
+  ],
+  "properties": {
+    "dependencies": {
       "type": "object",
-      "required": [
-        "name",
-        "type"
-      ],
       "properties": {
-        "name": {
-          "type": "string",
-          "description": "Item name.",
-          "examples": [
-            "button",
-            "docs-default"
-          ],
-          "pattern": "^[a-z][a-z0-9-]*$"
-        },
-        "type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "const": "component"
-            },
-            {
-              "type": "string",
-              "const": "template"
-            },
-            {
-              "type": "string",
-              "const": "utility"
-            }
-          ],
-          "description": "Item type.",
-          "examples": [
-            "component",
-            "template",
-            "utility"
-          ]
-        }
-      }
-    },
-    {
-      "type": "object",
-      "required": [
-        "files",
-        "type"
-      ],
-      "properties": {
-        "dependencies": {
+        "packages": {
           "type": "object",
-          "properties": {
-            "packages": {
-              "type": "object",
-              "patternProperties": {
-                "^.*$": {
-                  "type": "string",
-                  "description": "Version range."
-                }
-              },
-              "description": "NPM packages."
-            },
-            "registry": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "required": [
-                  "name",
-                  "type"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Item name.",
-                    "examples": [
-                      "button",
-                      "docs-default"
-                    ],
-                    "pattern": "^[a-z][a-z0-9-]*$"
-                  },
-                  "type": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "const": "component"
-                      },
-                      {
-                        "type": "string",
-                        "const": "utility"
-                      }
-                    ]
-                  }
-                }
-              },
-              "description": "Registry item dependencies.",
-              "uniqueItems": true
+          "patternProperties": {
+            "^.*$": {
+              "type": "string",
+              "description": "Version range."
             }
-          }
+          },
+          "description": "NPM packages."
         },
-        "files": {
+        "utilities": {
           "type": "array",
           "items": {
             "type": "string",
-            "description": "File path relative to registry base.",
-            "examples": [
-              "components/alert.vue",
-              "utils/props.ts"
-            ]
+            "description": "Item name.",
+            "pattern": "^[a-z][a-z0-9-]*$"
           },
-          "description": "Utility files.",
-          "minItems": 1
-        },
-        "type": {
-          "type": "string",
-          "const": "utility"
+          "description": "Utility dependencies.",
+          "uniqueItems": true
         }
       }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "File path relative to registry base.",
+        "examples": [
+          "packages/ui/src/components/button/button.vue",
+          "packages/ui/src/utils/styling.ts"
+        ],
+        "minLength": 1
+      },
+      "description": "Utility files.",
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Item name.",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "type": {
+      "type": "string",
+      "const": "utility"
     }
-  ],
+  },
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

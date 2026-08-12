@@ -96,7 +96,6 @@ function resolveRegistryItem(reference: ItemBase, registryMap: Map<string, Item>
 
   // Recurse into dependencies
   if ('dependencies' in item && item.dependencies) {
-    // First, add all required packages to the result map
     if (item.dependencies.packages) {
       for (const [
         name,
@@ -106,10 +105,15 @@ function resolveRegistryItem(reference: ItemBase, registryMap: Map<string, Item>
       }
     }
 
-    // Recursively resolve registry dependencies
-    if (item.dependencies.registry) {
-      for (const dependency of item.dependencies.registry) {
-        resolveRegistryItem(dependency, registryMap, result, visited)
+    if ('components' in item.dependencies && item.dependencies.components) {
+      for (const name of item.dependencies.components) {
+        resolveRegistryItem({ name, type: 'component' }, registryMap, result, visited)
+      }
+    }
+
+    if ('utilities' in item.dependencies && item.dependencies.utilities) {
+      for (const name of item.dependencies.utilities) {
+        resolveRegistryItem({ name, type: 'utility' }, registryMap, result, visited)
       }
     }
   }
@@ -153,7 +157,7 @@ export function resolveRegistryItems(items: Array<ItemBase>, registry: Registry)
  * @param shouldWrite Overwrite decisions by target path.
  * @param message Progress callback.
  */
-export async function installRegistryItems(items: Iterable<Item>, registry: Registry, config: NkaConfig, shouldWrite: Map<string, boolean>, message: (msg: string) => void) {
+export async function installRegistryItems(items: Iterable<Item>, registry: Registry, config: NkaConfig, shouldWrite: Map<string, boolean>, message: (message: string) => void) {
   for (const item of items) {
     message(`Installing ${item.name}`)
 

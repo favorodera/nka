@@ -1,14 +1,17 @@
 import { type Static, Type } from 'typebox'
-import { ItemBaseSchema } from './shared/base'
-import { RepositorySchema } from './shared/repository'
+import { ItemNameSchema } from './base'
+import { FileSchema } from './file'
 
-export const TemplateSchema = Type.Intersect([
-  ItemBaseSchema,
-  Type.Object({
-    repository: RepositorySchema,
-    type: Type.Literal('template'),
+/** Template — no dependencies. */
+export const TemplateSchema = Type.Object({
+  files: Type.Array(FileSchema, {
+    description: 'Template files.',
+    minItems: 1,
+    uniqueItems: true,
   }),
-], {
+  name: ItemNameSchema,
+  type: Type.Literal('template'),
+}, {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
 })
 

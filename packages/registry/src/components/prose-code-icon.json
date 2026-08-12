@@ -8,11 +8,6 @@
     "packages/ui/src/components/prose-code-icon/utils.ts"
   ],
   "dependencies": {
-    "registry": [
-      {
-        "name": "icon",
-        "type": "component"
-      }
-    ]
+    "components": ["icon"]
   }
 }

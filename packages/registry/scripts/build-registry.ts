@@ -5,11 +5,11 @@ import { dirname, join, normalize } from 'pathe'
 import { glob } from 'tinyglobby'
 import Schema from 'typebox/schema'
 import { parse as parseYaml } from 'yaml'
-import type { Dependencies } from '../ts-schemas/shared/dependencies'
+import type { PackageDependencies } from '../ts-schemas/dependencies'
 import { version } from '../package.json'
+import { type Item, ItemSchema } from '../ts-schemas/item'
 import { type Metadata, MetadataSchema } from '../ts-schemas/metadata'
 import { RegistrySchema } from '../ts-schemas/registry'
-import { type Item, ItemSchema } from '../ts-schemas/shared/item'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -33,7 +33,7 @@ const metadata = {
   $schema: '../json-schemas/metadata.json',
   baseUrl: 'https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/',
   dependencies: {
-    packages: {} as Dependencies['packages'],
+    packages: {} as PackageDependencies,
     utilities: [
       'styling',
       'props',

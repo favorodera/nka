@@ -7,19 +7,10 @@
     "packages/ui/src/components/prose-pre/index.ts"
   ],
   "dependencies": {
-    "registry": [
-      {
-        "name": "icon",
-        "type": "component"
-      },
-      {
-        "name": "prose-code-icon",
-        "type": "component"
-      },
-      {
-        "name": "button",
-        "type": "component"
-      }
+    "components": [
+      "icon",
+      "prose-code-icon",
+      "button"
     ]
   }
 }

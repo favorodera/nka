@@ -29,24 +29,19 @@
           "items": {
             "type": "string",
             "description": "Item name.",
-            "examples": [
-              "button",
-              "docs-default"
-            ],
             "pattern": "^[a-z][a-z0-9-]*$"
           },
-          "description": "Required utilities.",
+          "description": "Utilities installed with the registry.",
           "uniqueItems": true
         }
-      },
-      "description": "Registry-wide dependencies."
+      }
     },
     "name": {
       "type": "string",
       "description": "Registry name.",
       "examples": [
-        "julio-ui",
-        "acme-ui"
+        "nka",
+        "julio-ui"
       ],
       "pattern": "^[a-z][a-z0-9-]*$"
     },
