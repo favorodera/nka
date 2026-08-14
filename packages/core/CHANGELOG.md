@@ -16,6 +16,22 @@
 - Favour Emeka ([@favorodera](https://github.com/favorodera))
 
 
+## v0.0.1-alpha.2...v0.0.1
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1)
+
+### Styling
+
+- Format json files and release workflow ([63778f0](https://github.com/favorodera/nka/commit/63778f0))
+
+  - collapse single-item arrays onto one line in json
+  - remove extra spaces in release workflow commands
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.1...v0.0.1-alpha.2
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.1...v0.0.1-alpha.2)

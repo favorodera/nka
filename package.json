@@ -1,6 +1,6 @@
 {
   "name": "nka",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "private": true,
   "packageManager": "pnpm@11.20.0",
   "description": "Documentation engine for the Vue ecosystem.",

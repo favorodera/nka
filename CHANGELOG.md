@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.0.1-alpha.2...v0.0.1-alpha.4
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1-alpha.4)
+
+### Chores
+
+- **ci:** Add placeholder for release type ([177cf1b](https://github.com/favorodera/nka/commit/177cf1b))
+
+  - Prevent unintended releases via default option
+  - Require explicit version type selection
+
+- **ci:** Split release workflow into distinct jobs ([b03c676](https://github.com/favorodera/nka/commit/b03c676))
+
+  - Separate bump, npm publish, and GitHub release
+  - Add registry schema generation before release
+  - Remove registry prebuild script hook
+
+- **ci:** Update release workflow prompt label ([be7994c](https://github.com/favorodera/nka/commit/be7994c))
+
+  - Clarify input prompt for version bump type
+
+- **ci:** Checkout release SHA in workflows ([b611899](https://github.com/favorodera/nka/commit/b611899))
+
+  - Output exact release commit SHA from bump job
+  - Checkout release SHA instead of tag in downstream
+  - Push branch and tag separately to avoid sync bugs
+
+
+### Styling
+
+- Format json files and release workflow ([63778f0](https://github.com/favorodera/nka/commit/63778f0))
+
+  - collapse single-item arrays onto one line in json
+  - remove extra spaces in release workflow commands
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.2...v0.0.1-alpha.3
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1-alpha.3)
