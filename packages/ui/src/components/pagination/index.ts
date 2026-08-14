@@ -14,3 +14,9 @@ export type PaginationVariants = VariantProps<typeof paginationVariants>
 
 // Props
 export type PaginationRootProps = WithClass
+
+export type PaginationTitleProps = WithClass
+
+export type PaginationDescriptionProps = WithClass
+
+export type PaginationItemProps = WithClass
