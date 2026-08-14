@@ -70,7 +70,12 @@
       "type": "utility",
       "files": [
         "packages/ui/src/utils/styling.ts"
-      ]
+      ],
+      "dependencies": {
+        "utilities": [
+          "props"
+        ]
+      }
     }
   ],
   "metadata": {

@@ -60,19 +60,19 @@ describe('resolveRegistryItems', () => {
     const icon = getRegistryItem('icon', 'component')
     const proseCodeIcon = getRegistryItem('prose-code-icon', 'component')
 
-      const result = resolveRegistryItems(
-        [
-          {
-            name: 'prose-code-icon',
-            type: 'component',
-          },
-        ],
-        nkaRegistry,
-      )
+    const result = resolveRegistryItems(
+      [
+        {
+          name: 'prose-code-icon',
+          type: 'component',
+        },
+      ],
+      nkaRegistry,
+    )
 
-      expect(result.components.get('prose-code-icon')).toStrictEqual(proseCodeIcon)
-      expect(result.components.get('icon')).toStrictEqual(icon)
-      expect(result.packages.get('@iconify/vue')).toBe('^5.0.1')
+    expect(result.components.get('prose-code-icon')).toStrictEqual(proseCodeIcon)
+    expect(result.components.get('icon')).toStrictEqual(icon)
+    expect(result.packages.get('@iconify/vue')).toBe('^5.0.1')
   })
 
   it('resolves deep dependency trees without duplicates', () => {
@@ -86,7 +86,12 @@ describe('resolveRegistryItems', () => {
       nkaRegistry,
     )
 
-    const expectedKeys = ['prose-pre', 'prose-code-icon', 'icon', 'button'].toSorted()
+    const expectedKeys = [
+      'prose-pre',
+      'prose-code-icon',
+      'icon',
+      'button',
+    ].toSorted()
     const actualKeys = [...result.components.keys()].toSorted()
 
     expect(actualKeys).toStrictEqual(expectedKeys)
