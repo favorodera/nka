@@ -11,7 +11,7 @@ import Comark from '@/components/comark.vue'
     <Suspense>
       <Comark
         :content="index"
-        class="block prose prose-docs mx-auto p-4 max-inline-4xl"
+        class="prose-docs prose mx-auto block p-4 max-inline-4xl"
       />
     </Suspense>
   </main>
