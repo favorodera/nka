@@ -85,6 +85,7 @@ jobs:
     needs: validate
     outputs:
       new_version: ${{ steps.bump.outputs.new_version }}
+      release_commit_sha: ${{ steps.bump.outputs.release_commit_sha }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7.0.1
@@ -135,20 +136,29 @@ jobs:
 
       - name: Commit, tag & push
         run: |
+          VERSION="${{ steps.bump.outputs.new_version }}"
+
           git add .
-          git commit -m "chore(release): v${{ steps.bump.outputs.new_version }}"
-          git tag "v${{ steps.bump.outputs.new_version }}"
-          git push origin ${{ github.ref_name }} --follow-tags
+          git commit -m "chore(release): v${VERSION}" || echo "Nothing to commit"
+
+          git tag "v${VERSION}"
+          
+          # Push branch first, then the tag explicitly
+          git push origin HEAD:${{ github.ref_name }}
+          git push origin "v${VERSION}"
+
+          # Output the exact SHA we just pushed
+          echo "release_commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
   publish:
     name: Publish to npm
     needs: [validate, bump]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the release tag
+      - name: Checkout the release commit
         uses: actions/checkout@v7.0.1
         with:
-          ref: v${{ needs.bump.outputs.new_version }}
+          ref: ${{ needs.bump.outputs.release_commit_sha }}
           fetch-depth: 0
           token: ${{ secrets.PAT }}
 
@@ -178,10 +188,10 @@ jobs:
     needs: [bump, publish]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the release tag
+      - name: Checkout the release commit
         uses: actions/checkout@v7.0.1
         with:
-          ref: v${{ needs.bump.outputs.new_version }}
+          ref: ${{ needs.bump.outputs.release_commit_sha }}
           fetch-depth: 0
           token: ${{ secrets.PAT }}
 
