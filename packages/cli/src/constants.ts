@@ -1,11 +1,12 @@
 import type { EnumArgDef, PositionalArgDef, StringArgDef } from 'citty'
 import type { NkaConfig } from './types'
+import { version } from '../package.json'
 
 /** Built-in registry name. */
 export const DEFAULT_REGISTRY_NAME = 'nka'
 
 /** Built-in registry index URL. */
-export const DEFAULT_REGISTRY_URL = 'https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/packages/registry/src/index.json'
+export const DEFAULT_REGISTRY_URL = `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/packages/registry/src/index.json`
 
 /** Default Nka config values. */
 export const DEFAULT_NKA_CONFIG = {

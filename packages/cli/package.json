@@ -24,12 +24,7 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "bin": {
-    "nka": "./bin/nka.mjs"
-  },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },

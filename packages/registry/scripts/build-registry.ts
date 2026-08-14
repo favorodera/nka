@@ -31,7 +31,7 @@ const metadataDependenciesRef = [
 
 const metadata = {
   $schema: '../json-schemas/metadata.json',
-  baseUrl: 'https://raw.githubusercontent.com/favorodera/nka/refs/heads/main/',
+  baseUrl: `https://raw.githubusercontent.com/favorodera/nka/refs/tags/v${version}/`,
   dependencies: {
     packages: {} as PackageDependencies,
     utilities: [
@@ -112,7 +112,6 @@ await tasks([
 
 const itemTypesRef: Record<Item['type'], string> = {
   component: 'Components',
-  template: 'Templates',
   utility: 'Utilities',
 }
 
