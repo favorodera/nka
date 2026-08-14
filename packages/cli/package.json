@@ -49,6 +49,7 @@
     "c12": "catalog:vendor",
     "citty": "catalog:vendor",
     "fs-extra": "catalog:vendor",
+    "json5": "catalog:vendor",
     "nypm": "catalog:vendor",
     "ofetch": "catalog:vendor",
     "pathe": "catalog:vendor",

@@ -1,0 +1,18 @@
+import { defineNkaConfig } from '@nka/core'
+
+export default defineNkaConfig({
+  components: {
+    dir: 'src/components',
+    import: '@/components',
+  },
+  registries: {
+    nka: 'https://example.com/index.json',
+  },
+  styles: {
+    dir: 'src/assets/css',
+  },
+  utils: {
+    dir: 'src/utils',
+    import: '@/utils',
+  },
+})

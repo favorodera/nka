@@ -1,4 +1,5 @@
 import { loadConfig } from 'c12'
+import JSON5 from 'json5'
 import { relative } from 'pathe'
 import type { NkaConfig } from '../types'
 import { NKA_CONFIG_FILE_BASE_NAME, NKA_CONFIG_FILE_NAME } from '../constants'
@@ -29,9 +30,10 @@ export async function loadNkaConfig() {
  * @returns The serialized Nka config.
  */
 export function generateNkaConfigContent(config: NkaConfig) {
-  const configContent = JSON.stringify(config, undefined, 2)
-    .replaceAll(/"([^"]+)":/g, '$1:')
-    .replaceAll('"', '\'')
+  const configContent = JSON5.stringify(config, {
+    quote: `'`,
+    space: 2,
+  })
 
   return `import { defineNkaConfig } from '@nka/core'
 

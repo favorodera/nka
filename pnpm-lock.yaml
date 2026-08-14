@@ -100,6 +100,9 @@ catalogs:
     fs-extra:
       specifier: ^11.4.0
       version: 11.4.0
+    json5:
+      specifier: ^2.2.3
+      version: 2.2.3
     katex:
       specifier: ^0.18.1
       version: 0.18.4
@@ -287,6 +290,9 @@ importers:
       fs-extra:
         specifier: catalog:vendor
         version: 11.4.0
+      json5:
+        specifier: catalog:vendor
+        version: 2.2.3
       nypm:
         specifier: catalog:vendor
         version: 0.6.9
