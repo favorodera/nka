@@ -40,8 +40,6 @@ jobs:
     outputs:
       bump_arguments: ${{ steps.build_arguments.outputs.bump_arguments }}
       publish_arguments: ${{ steps.build_arguments.outputs.publish_arguments }}
-      provider_release_arguments: ${{ steps.build_arguments.outputs.provider_release_arguments }}
-      is_prerelease: ${{ steps.build_arguments.outputs.is_prerelease }}
     steps:
       - name: Validate Inputs
         id: validate_inputs
@@ -76,13 +74,9 @@ jobs:
           if [[ "$BUMP" =~ ^(patch|minor|major)$ ]]; then
             echo "bump_arguments=--$BUMP" >> "$GITHUB_OUTPUT"
             echo "publish_arguments=" >> "$GITHUB_OUTPUT"
-            echo "provider_release_arguments=" >> "$GITHUB_OUTPUT"
-            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
           else
             echo "bump_arguments=--$BUMP --preid $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
             echo "publish_arguments=--tag $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
-            echo "provider_release_arguments=--prerelease" >> "$GITHUB_OUTPUT"
-            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
           fi
 
   bump:
@@ -188,18 +182,8 @@ jobs:
       - name: Build Packages
         run: pnpm build --filter='./packages/*'
 
-      - name: Publish packages
-        run: |
-          if [[ "${{ needs.validate.outputs.is_prerelease }}" == "true" ]]; then
-            # Prerelease - publish exact versions from package.json
-            # (prevents Relizy from graduating to stable)
-            echo "Publishing prerelease with pnpm (avoiding graduation)..."
-            pnpm publish -r --filter='./packages/*' ${{ needs.validate.outputs.publish_arguments }} --access public --no-git-checks
-          else
-            # Stable release - use Relizy
-            echo "Publishing stable release with Relizy..."
-            pnpm relizy publish --yes
-          fi
+      - name: Publish with Relizy
+        run: pnpm relizy publish ${{ needs.validate.outputs.publish_arguments }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
