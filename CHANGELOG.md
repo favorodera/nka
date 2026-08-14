@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.0.1-alpha.6...v0.0.1
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.6...v0.0.1)
+
+### Chores
+
+- **ci:** Fetch git tags during release checkout ([b491491](https://github.com/favorodera/nka/commit/b491491))
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.5...v0.0.1-alpha.6
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.5...v0.0.1-alpha.6)
