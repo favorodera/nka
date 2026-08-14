@@ -55,4 +55,4 @@ note(
   schemaEntries.map(({ fileName }) => `  ${fileName}`).join('\n'),
   `${schemaEntries.length} schemas generated`,
 )
-outro('Done')
+outro('JSON schemas generated')
