@@ -228,7 +228,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create GitHub Release
-        run: pnpm relizy provider-release --provider github ${{ needs.validate.outputs.provider_release_arguments }} --yes
+        run: pnpm relizy provider-release
         env:
           RELIZY_GITHUB_TOKEN: ${{ secrets.PAT }}
 
