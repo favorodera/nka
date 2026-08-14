@@ -1,7 +1,7 @@
 {
   "name": "@nka/registry",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "Nka registry.",
   "author": "Favour Emeka <favorodera@mail.com>",
@@ -24,7 +24,9 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

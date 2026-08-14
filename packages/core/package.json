@@ -1,7 +1,7 @@
 {
   "name": "@nka/core",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "Foundation for your Vue documentation.",
   "author": "Favour Emeka <favorodera@mail.com>",
@@ -28,7 +28,9 @@
   "bin": {
     "nka": "./bin/nka.mjs"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

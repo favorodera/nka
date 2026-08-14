@@ -35,7 +35,9 @@
         "packages/ui/src/components/prose-code-icon/utils.ts"
       ],
       "dependencies": {
-        "components": ["icon"]
+        "components": [
+          "icon"
+        ]
       }
     },
     {
@@ -58,21 +60,27 @@
       "$schema": "../../json-schemas/utility.json",
       "name": "props",
       "type": "utility",
-      "files": ["packages/ui/src/utils/props.ts"]
+      "files": [
+        "packages/ui/src/utils/props.ts"
+      ]
     },
     {
       "$schema": "../../json-schemas/utility.json",
       "name": "styling",
       "type": "utility",
-      "files": ["packages/ui/src/utils/styling.ts"],
+      "files": [
+        "packages/ui/src/utils/styling.ts"
+      ],
       "dependencies": {
-        "utilities": ["props"]
+        "utilities": [
+          "props"
+        ]
       }
     }
   ],
   "metadata": {
     "$schema": "../json-schemas/metadata.json",
-    "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/tags/v0.0.4/",
+    "baseUrl": "https://raw.githubusercontent.com/favorodera/nka/refs/tags/v0.0.5/",
     "dependencies": {
       "packages": {
         "tailwindcss": "^4.3.3",
@@ -88,6 +96,6 @@
       ]
     },
     "name": "nka",
-    "version": "0.0.4"
+    "version": "0.0.5"
   }
 }
