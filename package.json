@@ -1,6 +1,6 @@
 {
   "name": "nka",
-  "version": "0.1.0-alpha.0",
+  "version": "0.0.1-alpha.6",
   "private": true,
   "packageManager": "pnpm@11.20.0",
   "description": "Foundation for your Vue documentation.",
