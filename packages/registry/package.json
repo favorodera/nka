@@ -41,8 +41,7 @@
     "prepublishOnly": "pnpm run build",
     "lint": "eslint . --fix",
     "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
-    "build-registry": "tsx scripts/build-registry.ts",
-    "prebuild": "pnpm generate-json-schemas && pnpm build-registry"
+    "build-registry": "tsx scripts/build-registry.ts"
   },
   "dependencies": {
     "typebox": "catalog:vendor"
