@@ -1,5 +1,47 @@
 # Changelog
 
+## v0.0.1-alpha.6...v0.0.2-alpha.0
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.6...v0.0.2-alpha.0)
+
+### Added
+
+- **ui:** Add pagination component boilerplate ([1c1d8a7](https://github.com/favorodera/nka/commit/1c1d8a7))
+
+  - Add base Tailwind variants for pagination
+  - Define types for pagination component props
+
+- **pagination:** Export missing component prop types ([675be7e](https://github.com/favorodera/nka/commit/675be7e))
+
+### Refactors
+
+- **pagination:** Remove unused prop types ([e6852e5](https://github.com/favorodera/nka/commit/e6852e5))
+
+### Documentation
+
+- Update package descriptions across repository ([b293944](https://github.com/favorodera/nka/commit/b293944))
+
+  - Update description texts for clarity and consistency
+  - Add JSDoc comments to test utility exports
+
+
+### Chores
+
+- **ci:** Fetch git tags during release checkout ([b491491](https://github.com/favorodera/nka/commit/b491491))
+- **ci:** Simplify release workflow into single job ([ff153b8](https://github.com/favorodera/nka/commit/ff153b8))
+
+  - Consolidate bump, publish, release, and cleanup
+  - Eliminate temporary release branch logic
+
+- **ci:** Use annotated tags in release workflow ([22271d0](https://github.com/favorodera/nka/commit/22271d0))
+
+  - Create annotated tags to store release metadata
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.6...v0.1.0-alpha.0
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.6...v0.1.0-alpha.0)
