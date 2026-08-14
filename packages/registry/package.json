@@ -1,7 +1,7 @@
 {
   "name": "@nka/registry",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": false,
   "description": "Nka registry.",
   "author": "Favour Emeka <favorodera@mail.com>",

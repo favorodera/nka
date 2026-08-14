@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.3...v0.0.4
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.3...v0.0.4)
+
+### Documentation
+
+- Update package descriptions across repository ([b293944](https://github.com/favorodera/nka/commit/b293944))
+
+  - Update description texts for clarity and consistency
+  - Add JSDoc comments to test utility exports
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1...v0.0.3
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1...v0.0.3)
