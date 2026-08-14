@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.1-alpha.1...v0.0.1-alpha.2
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.1...v0.0.1-alpha.2)
+
+### Styling
+
+- Format json files and test indentation ([3f0d791](https://github.com/favorodera/nka/commit/3f0d791))
+
+  - Format package.json files and json schemas
+  - Fix indentation in registry unit tests
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.0...v0.0.1-alpha.1
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.0...v0.0.1-alpha.1)
