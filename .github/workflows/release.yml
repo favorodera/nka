@@ -119,13 +119,13 @@ jobs:
           echo "Bumped to v$VERSION"
 
       - name: Generate JSON schemas
-        run:  pnpm --filter='@nka/registry' generate-json-schemas  
+        run: pnpm --filter='@nka/registry' generate-json-schemas
 
       - name: Build registry
-        run:  pnpm --filter='@nka/registry' build-registry
+        run: pnpm --filter='@nka/registry' build-registry
 
-      - name: Lint registry package
-        run: pnpm --filter='@nka/registry' lint
+      - name: Lint
+        run: pnpm lint
 
       - name: Build Packages
         run: pnpm build --filter='./packages/*'
