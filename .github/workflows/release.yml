@@ -42,7 +42,6 @@ jobs:
       publish_arguments: ${{ steps.build_arguments.outputs.publish_arguments }}
     steps:
       - name: Validate Inputs
-        id: validate_inputs
         run: |
           BUMP="${{ inputs.bump }}"
           PRERELEASE_ID="${{ inputs.prerelease_id }}"
@@ -79,14 +78,10 @@ jobs:
             echo "publish_arguments=--tag $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
           fi
 
-  bump:
-    name: Bump (${{ inputs.bump }})
+  release:
+    name: Release (${{ inputs.bump }})
     runs-on: ubuntu-latest
     needs: validate
-    outputs:
-      new_version: ${{ steps.bump.outputs.new_version }}
-      release_commit_sha: ${{ steps.commit.outputs.release_commit_sha }}
-      release_branch: ${{ steps.commit.outputs.release_branch }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7.0.1
@@ -103,6 +98,7 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -113,12 +109,7 @@ jobs:
           git config --global user.email "favorodera@gmail.com"
 
       - name: Bump version
-        id: bump
-        run: |
-          pnpm relizy bump ${{ needs.validate.outputs.bump_arguments }} --yes
-          VERSION=$(node -p "require('./package.json').version")
-          echo "new_version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Bumped to v$VERSION"
+        run: pnpm relizy bump ${{ needs.validate.outputs.bump_arguments }} --yes
 
       - name: Generate JSON schemas
         run: pnpm --filter='@nka/registry' generate-json-schemas
@@ -135,106 +126,22 @@ jobs:
       - name: Create changelog
         run: pnpm relizy changelog
 
-      - name: Commit, tag & push to temporary release branch
-        id: commit
+      - name: Commit, tag & push
         run: |
-          VERSION="${{ steps.bump.outputs.new_version }}"
-          BRANCH="release/v${VERSION}"
-
-          git checkout -b "${BRANCH}"
+          VERSION=$(node -p "require('./package.json').version")
 
           git add .
           git commit -m "chore(release): v${VERSION}" || echo "Nothing to commit"
 
           git tag "v${VERSION}"
-
-          git push origin "${BRANCH}"
-          git push origin "v${VERSION}"
-
-          echo "release_commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "release_branch=${BRANCH}" >> "$GITHUB_OUTPUT"
-
-  publish:
-    name: Publish to npm
-    needs: [validate, bump]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the release commit
-        uses: actions/checkout@v7.0.1
-        with:
-          ref: ${{ needs.bump.outputs.release_commit_sha }}
-          fetch-depth: 0
-          token: ${{ secrets.PAT }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.0.8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build Packages
-        run: pnpm build --filter='./packages/*'
+          git push origin HEAD:${{ github.ref_name }} --follow-tags
 
       - name: Publish with Relizy
         run: pnpm relizy publish ${{ needs.validate.outputs.publish_arguments }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  github-release:
-    name: GitHub Release
-    needs: [validate, bump, publish]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the release commit
-        uses: actions/checkout@v7.0.1
-        with:
-          ref: ${{ needs.bump.outputs.release_commit_sha }}
-          fetch-depth: 0
-          token: ${{ secrets.PAT }}
-          fetch-tags: true
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.0.8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Create GitHub Release
         run: pnpm relizy provider-release
         env:
           RELIZY_GITHUB_TOKEN: ${{ secrets.PAT }}
-
-  cleanup:
-    name: Cleanup failed release branch
-    needs: [bump, publish, github-release]
-    if: failure() && needs.bump.result == 'success'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete temporary branch + tag
-        run: |
-          VERSION="${{ needs.bump.outputs.new_version }}"
-          BRANCH="${{ needs.bump.outputs.release_branch }}"
-
-          echo "Cleaning up failed release: ${BRANCH} and tag v${VERSION}"
-
-          git config --global user.name "favorodera"
-          git config --global user.email "favorodera@gmail.com"
-
-          git clone https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git repo
-          cd repo
-
-          git push origin --delete "${BRANCH}" || true
-          git push origin ":refs/tags/v${VERSION}" || true
