@@ -8,7 +8,7 @@ on:
         required: true
         type: choice
         options:
-          - Select a release type
+          - Select a version bump
           - patch
           - minor
           - major
