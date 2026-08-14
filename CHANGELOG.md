@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.0.2-alpha.1...v0.0.2-alpha.2
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.1...v0.0.2-alpha.2)
+
+### Chores
+
+- **ci:** Simplify release workflow ([6e64de5](https://github.com/favorodera/nka/commit/6e64de5))
+
+  - Consolidate bump and publish jobs into release
+  - Use relizy release command to automate steps
+  - Move schema and registry build to relizy hooks
+  - Simplify workflow outputs and arguments
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.2-alpha.0...v0.0.2-alpha.1
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.0...v0.0.2-alpha.1)
