@@ -3,6 +3,9 @@ import { defineConfig } from 'relizy'
 const packages = ['packages/*']
 
 export default defineConfig({
+  hooks: {
+    'success:bump': 'pnpm --filter=@nka/registry generate-json-schemas && pnpm --filter=@nka/registry build-registry',
+  },
   monorepo: {
     includePrivates: true,
     packages,

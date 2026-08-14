@@ -38,24 +38,28 @@ jobs:
     name: Validate Inputs
     runs-on: ubuntu-latest
     outputs:
-      bump_arguments: ${{ steps.build_arguments.outputs.bump_arguments }}
-      publish_arguments: ${{ steps.build_arguments.outputs.publish_arguments }}
+      release_arguments: ${{ steps.build_release_arguments.outputs.arguments }}
     steps:
       - name: Validate Inputs
+        id: validate_inputs
         run: |
           BUMP="${{ inputs.bump }}"
           PRERELEASE_ID="${{ inputs.prerelease_id }}"
 
+          # Stable releases use a standard semantic version bump.
           if [[ "$BUMP" =~ ^(patch|minor|major)$ ]]; then
             echo "Valid stable release bump: $BUMP"
             exit 0
           fi
 
+          # Prerelease releases require both a prerelease bump
+          # and an identifier such as alpha, beta, or rc.
           if [[ "$BUMP" =~ ^(prerelease|prepatch|preminor|premajor)$ ]]; then
             if [[ -z "$PRERELEASE_ID" ]]; then
               echo "::error::A prerelease identifier is required for prerelease releases."
               exit 1
             fi
+
             echo "Valid prerelease bump: $BUMP"
             echo "Prerelease identifier: $PRERELEASE_ID"
             exit 0
@@ -64,30 +68,33 @@ jobs:
           echo "::error::Invalid release bump type: $BUMP"
           exit 1
 
-      - name: Build Arguments
-        id: build_arguments
+      - name: Build Release Arguments
+        id: build_release_arguments
         run: |
           BUMP="${{ inputs.bump }}"
           PRERELEASE_ID="${{ inputs.prerelease_id }}"
 
+          # Stable releases only need the version bump.
           if [[ "$BUMP" =~ ^(patch|minor|major)$ ]]; then
-            echo "bump_arguments=--$BUMP" >> "$GITHUB_OUTPUT"
-            echo "publish_arguments=" >> "$GITHUB_OUTPUT"
+            RELEASE_ARGUMENTS="--$BUMP"
           else
-            echo "bump_arguments=--$BUMP --preid $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
-            echo "publish_arguments=--tag $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
+            # Prerelease releases also specify the prerelease identifier
+            # and publish under the matching npm distribution tag.
+            RELEASE_ARGUMENTS="--$BUMP --preid $PRERELEASE_ID --tag $PRERELEASE_ID"
           fi
 
-  bump:
-    name: Bump (${{ inputs.bump }})
+          echo "arguments=$RELEASE_ARGUMENTS" >> "$GITHUB_OUTPUT"
+          echo "Release arguments: $RELEASE_ARGUMENTS"
+
+  release:
+    name: Release (${{ inputs.bump }})
     runs-on: ubuntu-latest
     needs: validate
-    outputs:
-      new_version: ${{ steps.bump_version.outputs.new_version }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
           token: ${{ secrets.PAT }}
 
@@ -99,60 +106,6 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "favorodera"
-          git config --global user.email "favorodera@gmail.com"
-
-      - name: Bump version
-        id: bump_version
-        run: |
-          pnpm relizy bump ${{ needs.validate.outputs.bump_arguments }} --yes
-          NEW_VERSION=$(node -p "require('./package.json').version")
-          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Generate JSON schemas
-        run: pnpm --filter='@nka/registry' generate-json-schemas
-
-      - name: Build registry
-        run: pnpm --filter='@nka/registry' build-registry
-
-      - name: Create changelog
-        run: pnpm relizy changelog
-
-      - name: Commit, tag & push
-        run: |
-          git add .
-          git commit -m "chore(release): v${{ steps.bump_version.outputs.new_version }}"
-          git tag -a "v${{ steps.bump_version.outputs.new_version }}" -m "chore(release): v${{ steps.bump_version.outputs.new_version }}"
-          git push origin main --follow-tags
-
-  publish:
-    name: Publish to NPM
-    runs-on: ubuntu-latest
-    needs:
-      - bump
-    steps:
-      - name: Checkout latest tag
-        uses: actions/checkout@v7.0.1
-        with:
-          fetch-depth: 0
-          ref: v${{ needs.bump.outputs.new_version }}
-          token: ${{ secrets.PAT }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.0.8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -160,36 +113,13 @@ jobs:
       - name: Build Packages
         run: pnpm build --filter='./packages/*'
 
-      - name: Publish with Relizy
-        run: pnpm relizy publish ${{ needs.validate.outputs.publish_arguments }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Configure Git
+        run: |
+          git config --global user.name "favorodera"
+          git config --global user.email "favorodera@gmail.com"
 
-  github-release:
-    needs: [bump, publish]
-    runs-on: ubuntu-latest
-    name: Create GitHub release
-    steps:
-      - name: Checkout latest tag
-        uses: actions/checkout@v7.0.1
-        with:
-          fetch-depth: 0
-          ref: v${{ needs.bump.outputs.new_version }}
-          token: ${{ secrets.PAT }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.0.8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Create GitHub Release
-        run: pnpm relizy provider-release
+      - name: Release with Relizy
+        run: pnpm relizy release ${{ needs.validate.outputs.release_arguments }} --yes --no-clean
         env:
           RELIZY_GITHUB_TOKEN: ${{ secrets.PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
