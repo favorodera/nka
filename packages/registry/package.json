@@ -1,7 +1,7 @@
 {
   "name": "@nka/registry",
   "type": "module",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "private": false,
   "description": "Components, utilities, and templates registry for Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",

@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.1-alpha.5...v0.0.1-alpha.6
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.5...v0.0.1-alpha.6)
+
+### Chores
+
+- **ci:** Remove automated release PR step ([ade0590](https://github.com/favorodera/nka/commit/ade0590))
+
+  - Remove create-pr job from release workflow
+  - Simplify bump job display name
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.2...v0.0.1-alpha.5
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1-alpha.5)
