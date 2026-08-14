@@ -1,7 +1,7 @@
 {
   "name": "@nka/core",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "Documentation engine for the Vue ecosystem.",
   "author": "Favour Emeka <favorodera@mail.com>",

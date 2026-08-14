@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.0.1...v0.1.0
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1...v0.1.0)
+
+### Added
+
+- **ui:** Add pagination component boilerplate ([1c1d8a7](https://github.com/favorodera/nka/commit/1c1d8a7))
+
+  - Add base Tailwind variants for pagination
+  - Define types for pagination component props
+
+- **pagination:** Export missing component prop types ([675be7e](https://github.com/favorodera/nka/commit/675be7e))
+
+### ❤️ Contributors
+
+- Favour Emeka <favorodera@gmail.com>
+
+
 ## v0.0.1-alpha.5...v0.0.1
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.5...v0.0.1)

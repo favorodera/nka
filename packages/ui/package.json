@@ -1,7 +1,7 @@
 {
   "name": "@nka/ui",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Reusable UI components, layouts and utilities for building docs sites with Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",
@@ -23,6 +23,7 @@
   "exports": {
     "./components/button": "./dist/components/button/index.js",
     "./components/icon": "./dist/components/icon/index.js",
+    "./components/pagination": "./dist/components/pagination/index.js",
     "./components/prose-code-icon": "./dist/components/prose-code-icon/index.js",
     "./components/prose-pre": "./dist/components/prose-pre/index.js",
     "./utils/props": "./dist/utils/props.js",
@@ -31,7 +32,9 @@
     "./css/theme": "./dist/css/theme.css",
     "./css/prose": "./dist/css/prose.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "restricted"
   },
