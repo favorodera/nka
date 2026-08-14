@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.3",
   "private": true,
-  "description": "Reusable UI components, layouts and utilities for building docs sites with Nka.",
+  "description": "Nka UI components, layouts and utilities.",
   "author": "Favour Emeka <favorodera@mail.com>",
   "license": "MIT",
   "homepage": "https://github.com/favorodera/nka",
@@ -16,7 +16,6 @@
   },
   "keywords": [
     "nka",
-    "vue",
     "components"
   ],
   "sideEffects": false,

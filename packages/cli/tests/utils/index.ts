@@ -1,6 +1,7 @@
 import type { ItemType, Registry } from '@nka/registry'
 import type { NkaConfig } from '../../src/types'
 
+/** Represents the Nka config for testing purposes. */
 export const nkaConfig = {
   components: {
     dir: 'src/components',
@@ -18,6 +19,7 @@ export const nkaConfig = {
   },
 } as const satisfies NkaConfig
 
+/** Represents the Nka registry for testing purposes. */
 export const nkaRegistry = {
   items: [
     {

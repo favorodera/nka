@@ -2,7 +2,7 @@
   <h1>Nka</h1>
 
   <p>
-    <strong>Documentation engine for the Vue ecosystem.</strong>
+    <strong>Foundation for your Vue documentation.</strong>
   </p>
 
   <p>
