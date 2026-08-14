@@ -13,6 +13,28 @@
 
 - **pagination:** Export missing component prop types ([675be7e](https://github.com/favorodera/nka/commit/675be7e))
 
+### Refactors
+
+- **pagination:** Remove unused prop types ([e6852e5](https://github.com/favorodera/nka/commit/e6852e5))
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
+## v0.0.1...v0.1.0
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1...v0.1.0)
+
+### Added
+
+- **ui:** Add pagination component boilerplate ([1c1d8a7](https://github.com/favorodera/nka/commit/1c1d8a7))
+
+  - Add base Tailwind variants for pagination
+  - Define types for pagination component props
+
+- **pagination:** Export missing component prop types ([675be7e](https://github.com/favorodera/nka/commit/675be7e))
+
 ### ❤️ Contributors
 
 - Favour Emeka <favorodera@gmail.com>

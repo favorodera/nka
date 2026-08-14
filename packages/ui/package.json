@@ -1,7 +1,7 @@
 {
   "name": "@nka/ui",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "Reusable UI components, layouts and utilities for building docs sites with Nka.",
   "author": "Favour Emeka <favorodera@mail.com>",
@@ -32,9 +32,7 @@
     "./css/theme": "./dist/css/theme.css",
     "./css/prose": "./dist/css/prose.css"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "restricted"
   },
