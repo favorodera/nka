@@ -87,7 +87,8 @@ jobs:
     needs: validate
     outputs:
       new_version: ${{ steps.bump.outputs.new_version }}
-      release_commit_sha: ${{ steps.bump.outputs.release_commit_sha }}
+      release_commit_sha: ${{ steps.commit.outputs.release_commit_sha }}
+      release_branch: ${{ steps.commit.outputs.release_branch }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7.0.1
@@ -136,21 +137,25 @@ jobs:
       - name: Create changelog
         run: pnpm relizy changelog
 
-      - name: Commit, tag & push
+      - name: Commit, tag & push to temporary release branch
+        id: commit
         run: |
           VERSION="${{ steps.bump.outputs.new_version }}"
+          BRANCH="release/v${VERSION}"
+
+          git checkout -b "${BRANCH}"
 
           git add .
           git commit -m "chore(release): v${VERSION}" || echo "Nothing to commit"
 
           git tag "v${VERSION}"
-          
-          # Push branch first, then the tag explicitly
-          git push origin HEAD:${{ github.ref_name }}
+
+          # Push the temporary branch + the tag
+          git push origin "${BRANCH}"
           git push origin "v${VERSION}"
 
-          # Output the exact SHA we just pushed
           echo "release_commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "release_branch=${BRANCH}" >> "$GITHUB_OUTPUT"
 
   publish:
     name: Publish to npm
@@ -213,3 +218,51 @@ jobs:
         run: pnpm relizy provider-release ${{needs.validate.outputs.provider_release_arguments}}
         env:
           RELIZY_GITHUB_TOKEN: ${{ secrets.PAT }}
+
+  cleanup:
+    name: Cleanup failed release branch
+    needs: [bump, publish, github-release]
+    if: failure() && needs.bump.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete temporary branch + tag
+        run: |
+          VERSION="${{ needs.bump.outputs.new_version }}"
+          BRANCH="${{ needs.bump.outputs.release_branch }}"
+
+          echo "Cleaning up failed release: ${BRANCH} and tag v${VERSION}"
+
+          # Authenticate with PAT
+          git config --global user.name "favorodera"
+          git config --global user.email "favorodera@gmail.com"
+
+          # We need a checkout to push deletions cleanly
+          git clone https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git repo
+          cd repo
+
+          git push origin --delete "${BRANCH}" || true
+          git push origin ":refs/tags/v${VERSION}" || true        
+
+  create-pr:
+    name: Open Release PR
+    needs: [bump, publish, github-release]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Pull Request
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            const version = '${{ needs.bump.outputs.new_version }}';
+            const branch = '${{ needs.bump.outputs.release_branch }}';
+            const base = '${{ github.ref_name }}';
+
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `chore(release): v${version}`,
+              head: branch,
+              base: base,
+              body: `Automated release PR for **v${version}**.\n\n- Packages published\n- GitHub Release created\n- Ready for review & merge`
+            });      

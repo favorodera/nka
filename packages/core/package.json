@@ -28,7 +28,7 @@
   "bin": {
     "nka": "./bin/nka.mjs"
   },
-  "files": [ "dist" ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
