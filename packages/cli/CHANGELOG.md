@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.0.1-alpha.0...v0.0.1-alpha.1
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.0...v0.0.1-alpha.1)
+
+### Refactors
+
+- **core:** Move binary entry and pin registry ([3e8d83d](https://github.com/favorodera/nka/commit/3e8d83d))
+
+  - Move binary executable from cli to core package
+  - Use version tags for registry URLs
+  - Reorganize workspace and registry dependencies
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.0...v0.0.1-alpha.0
 
 [compare changes](https://github.com/favorodera/nka/compare/09f9d763b05a9109bb65c876921d626abfd6d0e9...v0.0.1-alpha.0)
