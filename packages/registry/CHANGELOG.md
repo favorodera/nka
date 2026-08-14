@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.0.2-alpha.0...v0.0.2
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.0...v0.0.2)
+
+### Chores
+
+- **registry:** Improve schema generator output ([340a18b](https://github.com/favorodera/nka/commit/340a18b))
+
+  - Clarify completion status in terminal output
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.6...v0.0.2
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.6...v0.0.2)
