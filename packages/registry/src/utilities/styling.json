@@ -2,5 +2,8 @@
   "$schema": "../../json-schemas/utility.json",
   "name": "styling",
   "type": "utility",
-  "files": ["packages/ui/src/utils/styling.ts"]
+  "files": ["packages/ui/src/utils/styling.ts"],
+  "dependencies": {
+    "utilities": ["props"]
+  }
 }
