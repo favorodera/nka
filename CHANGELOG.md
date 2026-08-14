@@ -1,5 +1,78 @@
 # Changelog
 
+## v0.0.1-alpha.2...v0.0.1-alpha.5
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1-alpha.5)
+
+### Fixed
+
+- **release:** Pass prerelease flag to provider ([280fb4d](https://github.com/favorodera/nka/commit/280fb4d))
+
+  - Pass provider release arguments to Relizy CLI
+  - Add validate job output to github release step
+
+- **ci:** Handle prerelease publishing in workflow ([a5e6694](https://github.com/favorodera/nka/commit/a5e6694))
+
+  - Avoid Relizy graduating prereleases to stable
+  - Use pnpm publish directly for prerelease tags
+  - Pass confirmation flag to relizy commands
+  - Reorder cleanup and PR creation jobs
+
+- **ci:** Specify provider in release workflow ([5dae38b](https://github.com/favorodera/nka/commit/5dae38b))
+
+  - Explicitly pass github provider to relizy release
+
+
+### Chores
+
+- **ci:** Add placeholder for release type ([177cf1b](https://github.com/favorodera/nka/commit/177cf1b))
+
+  - Prevent unintended releases via default option
+  - Require explicit version type selection
+
+- **ci:** Split release workflow into distinct jobs ([b03c676](https://github.com/favorodera/nka/commit/b03c676))
+
+  - Separate bump, npm publish, and GitHub release
+  - Add registry schema generation before release
+  - Remove registry prebuild script hook
+
+- **ci:** Update release workflow prompt label ([be7994c](https://github.com/favorodera/nka/commit/be7994c))
+
+  - Clarify input prompt for version bump type
+
+- **ci:** Checkout release SHA in workflows ([b611899](https://github.com/favorodera/nka/commit/b611899))
+
+  - Output exact release commit SHA from bump job
+  - Checkout release SHA instead of tag in downstream
+  - Push branch and tag separately to avoid sync bugs
+
+
+### Styling
+
+- Format json files and release workflow ([63778f0](https://github.com/favorodera/nka/commit/63778f0))
+
+  - collapse single-item arrays onto one line in json
+  - remove extra spaces in release workflow commands
+
+
+### Continuous Integrations
+
+- **release:** Use temporary branch and open PR ([5f97c7b](https://github.com/favorodera/nka/commit/5f97c7b))
+
+  - Push release commits to a temporary branch
+  - Open automated PR to main after publication
+  - Clean up release branch and tags on failure
+
+- **release:** Simplify relizy release command ([5f9748f](https://github.com/favorodera/nka/commit/5f9748f))
+
+  - Remove redundant flags and provider arguments
+  - Rely on default relizy configuration for release
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.1-alpha.2...v0.0.1-alpha.4
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1-alpha.4)

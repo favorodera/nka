@@ -4,6 +4,37 @@
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1)
 
+### Fixed
+
+- **release:** Pass prerelease flag to provider ([280fb4d](https://github.com/favorodera/nka/commit/280fb4d))
+
+  - Pass provider release arguments to Relizy CLI
+  - Add validate job output to github release step
+
+- **ci:** Handle prerelease publishing in workflow ([a5e6694](https://github.com/favorodera/nka/commit/a5e6694))
+
+  - Avoid Relizy graduating prereleases to stable
+  - Use pnpm publish directly for prerelease tags
+  - Pass confirmation flag to relizy commands
+  - Reorder cleanup and PR creation jobs
+
+
+### Styling
+
+- Format json files and release workflow ([63778f0](https://github.com/favorodera/nka/commit/63778f0))
+
+  - collapse single-item arrays onto one line in json
+  - remove extra spaces in release workflow commands
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
+## v0.0.1-alpha.2...v0.0.1
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.1-alpha.2...v0.0.1)
+
 ### Styling
 
 - Format json files and release workflow ([63778f0](https://github.com/favorodera/nka/commit/63778f0))
