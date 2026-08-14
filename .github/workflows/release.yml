@@ -40,6 +40,7 @@ jobs:
     outputs:
       bump_arguments: ${{ steps.build_arguments.outputs.bump_arguments }}
       publish_arguments: ${{ steps.build_arguments.outputs.publish_arguments }}
+      provider_release_arguments: ${{ steps.build_arguments.outputs.provider_release_arguments }}
     steps:
       - name: Validate Inputs
         id: validate_inputs
@@ -77,6 +78,7 @@ jobs:
           else
             echo "bump_arguments=--$BUMP --preid $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
             echo "publish_arguments=--tag $PRERELEASE_ID" >> "$GITHUB_OUTPUT"
+            echo "provider_release_arguments=--prerelease" >> "$GITHUB_OUTPUT"
           fi
 
   bump:
@@ -179,13 +181,13 @@ jobs:
         run: pnpm build --filter='./packages/*'
 
       - name: Publish with Relizy
-        run: pnpm relizy publish ${{ needs.validate.outputs.publish_arguments }} --yes
+        run: pnpm relizy publish ${{ needs.validate.outputs.publish_arguments }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   github-release:
     name: GitHub Release
-    needs: [bump, publish]
+    needs: [validate, bump, publish]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the release commit
@@ -208,6 +210,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create GitHub Release
-        run: pnpm relizy provider-release --yes
+        run: pnpm relizy provider-release ${{needs.validate.outputs.provider_release_arguments}}
         env:
           RELIZY_GITHUB_TOKEN: ${{ secrets.PAT }}
