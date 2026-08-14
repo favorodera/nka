@@ -1,4 +1,4 @@
-import type { NkaConfig } from '../src/types'
+import type { NkaConfig } from '../../src/types'
 
 export const nkaConfig: NkaConfig = {
   components: {
