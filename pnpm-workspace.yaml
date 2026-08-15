@@ -38,7 +38,7 @@ catalogs:
     yaml: ^2.9.0
   vendor:
     '@clack/prompts': ^1.7.0
-    '@comark/vue': ^0.5.1
+    '@comark/vue': ^0.6.0
     '@iconify/vue': ^5.0.1
     '@shikijs/langs': ^4.4.1
     '@shikijs/themes': ^4.4.1
