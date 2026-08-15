@@ -4,6 +4,7 @@ const packages = ['packages/*']
 
 export default defineConfig({
   hooks: {
+    'before:commit-and-tag': 'git add ./packages/registry',
     'success:bump': 'pnpm --filter=@nka/registry generate-json-schemas && pnpm --filter=@nka/registry build-registry',
   },
   monorepo: {
