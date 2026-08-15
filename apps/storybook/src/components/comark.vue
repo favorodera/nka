@@ -22,6 +22,10 @@ import emoji from 'comark/plugins/emoji'
 import taskList from 'comark/plugins/task-list'
 import 'katex/dist/katex.min.css'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 defineProps<{
   content: string
 }>()
@@ -65,12 +69,16 @@ const components = {
 </script>
 
 <template>
-  <Comark
-    :plugins="plugins"
-    :components="components"
-  >
-    {{ $props.content }}
-  </Comark>
+  <Suspense>
+    <Comark
+      :plugins="plugins"
+      :components="components"
+      class="prose prose-docs"
+      v-bind="$attrs"
+    >
+      {{ $props.content }}
+    </Comark>
+  </Suspense>
 </template>
 
 <style lang="css">

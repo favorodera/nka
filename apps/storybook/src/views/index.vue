@@ -6,12 +6,9 @@ import Comark from '@/components/comark.vue'
 <template>
   <main class="min-block-dvh">
     <div class="mx-auto px-6 py-16 max-inline-3xl">
-      <Suspense>
-        <Comark
-          :content="index"
-          class="prose prose-docs"
-        />
-      </Suspense>
+      <Comark
+        :content="index"
+      />
     </div>
   </main>
 </template>

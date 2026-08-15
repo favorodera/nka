@@ -46,12 +46,9 @@ watch(slug, loadPage, { immediate: true })
     <div class="flex flex-1 min-inline-0">
       <main class="flex-1 overflow-y-auto min-inline-0">
         <div class="mx-auto px-8 py-10 max-inline-3xl">
-          <Suspense>
-            <Comark
-              :content="content"
-              class="prose prose-docs"
-            />
-          </Suspense>
+          <Comark
+            :content="content"
+          />
         </div>
       </main>
 
@@ -65,38 +62,6 @@ watch(slug, loadPage, { immediate: true })
       >
         <div class="mbe-3 font-medium text-nka-muted-foreground">
           On this page
-        </div>
-
-        <div class="space-y-2 text-nka-muted-foreground">
-          <div
-            class="
-              cursor-pointer
-
-              hover:text-nka-foreground
-            "
-          >
-            Overview
-          </div>
-
-          <div
-            class="
-              cursor-pointer
-
-              hover:text-nka-foreground
-            "
-          >
-            Installation
-          </div>
-
-          <div
-            class="
-              cursor-pointer
-
-              hover:text-nka-foreground
-            "
-          >
-            Configuration
-          </div>
         </div>
       </aside>
     </div>
