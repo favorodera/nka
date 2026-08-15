@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.0.2-alpha.2...v0.0.2-alpha.3
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.2...v0.0.2-alpha.3)
+
+### Chores
+
+- **relizy:** Stage registry before commit ([fa1f2e2](https://github.com/favorodera/nka/commit/fa1f2e2))
+
+  - Ensure generated registry files are committed
+
+### ❤️ Contributors
+
+- Favour Emeka ([@favorodera](https://github.com/favorodera))
+
+
 ## v0.0.2-alpha.1...v0.0.2-alpha.2
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.1...v0.0.2-alpha.2)

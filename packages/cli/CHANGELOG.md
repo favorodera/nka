@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.0.2-alpha.2...v0.0.2-alpha.3
+
+[compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.2...v0.0.2-alpha.3)
+
+No relevant changes for this release
+
+
 ## v0.0.2-alpha.1...v0.0.2-alpha.2
 
 [compare changes](https://github.com/favorodera/nka/compare/v0.0.2-alpha.1...v0.0.2-alpha.2)
