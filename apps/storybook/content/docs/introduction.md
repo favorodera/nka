@@ -1,0 +1,11 @@
+# Introduction
+
+This is the introduction page.
+
+## Overview
+
+Placeholder content for the introduction.
+
+## Next steps
+
+Go to [Getting Started](/docs/getting-started).
