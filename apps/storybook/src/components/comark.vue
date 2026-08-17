@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Comark } from '@comark/vue'
+import { Markdown } from '@comark/vue'
 import footnotes from '@comark/vue/plugins/footnotes'
 import highlight from '@comark/vue/plugins/highlight'
 import math, { Math } from '@comark/vue/plugins/math'
-import { ProsePre } from '@nka/ui/components/prose-pre'
+import { ProsePre } from '@nka/components/prose-pre'
 import bash from '@shikijs/langs/bash'
 import diff from '@shikijs/langs/diff'
 import javascript from '@shikijs/langs/javascript'
@@ -19,6 +19,7 @@ import {
   transformerNotationHighlight,
 } from '@shikijs/transformers'
 import emoji from 'comark/plugins/emoji'
+import frontmatter from 'comark/plugins/frontmatter'
 import taskList from 'comark/plugins/task-list'
 import 'katex/dist/katex.min.css'
 
@@ -60,6 +61,7 @@ const plugins = [
     label: 'References',
   }),
   math(),
+  frontmatter(),
 ]
 
 const components = {
@@ -70,14 +72,14 @@ const components = {
 
 <template>
   <Suspense>
-    <Comark
+    <Markdown
       :plugins="plugins"
       :components="components"
-      class="prose prose-docs"
+      class="prose-docs prose"
       v-bind="$attrs"
     >
       {{ $props.content }}
-    </Comark>
+    </Markdown>
   </Suspense>
 </template>
 

@@ -102,7 +102,7 @@ export function resolveIconFromFilename(filename?: string) {
 
   // Iterate through our candidates (basename first, then extension) and return the first valid icon
   for (const key of candidates) {
-    if (languageIconMap[key]) return languageIconMap[key]
+    if (Object.hasOwn(languageIconMap, key)) return languageIconMap[key]
   }
 
   // If no match was found, return a generic text icon

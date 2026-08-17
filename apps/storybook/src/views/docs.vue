@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import {
+  PaginationContent,
+  PaginationDescription,
+  PaginationNext,
+  PaginationPrev,
+  PaginationRoot,
+  PaginationTitle,
+} from '@nka/components/pagination'
+import { parseMarkdown } from 'comark'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Comark from '@/components/comark.vue'
@@ -17,6 +26,13 @@ const pages = Object.fromEntries(Object.entries(contentModules).map(([
   loader,
 ]))
 
+const orderedSlugs = Object.keys(pages).toSorted((a, b) => a.localeCompare(b))
+
+interface PageMeta {
+  description?: string
+  title?: string
+}
+
 const route = useRoute()
 
 const slug = computed(() => {
@@ -25,44 +41,101 @@ const slug = computed(() => {
 })
 
 const content = ref('# Loading…')
+const prevMeta = ref<PageMeta>({})
+const nextMeta = ref<PageMeta>({})
+
+const currentIndex = computed(() => orderedSlugs.indexOf(slug.value))
+const prevSlug = computed(() => orderedSlugs[currentIndex.value - 1])
+const nextSlug = computed(() => orderedSlugs[currentIndex.value + 1])
 
 /**
- * loads the content of a markdown file from the `content/docs` directory.
- * @param key The key of the page to load.
+ * Loads the metadata of a page.
+ * @param key Page key
+ * @returns Meta object
+ */
+async function loadMeta(key: string | undefined): Promise<PageMeta> {
+  if (!key || !Object.hasOwn(pages, key)) return {}
+  const raw = await pages[key]?.()
+  const doc = await parseMarkdown(raw ?? '')
+  return doc.frontmatter as PageMeta
+}
+
+/**
+ * Loads the content of a page.
+ * @param key Page key
  */
 async function loadPage(key: string) {
   const loader = pages[key]
-
-  content.value = loader
-    ? await loader()
-    : `# Page not found\n\nThere's no doc at \`/docs/${key}\` yet.`
+  if (!loader) {
+    content.value = `# Page not found\n\nNo doc at \`/docs/${key}\`.`
+    return
+  }
+  content.value = await loader()
 }
 
 watch(slug, loadPage, { immediate: true })
+watch(prevSlug, async (key) => {
+  prevMeta.value = await loadMeta(key)
+}, { immediate: true })
+watch(nextSlug, async (key) => {
+  nextMeta.value = await loadMeta(key)
+}, { immediate: true })
 </script>
 
 <template>
   <DocsLayout>
-    <div class="flex flex-1 min-inline-0">
-      <main class="flex-1 overflow-y-auto min-inline-0">
-        <div class="mx-auto px-8 py-10 max-inline-3xl">
-          <Comark
-            :content="content"
-          />
-        </div>
+    <div class="grid grid-cols-[1fr_auto] min-block-dvh">
+      <main
+        class="
+          mx-auto overflow-y-auto px-6 inline-full max-inline-4xl min-inline-0
+        "
+      >
+        <Suspense>
+          <Comark :content="content" />
+        </Suspense>
+
+        <PaginationRoot class="mbs-16">
+          <PaginationPrev
+            v-if="prevSlug"
+            :to="`/docs/${prevSlug}`"
+          >
+            <PaginationContent>
+              <PaginationTitle>
+                {{ prevMeta.title }}
+              </PaginationTitle>
+
+              <PaginationDescription>
+                {{ prevMeta.description }}
+              </PaginationDescription>
+            </PaginationContent>
+          </PaginationPrev>
+
+          <PaginationNext
+            v-if="nextSlug"
+            :to="`/docs/${nextSlug}`"
+          >
+            <PaginationContent>
+              <PaginationTitle>
+                {{ nextMeta.title }}
+              </PaginationTitle>
+
+              <PaginationDescription>
+                {{ nextMeta.description }}
+              </PaginationDescription>
+            </PaginationContent>
+          </PaginationNext>
+        </PaginationRoot>
       </main>
 
       <aside
         class="
-          sticky inset-bs-0 hidden shrink-0 overflow-y-auto p-6 text-sm
-          block-dvh inline-56
+          sticky inset-bs-0 hidden overflow-y-auto border-s p-6 block-dvh
+          inline-56
 
           xl:block
         "
       >
-        <div class="mbe-3 font-medium text-nka-muted-foreground">
-          On this page
-        </div>
+        <!-- TODO: Add On this page TOC-->
       </aside>
     </div>
   </DocsLayout>

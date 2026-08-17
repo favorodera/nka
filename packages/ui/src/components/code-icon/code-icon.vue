@@ -2,9 +2,9 @@
 import { Icon } from '@nka/components/icon'
 import { normalizeClass } from '@nka/utils/styling'
 import { computed } from 'vue'
-import { type ProseCodeIconProps, proseCodeIconVariants, resolveIconFromFilename } from '.'
+import { type CodeIconProps, codeIconVariants, resolveIconFromFilename } from '.'
 
-const props = defineProps<ProseCodeIconProps>()
+const props = defineProps<CodeIconProps>()
 
 const resolvedIcon = computed(() => {
   if (props.name) {
@@ -14,17 +14,16 @@ const resolvedIcon = computed(() => {
   return resolveIconFromFilename(props.filename)
 })
 
-const variants = proseCodeIconVariants()
+const variants = codeIconVariants()
 </script>
 
 <template>
   <Icon
     v-if="resolvedIcon"
-    data-not-prose="true"
-    data-slot="nka-prose-code-icon"
+    data-slot="code-icon"
     :name="resolvedIcon"
     :class="variants.root({
-      class:normalizeClass(props.class)
+      class: normalizeClass(props.class)
     })"
   />
 </template>

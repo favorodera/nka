@@ -20,16 +20,8 @@
   ],
   "sideEffects": false,
   "exports": {
-    "./components/button": "./dist/components/button/index.js",
-    "./components/icon": "./dist/components/icon/index.js",
-    "./components/pagination": "./dist/components/pagination/index.js",
-    "./components/prose-code-icon": "./dist/components/prose-code-icon/index.js",
-    "./components/prose-pre": "./dist/components/prose-pre/index.js",
-    "./utils/props": "./dist/utils/props.js",
-    "./utils/styling": "./dist/utils/styling.js",
-    "./package.json": "./package.json",
-    "./css/theme": "./dist/css/theme.css",
-    "./css/prose": "./dist/css/prose.css"
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
@@ -56,7 +48,8 @@
     "tailwind-merge": "catalog:vendor",
     "tailwind-variants": "catalog:vendor",
     "tailwindcss": "catalog:vendor",
-    "vue": "catalog:vendor"
+    "vue": "catalog:vendor",
+    "vue-router": "catalog:vendor"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",

@@ -1,4 +1,4 @@
-import type { WithClass } from '@nka/utils/props'
+import type { ClassProp } from '@nka/utils/props'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 // Variants
@@ -8,8 +8,8 @@ export const prosePreVariants = tv({
   },
   slots: {
     code: `
-      group/nka-prose-pre-code grid overflow-x-auto overscroll-y-auto p-3
-      font-mono text-sm tab-2 outline-none min-inline-0
+      not-prose grid overflow-x-auto overscroll-y-auto p-3 font-mono text-sm
+      tab-2 outline-none min-inline-0
 
       focus-visible:ring-2 focus-visible:ring-nka-ring
 
@@ -19,17 +19,13 @@ export const prosePreVariants = tv({
       **:[.line.highlight]:bg-nka-accent! **:[.line.highlight]:px-3
       **:[.line.highlight]:inline-[calc(100%+1.5rem)]
     `,
-    copy: 'group/nka-prose-pre-copy absolute inset-e-2 inset-bs-2 z-10',
+    copy: 'absolute inset-e-2 inset-bs-2 z-10',
     header: `
-      group/nka-prose-pre-header flex items-center gap-2 border-be p-3 text-sm
-      text-nka-muted-foreground
+      flex items-center gap-2 border-be p-3 text-sm text-nka-muted-foreground
 
       *:data-[slot=nka-prose-code-icon]:mbs-0.5
     `,
-    root: `
-      group/nka-prose-pre-root relative grid rounded-xl border bg-nka-muted
-      bg-clip-padding
-    `,
+    root: `relative grid rounded-xl border bg-nka-muted bg-clip-padding`,
   },
   variants: {
     copy: {
@@ -45,7 +41,7 @@ export type ProsePreVariants = VariantProps<typeof prosePreVariants>
 export { default as ProsePre } from './prose-pre.vue'
 
 // Props
-export type ProsePreProps = WithClass<{
+export type ProsePreProps = ClassProp & {
   /**
    * Language of the code block
    * @default 'plaintext'
@@ -80,4 +76,4 @@ export type ProsePreProps = WithClass<{
    * @default []
    */
   highlights?: Array<number>
-}>
+}

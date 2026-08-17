@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
 import { normalizeClass } from '@nka/utils/styling'
-import { type IconProps, iconVariants } from '.'
+import { type LinkProps, linkVariants } from '.'
 
-const props = defineProps<IconProps>()
+const props = defineProps<LinkProps>()
 
-const variants = iconVariants()
+const variants = linkVariants()
 </script>
 
 <template>
-  <Icon
-    data-slot="icon"
+  <RouterLink
     v-bind="props"
+    data-slot="link"
     :class="variants.root({
       class: normalizeClass(props.class),
     })"
-    :icon="name"
-  />
+  >
+    <slot />
+  </RouterLink>
 </template>

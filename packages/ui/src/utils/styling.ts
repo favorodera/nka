@@ -1,4 +1,4 @@
-import type { WithClass } from '@nka/utils/props'
+import type { ClassProp } from '@nka/utils/props'
 import { cn } from 'tailwind-variants'
 
 /**
@@ -6,6 +6,6 @@ import { cn } from 'tailwind-variants'
  * @param classInput The class input to normalize.
  * @returns The normalized class input.
  */
-export function normalizeClass(classInput: WithClass['class']) {
+export function normalizeClass(classInput: ClassProp['class']) {
   return cn(classInput)
 }

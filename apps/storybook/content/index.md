@@ -1,4 +1,7 @@
-# Documentation
+---
+title: Documentation
+description: Documentation for NKA UI Kit.
+---
 
 Welcome to the docs.
 

@@ -34,7 +34,7 @@ packages/
   ui/                 Internal UI bundle for Storybook and examples
 ```
 
-The `registry` and `ui` packages are internal workspace packages used to develop and validate the project. They are not intended to be consumed directly by applications.
+The `ui` package is an internal workspace package used to develop and validate the project. It is not intended to be consumed directly by applications.
 
 ## Development Workflow
 

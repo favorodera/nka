@@ -20,8 +20,7 @@ const variants = buttonVariants()
 
 <template>
   <Primitive
-    data-slot="nka-button"
-    data-not-prose="true"
+    data-slot="button"
     :data-variant="variant"
     :data-size="size"
     v-bind="forwardedProps"

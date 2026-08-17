@@ -1,10 +1,10 @@
-import type { WithClass } from '@nka/utils/props'
+import type { ClassProp } from '@nka/utils/props'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 // Variants
 export const iconVariants = tv({
   slots: {
-    root: 'pointer-events-none shrink-0 block-4 inline-4',
+    root: 'not-prose pointer-events-none shrink-0 block-4 inline-4',
   },
 })
 
@@ -15,7 +15,7 @@ export { default as Icon } from './icon.vue'
 export { iconsConfig } from './utils'
 
 // Props
-export type IconProps = WithClass<{
+export type IconProps = ClassProp & {
   /**
    * The iconify or custom ID of the icon.
    * @see https://icon-sets.iconify.design/
@@ -23,4 +23,4 @@ export type IconProps = WithClass<{
    * @see https://github.com/nuxt/icon
    */
   name: string
-}>
+}

@@ -1,4 +1,5 @@
-import type { WithClass } from '@nka/utils/props'
+import type { ClassProp } from '@nka/utils/props'
+import type { PrimitiveProps } from 'reka-ui'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 // Variants
@@ -10,9 +11,9 @@ export const buttonVariants = tv({
   },
   slots: {
     root: `
-      group/nka-button relative inline-flex shrink-0 items-center justify-center
-      border border-transparent bg-clip-padding font-medium transition-all
-      outline-none select-none
+      not-prose relative inline-flex shrink-0 items-center justify-center border
+      border-transparent bg-clip-padding font-medium transition-all outline-none
+      select-none
 
       focus-visible:ring-2 focus-visible:ring-nka-ring
 
@@ -64,7 +65,7 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>
 export { default as Button } from './button.vue'
 
 // Props
-export type ButtonProps = WithClass<{
+export type ButtonProps = ClassProp & PrimitiveProps & {
   /**
    * Visual style variant.
    * @default 'outline'
@@ -82,4 +83,4 @@ export type ButtonProps = WithClass<{
    * @default false
    */
   square?: ButtonVariants['square']
-}>
+}

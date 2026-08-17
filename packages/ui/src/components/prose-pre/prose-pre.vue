@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@nka/components/button'
+import { CodeIcon } from '@nka/components/code-icon'
 import { Icon, iconsConfig } from '@nka/components/icon'
-import { ProseCodeIcon } from '@nka/components/prose-code-icon'
 import { normalizeClass } from '@nka/utils/styling'
 import { useClipboard } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
@@ -36,15 +36,15 @@ const variants = prosePreVariants()
 <template>
   <figure
     :data-lang="props.language"
-    data-slot="nka-prose-pre-root"
+    data-slot="prose-pre-root"
     :class="variants.root()"
   >
     <figcaption
       v-if="props.filename"
-      data-slot="nka-prose-pre-header"
+      data-slot="prose-pre-header"
       :class="variants.header()"
     >
-      <ProseCodeIcon
+      <CodeIcon
         :filename="props.filename"
         :name="props.icon"
       />
@@ -56,6 +56,7 @@ const variants = prosePreVariants()
       v-if="props.copy"
       variant="outline"
       :square="true"
+      data-slot="prose-pre-copy"
       size="sm"
       :aria-label="copied ? 'Code copied successfully!' : 'Copy code to clipboard'"
       :class="variants.copy({
@@ -68,8 +69,7 @@ const variants = prosePreVariants()
 
     <pre
       ref="prosePreCodeRef"
-      data-slot="nka-prose-pre-code"
-      data-not-prose="true"
+      data-slot="prose-pre-code"
       v-bind="$attrs"
       :class="variants.code({
         class: normalizeClass(props.class)

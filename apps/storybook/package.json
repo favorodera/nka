@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@comark/vue": "catalog:vendor",
-    "@nka/ui": "workspace:*",
     "@shikijs/langs": "catalog:vendor",
     "@shikijs/themes": "catalog:vendor",
     "@shikijs/transformers": "catalog:vendor",
