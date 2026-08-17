@@ -23,9 +23,7 @@
     ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "restricted"
   },

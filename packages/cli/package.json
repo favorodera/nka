@@ -22,11 +22,13 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
+    "./types": "./dist/types.mjs",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "bin": {
+    "nka": "./bin/nka.mjs"
+  },
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },

@@ -131,7 +131,7 @@ export function init() {
       spin.stop('Registry utilities resolved')
 
       const shouldWriteUtilities = await confirmRegistryItemsOverwrites(
-        [...resolvedUtilities.utilities.values()],
+        resolvedUtilities.utilities.values(),
         nkaConfig,
       )
 
@@ -201,10 +201,11 @@ export function init() {
         {
           enabled: !!registry.metadata.dependencies?.packages,
           async task(message) {
+            const packages = registry.metadata.dependencies?.packages ?? {}
             for (const [
               name,
               version,
-            ] of Object.entries(registry.metadata.dependencies?.packages ?? {})) {
+            ] of Object.entries(packages)) {
               await installDependency(name, version, message)
             }
             return 'Packages installed'

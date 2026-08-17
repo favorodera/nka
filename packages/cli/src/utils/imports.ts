@@ -13,10 +13,10 @@ export function rewriteImports(content: string, config: Pick<NkaConfig, 'compone
   return content
     .replaceAll(
       /(['"])@nka\/components\/([^'"]+)\1/g,
-      `$1${config.components.import}/$2$1`,
+      (_, quote, path) => `${quote}${config.components.import}/${path}${quote}`,
     )
     .replaceAll(
       /(['"])@nka\/utils\/([^'"]+)\1/g,
-      `$1${config.utils.import}/$2$1`,
+      (_, quote, path) => `${quote}${config.utils.import}/${path}${quote}`,
     )
 }

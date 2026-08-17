@@ -1,8 +1,8 @@
 import type { Item } from '@nka/registry'
 import { join } from 'pathe'
 import { describe, expect, it } from 'vitest'
-import { resolveItemDirectory, resolveItemInstallPath } from '../../../src/utils/file-system'
-import { nkaConfig } from '../../utils'
+import { nkaConfig } from '#test-utils'
+import { resolveItemDirectory, resolveItemInstallPath } from '@/utils/file-system'
 
 describe('resolveItemDirectory', () => {
   it('returns components.dir for component', () => {

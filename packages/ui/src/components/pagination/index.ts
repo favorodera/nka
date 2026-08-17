@@ -7,32 +7,42 @@ import { tv, type VariantProps } from 'tailwind-variants'
 const paginationPreAndNextBase = tv({
   base: `
     flex items-start gap-2 rounded-xl border bg-clip-padding p-3 text-sm
-    no-underline transition-colors outline-none inline-full
+    no-underline transition-colors outline-none max-inline-full min-inline-0
+
+    only:col-span-full
 
     hover:bg-nka-muted/50
 
     focus-visible:ring-2 focus-visible:ring-nka-ring
 
-    *:data-[slot=icon]:block-4 *:data-[slot=icon]:inline-4
+    *:data-[slot=icon]:translate-y-0.5 *:data-[slot=icon]:block-4
+    *:data-[slot=icon]:inline-4
 
-    **:data-[slot=icon]:translate-y-0.5
+    @max-lg/pagination-root:col-span-full
   `,
 })
 
 export const paginationVariants = tv({
   slots: {
-    content: `flex flex-1 flex-col gap-1 text-sm min-inline-0`,
-    description: 'line-clamp-1 text-nka-muted-foreground font-normal text-sm',
+    content: `flex-1 flex-col gap-1 min-inline-0`,
+    description: `
+      truncate text-sm font-normal text-nka-muted-foreground min-inline-0
+    `,
     next: paginationPreAndNextBase({
-      class: 'justify-end text-end ms-auto',
+      class: `
+        justify-end text-end
+      `,
     }),
     prev: paginationPreAndNextBase({
-      class: 'justify-start',
+      class: `
+        justify-start
+      `,
     }),
     root: `
-      not-prose mbs-10 flex items-center justify-between gap-4 border-bs pbs-6
+      not-prose @container/pagination-root mbs-10 grid grid-cols-2 gap-4
+      border-bs pbs-6
     `,
-    title: `line-clamp-1 text-sm font-medium text-nka-foreground`,
+    title: `truncate text-sm font-medium text-nka-foreground min-inline-0`,
   },
 })
 

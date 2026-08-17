@@ -18,7 +18,7 @@ export async function installDependency(name: string, version: string, message?:
       ...packageJSON?.devDependencies,
     }
 
-    if (name in installed) {
+    if (Object.hasOwn(installed, name)) {
       message?.(`Package "${name}" already installed.`)
       return
     }
@@ -46,7 +46,7 @@ export async function uninstallDependency(name: string, message?: (message: stri
       ...packageJSON?.devDependencies,
     }
 
-    if (!(name in installed)) {
+    if (!Object.hasOwn(installed, name)) {
       message?.(`Package "${name}" not installed.`)
       return
     }

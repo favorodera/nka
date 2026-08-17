@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import type { NkaConfig } from '../../../src/types'
-import { rewriteImports } from '../../../src/utils/imports'
-import { nkaConfig } from '../../utils'
+import type { NkaConfig } from '@/types'
+import { nkaConfig } from '#test-utils'
+import { rewriteImports } from '@/utils/imports'
 
 describe('rewriteImports', () => {
   it('rewrites @nka/components imports', () => {

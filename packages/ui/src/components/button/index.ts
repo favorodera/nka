@@ -28,14 +28,14 @@ export const buttonVariants = tv({
         root: `
           gap-1.5 rounded-lg px-2.5 text-sm block-8 min-inline-8
 
-          *:[svg]:block-4 *:[svg]:inline-4
+          *:data-[slot=icon]:block-4 *:data-[slot=icon]:inline-4
         `,
       },
       sm: {
         root: `
           gap-1 rounded-lg px-2 text-xs block-7 min-inline-7
 
-          *:[svg]:block-3.5 *:[svg]:inline-3.5
+          *:data-[slot=icon]:block-3.5 *:data-[slot=icon]:inline-3.5
         `,
       },
     },

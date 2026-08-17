@@ -75,7 +75,7 @@ const components = {
     <Markdown
       :plugins="plugins"
       :components="components"
-      class="prose-docs prose"
+      class="prose prose-docs"
       v-bind="$attrs"
     >
       {{ $props.content }}

@@ -10,7 +10,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "content/*": ["./content/*"],
-      "@nka/*": ["../../packages/ui/src/*"],
+      "@nka/*": ["../../packages/ui/src/*"]
     },
     // Extra safety for array and object lookups, but may have false positives.
     "noUncheckedIndexedAccess": true

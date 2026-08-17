@@ -2,7 +2,7 @@
 import { Icon, iconsConfig } from '@nka/components/icon'
 import { Link } from '@nka/components/link'
 import { normalizeClass } from '@nka/utils/styling'
-import { type PaginationPrevProps, paginationVariants } from '.' 
+import { type PaginationPrevProps, paginationVariants } from '.'
 
 const props = defineProps<PaginationPrevProps>()
 

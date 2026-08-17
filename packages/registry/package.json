@@ -24,9 +24,7 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -41,7 +39,8 @@
     "prepublishOnly": "pnpm run build",
     "lint": "eslint . --fix",
     "generate-json-schemas": "tsx scripts/generate-json-schemas.ts",
-    "build-registry": "tsx scripts/build-registry.ts"
+    "build-registry": "tsx scripts/build-registry.ts",
+    "scripts": "pnpm generate-json-schemas && pnpm build-registry"
   },
   "dependencies": {
     "typebox": "catalog:vendor"

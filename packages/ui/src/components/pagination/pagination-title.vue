@@ -19,7 +19,8 @@ const variants = paginationVariants()
     v-bind="forwardedProps"
     :class="variants.title({
       class: normalizeClass(props.class)
-    })">
+    })"
+  >
     <slot />
   </Primitive>
 </template>

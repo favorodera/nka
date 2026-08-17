@@ -1,22 +1,15 @@
 import { type Static, Type } from 'typebox'
-import { ItemNameSchema } from './base'
-import { PackageDependenciesSchema } from './dependencies'
-
-/** Registry-wide dependencies — packages and utilities. */
-export const MetadataDependenciesSchema = Type.Object({
-  packages: Type.Optional(PackageDependenciesSchema),
-  utilities: Type.Optional(Type.Array(ItemNameSchema, {
-    description: 'Utilities installed with the registry.',
-    uniqueItems: true,
-  })),
-})
+import { DependenciesSchema } from './dependencies'
 
 export const MetadataSchema = Type.Object({
   baseUrl: Type.String({
     description: 'Base URL for resolving registry files.',
     format: 'uri',
   }),
-  dependencies: Type.Optional(MetadataDependenciesSchema),
+  dependencies: Type.Optional(Type.Pick(DependenciesSchema, [
+    'packages',
+    'utilities',
+  ])),
   name: Type.String({
     description: 'Registry name.',
     examples: [

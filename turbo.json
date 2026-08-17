@@ -38,6 +38,9 @@
     },
     "prepublishOnly": {
       "outputs": []
+    },
+    "scripts": {
+      "outputs": []
     }
   }
 }

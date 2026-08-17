@@ -180,7 +180,7 @@
                 "description": "Item name.",
                 "pattern": "^[a-z][a-z0-9-]*$"
               },
-              "description": "Utilities installed with the registry.",
+              "description": "Utility dependencies.",
               "uniqueItems": true
             }
           }
@@ -197,9 +197,7 @@
         "version": {
           "type": "string",
           "description": "Registry format version.",
-          "examples": [
-            "0.1.0"
-          ]
+          "examples": ["0.1.0"]
         }
       },
       "$schema": "https://json-schema.org/draft/2020-12/schema"

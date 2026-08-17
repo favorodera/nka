@@ -1,17 +1,14 @@
 import { type Static, Type } from 'typebox'
 import { ItemNameSchema } from './base'
-import { PackageDependenciesSchema } from './dependencies'
+import { DependenciesSchema } from './dependencies'
 import { FileSchema } from './file'
 
 /** Utility — may depend on packages and other utilities only. */
 export const UtilitySchema = Type.Object({
-  dependencies: Type.Optional(Type.Object({
-    packages: Type.Optional(PackageDependenciesSchema),
-    utilities: Type.Optional(Type.Array(ItemNameSchema, {
-      description: 'Utility dependencies.',
-      uniqueItems: true,
-    })),
-  })),
+  dependencies: Type.Optional(Type.Pick(DependenciesSchema, [
+    'packages',
+    'utilities',
+  ])),
   files: Type.Array(FileSchema, {
     description: 'Utility files.',
     minItems: 1,

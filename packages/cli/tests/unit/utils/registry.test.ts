@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { resolveRegistryItems, resolveRegistrySource } from '../../../src/utils/registry'
-import { getRegistryItem, nkaConfig, nkaRegistry } from '../../utils'
+import { getRegistryItem, nkaConfig, nkaRegistry } from '#test-utils'
+import { resolveRegistryItems, resolveRegistrySource } from '@/utils/registry'
 
 describe('resolveRegistrySource', () => {
   it('resolves a configured registry', () => {
@@ -91,8 +91,10 @@ describe('resolveRegistryItems', () => {
       'prose-code-icon',
       'icon',
       'button',
-    ].toSorted()
-    const actualKeys = [...result.components.keys()].toSorted()
+    ].toSorted((keyA, keyB) => keyA.localeCompare(keyB))
+
+    // eslint-disable-next-line unicorn/prefer-iterator-to-array
+    const actualKeys = [...result.components.keys()].toSorted((keyA, keyB) => keyA.localeCompare(keyB))
 
     expect(actualKeys).toStrictEqual(expectedKeys)
     expect(result.packages.size).toBe(1)

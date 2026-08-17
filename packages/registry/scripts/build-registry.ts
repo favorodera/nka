@@ -56,7 +56,7 @@ await tasks([
       metadata.dependencies.packages = {}
 
       for (const name of metadataDependenciesRef) {
-        if (vendorCatalog[name]) {
+        if (Object.hasOwn(vendorCatalog, name)) {
           metadata.dependencies.packages[name] = vendorCatalog[name]
         } else {
           throw new Error(`Dependency ${name} not found in workspace vendor catalog`)

@@ -95,6 +95,36 @@ export function resolveItemInstallPath(item: Item, file: string, config: NkaConf
 }
 
 /**
+ * Confirms overwrite decisions for a single registry item.
+ * @param item The registry item.
+ * @param config The Nka configuration.
+ * @param cwd The current working directory.
+ * @param decisions A map of file paths to boolean overwrite decisions.
+ */
+async function confirmItemOverwrites(item: Item, config: NkaConfig, cwd: string, decisions: Map<string, boolean>) {
+  switch (item.type) {
+    case 'component': {
+      // Prompt once per component directory
+      const itemDirectory = join(cwd, resolveItemDirectory(item.type, config), item.name)
+      const shouldOverwrite = await confirmOverwrite(itemDirectory)
+
+      for (const file of item.files) {
+        decisions.set(resolveItemInstallPath(item, file, config), shouldOverwrite)
+      }
+      break
+    }
+    case 'utility': {
+      // Prompt per file for utilities
+      for (const file of item.files) {
+        const targetPath = resolveItemInstallPath(item, file, config)
+        decisions.set(targetPath, await confirmOverwrite(targetPath))
+      }
+      break
+    }
+  }
+}
+
+/**
  * Collects overwrite decisions for registry items.
  * Components prompt once per directory; utilities prompt per file.
  * @param items The registry items to collect overwrite decisions for.
@@ -106,26 +136,7 @@ export async function confirmRegistryItemsOverwrites(items: Iterable<Item>, conf
   const decisions = new Map<string, boolean>()
 
   for (const item of items) {
-    switch (item.type) {
-      case 'component': {
-        // Prompt once per component directory
-        const itemDirectory = join(cwd, resolveItemDirectory(item.type, config), item.name)
-        const shouldOverwrite = await confirmOverwrite(itemDirectory)
-
-        for (const file of item.files) {
-          decisions.set(resolveItemInstallPath(item, file, config), shouldOverwrite)
-        }
-        break
-      }
-      case 'utility': {
-        // Prompt per file for utilities
-        for (const file of item.files) {
-          const targetPath = resolveItemInstallPath(item, file, config)
-          decisions.set(targetPath, await confirmOverwrite(targetPath))
-        }
-        break
-      }
-    }
+    await confirmItemOverwrites(item, config, cwd, decisions)
   }
 
   return decisions

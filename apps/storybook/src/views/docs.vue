@@ -132,7 +132,7 @@ watch(nextSlug, async (key) => {
           sticky inset-bs-0 hidden overflow-y-auto border-s p-6 block-dvh
           inline-56
 
-          xl:block
+          lg:block
         "
       >
         <!-- TODO: Add On this page TOC-->

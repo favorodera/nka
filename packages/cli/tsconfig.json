@@ -8,6 +8,10 @@
     "moduleDetection": "force",
     "module": "preserve",
     "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"],
+      "#test-utils": ["./tests/utils/index.ts"]
+    },
     "resolveJsonModule": true,
     "types": ["node"],
     "strict": true,
@@ -19,5 +23,8 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "tests"
+  ]
 }

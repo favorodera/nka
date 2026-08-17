@@ -30,7 +30,8 @@
     "test:watch": "turbo test:watch",
     "preview": "turbo preview",
     "prepublishOnly": "turbo prepublishOnly",
-    "ready": "pnpm install && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+    "scripts": "turbo scripts",
+    "ready": "pnpm install && pnpm lint && pnpm typecheck && pnpm test && pnpm scripts && pnpm build"
   },
   "devDependencies": {
     "@favorodera/eslint-config": "catalog:tooling",

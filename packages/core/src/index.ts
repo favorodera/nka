@@ -1,4 +1,4 @@
-import type { NkaConfig } from '@nka/cli'
+import type { NkaConfig } from '@nka/cli/types'
 
 /**
  * Defines the Nka configuration.
