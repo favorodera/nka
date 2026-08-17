@@ -12,7 +12,7 @@ export type CodeIconVariants = VariantProps<typeof codeIconVariants>
 
 // Component and utils
 export { default as CodeIcon } from './code-icon.vue'
-export { languageIconMap, resolveIconFromFilename } from './utils.js'
+export { languageIconMap, resolveIconFromFilename } from './utils'
 
 // Props
 export type CodeIconProps = Partial<IconProps> & {
