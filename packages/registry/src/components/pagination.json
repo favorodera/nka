@@ -1,0 +1,16 @@
+{
+  "$schema": "../../json-schemas/component.json",
+  "name": "pagination",
+  "type": "component",
+  "files": [
+    "packages/ui/src/components/pagination/pagination-content.vue",
+    "packages/ui/src/components/pagination/pagination-description.vue",
+    "packages/ui/src/components/pagination/pagination-next.vue",
+    "packages/ui/src/components/pagination/pagination-prev.vue",
+    "packages/ui/src/components/pagination/pagination-root.vue",
+    "packages/ui/src/components/pagination/index.ts"
+  ],
+  "dependencies": {
+    "components": ["icon"]
+  }
+}

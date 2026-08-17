@@ -1,0 +1,9 @@
+{
+  "$schema": "../../json-schemas/component.json",
+  "name": "link",
+  "type": "component",
+  "files": [
+    "packages/ui/src/components/link/link.vue",
+    "packages/ui/src/components/link/index.ts"
+  ]
+}

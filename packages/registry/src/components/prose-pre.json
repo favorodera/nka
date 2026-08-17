@@ -9,7 +9,7 @@
   "dependencies": {
     "components": [
       "icon",
-      "prose-code-icon",
+      "code-icon",
       "button"
     ]
   }
