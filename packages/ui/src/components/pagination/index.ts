@@ -11,9 +11,9 @@ const paginationPreAndNextBase = tv({
 
     only:col-span-full
 
-    hover:bg-nka-muted/50
+    hover:bg-muted/50
 
-    focus-visible:ring-2 focus-visible:ring-nka-ring
+    focus-visible:ring-2 focus-visible:ring-ring
 
     *:data-[slot=icon]:translate-y-0.5 *:data-[slot=icon]:block-4
     *:data-[slot=icon]:inline-4
@@ -26,7 +26,7 @@ export const paginationVariants = tv({
   slots: {
     content: `flex-1 flex-col gap-1 min-inline-0`,
     description: `
-      truncate text-sm font-normal text-nka-muted-foreground min-inline-0
+      truncate text-sm font-normal text-muted-foreground min-inline-0
     `,
     next: paginationPreAndNextBase({
       class: `
@@ -42,7 +42,7 @@ export const paginationVariants = tv({
       not-prose @container/pagination-root mbs-10 grid grid-cols-2 gap-4
       border-bs pbs-6
     `,
-    title: `truncate text-sm font-medium text-nka-foreground min-inline-0`,
+    title: `truncate text-sm font-medium text-foreground min-inline-0`,
   },
 })
 

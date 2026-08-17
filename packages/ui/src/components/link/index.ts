@@ -9,9 +9,9 @@ export const linkVariants = tv({
       not-prose font-medium text-inherit underline decoration-1
       underline-offset-4 transition-colors outline-none
 
-      hover:text-nka-primary
+      hover:text-primary
 
-      focus-visible:ring-2 focus-visible:ring-nka-ring
+      focus-visible:ring-2 focus-visible:ring-ring
     `,
   },
 })

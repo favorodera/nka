@@ -11,21 +11,21 @@ export const prosePreVariants = tv({
       not-prose grid overflow-x-auto overscroll-y-auto p-3 font-mono text-sm
       tab-2 outline-none min-inline-0
 
-      focus-visible:ring-2 focus-visible:ring-nka-ring
+      focus-visible:ring-2 focus-visible:ring-ring
 
       **:[.line]:block
 
       **:[.line.highlight]:-mx-3 **:[.line.highlight]:inline-block
-      **:[.line.highlight]:bg-nka-accent! **:[.line.highlight]:px-3
+      **:[.line.highlight]:bg-accent! **:[.line.highlight]:px-3
       **:[.line.highlight]:inline-[calc(100%+1.5rem)]
     `,
     copy: 'absolute inset-e-2 inset-bs-2 z-10',
     header: `
-      flex items-center gap-2 border-be p-3 text-sm text-nka-muted-foreground
+      flex items-center gap-2 border-be p-3 text-sm text-muted-foreground
 
       *:data-[slot=nka-prose-code-icon]:mbs-0.5
     `,
-    root: `relative grid rounded-xl border bg-nka-muted bg-clip-padding`,
+    root: `relative grid rounded-xl border bg-muted bg-clip-padding`,
   },
   variants: {
     copy: {

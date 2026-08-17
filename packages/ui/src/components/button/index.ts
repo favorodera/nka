@@ -15,7 +15,7 @@ export const buttonVariants = tv({
       border-transparent bg-clip-padding font-medium transition-all outline-none
       select-none
 
-      focus-visible:ring-2 focus-visible:ring-nka-ring
+      focus-visible:ring-2 focus-visible:ring-ring
 
       active:not-disabled:not-aria-[haspopup]:translate-y-px
 
@@ -50,9 +50,9 @@ export const buttonVariants = tv({
     variant: {
       outline: {
         root: `
-          border-nka-border bg-transparent text-nka-foreground
+          border-border bg-transparent text-foreground
 
-          hover:not-disabled:bg-nka-muted
+          hover:not-disabled:bg-muted
         `,
       },
     },
