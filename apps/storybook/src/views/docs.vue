@@ -108,7 +108,8 @@ const { ids: tocIds, items: tocItems } = useToc(mainRef)
       <main
         ref="mainRef"
         class="
-          mx-auto overflow-y-auto px-6 inline-full max-inline-4xl min-inline-0
+          mx-auto overflow-y-auto px-6 py-12 inline-full max-inline-4xl
+          min-inline-0
         "
       >
         <Suspense>
@@ -160,7 +161,7 @@ const { ids: tocIds, items: tocItems } = useToc(mainRef)
           <TocTitle />
 
           <TocList>
-            <TocIndicator />
+            <TocIndicator variant="circuit" />
 
             <TocItem
               v-for="item in tocItems"

@@ -1,5 +1,5 @@
 // Contexts
-export { injectScrollSpyContext,provideScrollSpyContext } from './contexts'
+export { injectScrollSpyContext, provideScrollSpyContext } from './contexts'
 
 // Composable
 export { useScrollSpy } from './use-scroll-spy'

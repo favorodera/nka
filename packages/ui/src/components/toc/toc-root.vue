@@ -2,8 +2,8 @@
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
 import { Primitive, useForwardProps } from 'reka-ui'
-import type { TocRootProps } from './types';
-import { tocVariants } from './variants';
+import type { TocRootProps } from './types'
+import { tocVariants } from './variants'
 
 const props = defineProps<TocRootProps>()
 

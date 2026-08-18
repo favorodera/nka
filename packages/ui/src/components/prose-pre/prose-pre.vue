@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@nka/components/button'
-import { Icon, iconsConfig } from '@nka/components/icon'
 import { CodeIcon } from '@nka/components/code-icon'
+import { Icon, iconsConfig } from '@nka/components/icon'
 import { normalizeClass } from '@nka/utils/styling'
 import { useClipboard } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
