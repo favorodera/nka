@@ -1,5 +1,5 @@
 minimumReleaseAgeExclude:
-  - '@favorodera/eslint-config@1.1.1'
+  - '@favorodera/eslint-config@1.1.1 || 1.1.2'
 shellEmulator: true
 
 trustPolicy: no-downgrade
@@ -19,7 +19,7 @@ packages:
 
 catalogs:
   tooling:
-    '@favorodera/eslint-config': ^1.1.1
+    '@favorodera/eslint-config': ^1.1.2
     '@tsconfig/node24': ^24.0.5
     '@tsdown/css': ^0.22.14
     '@types/fs-extra': ^11.0.4

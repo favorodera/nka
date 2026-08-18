@@ -7,8 +7,18 @@ import {
   PaginationRoot,
   PaginationTitle,
 } from '@nka/components/pagination'
+import { ScrollSpyRoot } from '@nka/components/scroll-spy'
+import {
+  TocIndicator,
+  TocItem,
+  TocLink,
+  TocList,
+  TocRoot,
+  TocTitle,
+  useToc,
+} from '@nka/components/toc'
 import { parseMarkdown } from 'comark'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Comark from '@/components/comark.vue'
 import DocsLayout from '@/layouts/docs.vue'
@@ -74,18 +84,29 @@ async function loadPage(key: string) {
 }
 
 watch(slug, loadPage, { immediate: true })
+
 watch(prevSlug, async (key) => {
   prevMeta.value = await loadMeta(key)
 }, { immediate: true })
+
 watch(nextSlug, async (key) => {
   nextMeta.value = await loadMeta(key)
 }, { immediate: true })
+
+const mainRef = useTemplateRef('mainRef')
+
+const { ids: tocIds, items: tocItems } = useToc(mainRef)
 </script>
 
 <template>
   <DocsLayout>
-    <div class="grid grid-cols-[1fr_auto] min-block-dvh">
+    <ScrollSpyRoot
+      :ids="tocIds"
+      :offset="80"
+      class="grid grid-cols-[1fr_auto] min-block-dvh"
+    >
       <main
+        ref="mainRef"
         class="
           mx-auto overflow-y-auto px-6 inline-full max-inline-4xl min-inline-0
         "
@@ -135,8 +156,42 @@ watch(nextSlug, async (key) => {
           lg:block
         "
       >
-        <!-- TODO: Add On this page TOC-->
+        <TocRoot
+          v-if="tocItems.length > 0"
+          :items="tocItems"
+          class=""
+        >
+          <TocTitle />
+
+          <TocList>
+            <TocIndicator />
+
+            <TocItem
+              v-for="item in tocItems"
+              :id="item.id"
+              :key="item.id"
+              :depth="item.depth"
+            >
+              <TocLink>
+                {{ item.label }}
+              </TocLink>
+
+              <TocList v-if="item.children">
+                <TocItem
+                  v-for="subItem in item.children"
+                  :id="subItem.id"
+                  :key="subItem.id"
+                  :depth="subItem.depth"
+                >
+                  <TocLink>
+                    {{ subItem.label }}
+                  </TocLink>
+                </TocItem>
+              </TocList>
+            </TocItem>
+          </TocList>
+        </TocRoot>
       </aside>
-    </div>
+    </ScrollSpyRoot>
   </DocsLayout>
 </template>
