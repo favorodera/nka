@@ -213,7 +213,7 @@ export function useScrollSpy(options: UseScrollSpyOptions = {}): UseScrollSpyRet
     // across the tracking line. Guarded by `maxScroll` so non-scrollable
     // (short) content still uses the plain tracking-line rule. The 2px
     // tolerance absorbs fractional scroll positions reported by browsers.
-    if (maxScroll > 2 && scrollPosition >= maxScroll - 2) {
+    if (maxScroll > offset.value && scrollPosition > 0 && scrollPosition >= maxScroll - 2) {
       next = items.value.at(-1) ?? undefined
     } else {
       for (const id of items.value) {

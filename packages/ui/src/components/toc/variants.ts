@@ -5,8 +5,13 @@ export const tocVariants = tv({
     indicator: 'line',
   },
   slots: {
-    indicator: `
-      pointer-events-none absolute inset-s-0 z-10 bg-border block-full inline-px
+    indicator: `pointer-events-none absolute inset-0 z-10`,
+    indicatorThumb: `
+      absolute inset-s-0 rounded-full bg-foreground
+      transition-[top,height,opacity] duration-200 ease-out inline-0.5
+    `,
+    indicatorTrack: `
+      absolute inset-s-0 inset-bs-0 rounded-full bg-border inline-px
     `,
     item: `
       min-inline-0
@@ -28,26 +33,15 @@ export const tocVariants = tv({
 
       data-active:font-medium data-active:text-foreground
     `,
-
     list: `
       relative grid grid-cols-1 gap-2.5 text-sm
 
       in-data-[slot=toc-item]:mbs-2.5
 
-      has-data-[slot=toc-indicator]:ps-2.5
+      has-data-[slot=toc-indicator]:ps-4
     `,
     root: `not-prose sticky inset-bs-6 grid grid-cols-1 gap-2.5`,
     title: `text-xs font-medium text-muted-foreground uppercase`,
-  },
-  variants: {
-    indicator: {
-      circuit: {
-        indicator: '',
-      },
-      line: {
-        indicator: '',
-      },
-    },
   },
 })
 

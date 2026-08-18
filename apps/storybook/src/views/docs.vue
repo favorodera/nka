@@ -161,7 +161,7 @@ const { ids: tocIds, items: tocItems } = useToc(mainRef)
           <TocTitle />
 
           <TocList>
-            <TocIndicator variant="circuit" />
+            <TocIndicator  />
 
             <TocItem
               v-for="item in tocItems"

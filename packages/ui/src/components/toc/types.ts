@@ -1,6 +1,6 @@
 import type { ClassProp } from '@nka/utils/props'
 import type { PrimitiveProps } from 'reka-ui'
-import type { ComputedRef, DeepReadonly, Ref } from 'vue'
+import type { ComputedRef, CSSProperties, DeepReadonly, Ref } from 'vue'
 import type { TocVariants } from './variants'
 
 /** A single item in the Table of Contents hierarchy. */
@@ -29,6 +29,22 @@ export interface UseTocReturn {
   /** Forces a re-scan of the container. */
   refresh: () => void
 }
+
+/** Return type of the `useTocIndicator()` composable (line geometry). */
+export interface UseTocIndicatorReturn {
+  /** Whether an active item is currently measurable. */
+  isVisible: Ref<boolean>
+
+  /** Forces a re-measure of the active item. */
+  refresh: () => void
+
+  /**
+   * CSS custom properties for thumb positioning:
+   * `--toc-indicator-top`, `--toc-indicator-size`, `--toc-indicator-inset`.
+   */
+  style: ComputedRef<CSSProperties>
+}
+
 
 // Context
 export type TocItemContext = Pick<TocItem, 'depth'> & {
@@ -64,8 +80,12 @@ export type TocLinkProps = ClassProp & PrimitiveProps
 
 export type TocIndicatorProps = ClassProp & PrimitiveProps & {
   /**
-   * Visual style of the active rail marker.
+   * Visual style of the progress marker.
+   *
+   * - `line` — quiet track with a moving thumb on the active item
+   * - `circuit` — SVG path that follows the list tree (progress-nav style)
+   *
    * @default 'line'
    */
-  variant?: TocVariants['indicator']
+  variant?: NonNullable<TocVariants['indicator']>
 }
