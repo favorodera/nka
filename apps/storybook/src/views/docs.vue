@@ -156,11 +156,7 @@ const { ids: tocIds, items: tocItems } = useToc(mainRef)
           lg:block
         "
       >
-        <TocRoot
-          v-if="tocItems.length > 0"
-          :items="tocItems"
-          class=""
-        >
+        <TocRoot v-if="tocItems.length > 0">
           <TocTitle />
 
           <TocList>

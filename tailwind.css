@@ -1,0 +1,4 @@
+/* Dummy CSS file to solve tailwind intellisense issue */
+@import './packages/ui/src/css/theme.css';
+@import './packages/ui/src/css/prose.css';
+@import './apps/storybook/src/assets/css/index.css';

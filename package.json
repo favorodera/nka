@@ -39,6 +39,7 @@
     "eslint": "catalog:tooling",
     "relizy": "catalog:tooling",
     "turbo": "catalog:tooling",
-    "typescript": "catalog:tooling"
+    "typescript": "catalog:tooling",
+    "tailwindcss": "catalog:vendor"
   }
 }

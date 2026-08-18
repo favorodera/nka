@@ -1,6 +1,7 @@
 import type { ClassProp } from '@nka/utils/props'
 import type { PrimitiveProps } from 'reka-ui'
 import type { ComputedRef, DeepReadonly, Ref } from 'vue'
+import type { TocVariants } from './variants'
 
 /** A single item in the Table of Contents hierarchy. */
 export interface TocItem {
@@ -61,4 +62,10 @@ export type TocItemProps = ClassProp & Pick<TocItem, 'depth' | 'id'> & Primitive
 
 export type TocLinkProps = ClassProp & PrimitiveProps
 
-export type TocIndicatorProps = ClassProp & PrimitiveProps
+export type TocIndicatorProps = ClassProp & PrimitiveProps & {
+  /**
+   * Visual style of the active rail marker.
+   * @default 'line'
+   */
+  variant?: TocVariants['indicator']
+}
