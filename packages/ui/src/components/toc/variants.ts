@@ -20,8 +20,7 @@ export const tocVariants = tv({
       data-[depth="6"]:ps-5
     `,
     link: `
-      block truncate rounded-md ps-2.5 text-muted-foreground transition-colors
-      outline-none
+      block truncate text-muted-foreground transition-colors outline-none
 
       hover:text-foreground
 
@@ -34,6 +33,8 @@ export const tocVariants = tv({
       relative grid grid-cols-1 gap-2.5 text-sm
 
       in-data-[slot=toc-item]:mbs-2.5
+
+      has-data-[slot=toc-indicator]:ps-2.5
     `,
     root: `not-prose sticky inset-bs-6 grid grid-cols-1 gap-2.5`,
     title: `text-xs font-medium text-muted-foreground uppercase`,
