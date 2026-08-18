@@ -1,11 +1,25 @@
-<script setup lang="ts">
+<script lang="ts">
+import type { ClassProp } from '@nka/utils/props'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
 import { Primitive, useForwardProps } from 'reka-ui'
-import { computed, onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
-import type { ScrollSpyTargetProps, ScrollSpyTargetSlot } from './types'
+import { computed, nextTick, onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
 import { injectScrollSpyContext } from './contexts'
 
+export type ScrollSpyTargetProps = ClassProp & {
+  /** Target ID, also used as `id` attribute for native anchors. */
+  id: string
+}
+
+export interface ScrollSpyTargetSlot {
+  default?: (props: {
+    /** Whether this target is currently active. */
+    isActive: boolean
+  }) => void
+}
+</script>
+
+<script setup lang="ts">
 defineSlots<ScrollSpyTargetSlot>()
 
 const props = defineProps<ScrollSpyTargetProps>()
@@ -20,15 +34,21 @@ const targetRef = useTemplateRef<HTMLElement>('targetRef')
 
 const isActive = computed(() => context.activeId.value === props.id)
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
+
   const element = targetRef.value
+
   if (element) {
     context.register(props.id, element)
   }
 })
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
+  await nextTick()
+  
   const element = targetRef.value
+  
   if (element) {
     context.unregister(props.id, element)
   }
