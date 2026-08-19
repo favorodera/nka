@@ -1,10 +1,14 @@
-<script setup lang="ts">
+<script lang="ts">
+import type { ClassProp } from '@nka/utils/props'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
-import { Primitive, useForwardProps } from 'reka-ui'
-import type { TocTitleProps } from './types'
+import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
 import { tocVariants } from './variants'
 
+export type TocTitleProps = ClassProp & PrimitiveProps
+</script>
+
+<script setup lang="ts">
 const props = withDefaults(defineProps<TocTitleProps>(), {
   as: 'p',
 })

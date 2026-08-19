@@ -1,13 +1,18 @@
-<script setup lang="ts">
+<script lang="ts">
+import type { ClassProp } from '@nka/utils/props'
 import { injectScrollSpyContext } from '@nka/components/scroll-spy'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
-import { Primitive, useForwardProps } from 'reka-ui'
+import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
 import { computed } from 'vue'
-import type { TocItemProps } from './types'
+import type { TocItem } from './use-toc'
 import { provideTocItemContext } from './contexts'
 import { tocVariants } from './variants'
 
+export type TocItemProps = ClassProp & Pick<TocItem, 'depth' | 'id'> & PrimitiveProps
+</script>
+
+<script setup lang="ts">
 const props = withDefaults(defineProps<TocItemProps>(), {
   as: 'li',
 })

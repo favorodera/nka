@@ -1,9 +1,6 @@
-import { tv, type VariantProps } from 'tailwind-variants'
+import { tv } from 'tailwind-variants'
 
 export const tocVariants = tv({
-  defaultVariants: {
-    indicator: 'line',
-  },
   slots: {
     indicator: `pointer-events-none absolute inset-0 z-10`,
     indicatorThumb: `
@@ -44,5 +41,3 @@ export const tocVariants = tv({
     title: `text-xs font-medium text-muted-foreground uppercase`,
   },
 })
-
-export type TocVariants = VariantProps<typeof tocVariants>

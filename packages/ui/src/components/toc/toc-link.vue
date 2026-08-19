@@ -1,11 +1,15 @@
-<script setup lang="ts">
+<script lang="ts">
+import type { ClassProp } from '@nka/utils/props'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
-import { Primitive, useForwardProps } from 'reka-ui'
-import type { TocLinkProps } from './types'
+import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
 import { injectTocItemContext } from './contexts'
 import { tocVariants } from './variants'
 
+export type TocLinkProps = ClassProp & PrimitiveProps
+</script>
+
+<script setup lang="ts">
 const props = withDefaults(defineProps<TocLinkProps>(), {
   as: 'a',
 })
@@ -19,15 +23,15 @@ const variants = tocVariants()
 const tocItemContext = injectTocItemContext()
 
 /**
- * Handles clicks on the TOC link, preventing default navigation and scrolling to the target.
+ * Handles clicks on the TOC link.
  * @param event The click event.
  */
 function onClick(event: MouseEvent) {
-  // Enhance native navigation with offset-aware smooth scrolling
+  // Prevent default navigation and use scrollSpy.
   event.preventDefault()
   tocItemContext.scroll()
 
-  // Keep URL hash in sync for shareable links / browser history
+  // Update URL hash for shareable links.
   if (typeof history !== 'undefined') {
     history.pushState(undefined, '', tocItemContext.hash.value)
   }

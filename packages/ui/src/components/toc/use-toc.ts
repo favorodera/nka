@@ -1,6 +1,52 @@
 import { useMutationObserver } from '@vueuse/core'
-import { computed, type MaybeRefOrGetter, readonly, ref, toValue, watch } from 'vue'
-import type { TocItem, UseTocReturn } from './types'
+import {
+  computed,
+  type ComputedRef,
+  type DeepReadonly,
+  type MaybeRefOrGetter,
+  readonly,
+  ref,
+  type Ref,
+  toValue,
+  watch,
+} from 'vue'
+
+/** A single item in the Table of Contents hierarchy. */
+export interface TocItem {
+  /** Element / logical target ID (matches heading `id`). */
+  id: string
+
+  /** Display label (usually the heading text). */
+  label: string
+
+  /** Heading depth (2 = h2, 3 = h3, …). */
+  depth: number
+
+  /** Nested child items. */
+  children?: Array<TocItem>
+}
+
+export interface UseTocOptions {
+  /**
+   * Tracking mode: 'multiple' tracks all visible targets.
+   * @default 'single'
+   */
+  mode?: 'multiple' | 'single'
+}
+
+export interface UseTocReturn {
+  /** Flat list of all IDs in document order. */
+  ids: ComputedRef<Array<string>>
+
+  /** Hierarchical TOC tree. */
+  items: Ref<DeepReadonly<ReadonlyArray<TocItem>>>
+
+  /** Forces a re-scan of the container. */
+  refresh: () => void
+
+  /** Tracking mode for scrollSpy connection. */
+  mode: UseTocOptions['mode']
+}
 
 /**
  * Flattens the TOC tree into a flat list of IDs.
@@ -22,17 +68,14 @@ const QUERY_HEADINGS = 'h2, h3, h4, h5, h6'
  *
  * Only headings that possess an `id` attribute are included.
  * @param container A ref or getter for the container HTMLElement whose headings should be indexed.
+ * @param options Configuration options.
  * @returns A {@link UseTocReturn} object containing the TOC tree and related utilities.
  */
-export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefined>): UseTocReturn {
+export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefined>, options: UseTocOptions = {}): UseTocReturn {
+  const mode = options.mode ?? 'single'
   const tocItems = ref<Array<TocItem>>([])
 
-  /**
-   * Builds the TOC tree from the container's headings.
-   *
-   * It queries for headings, builds a flat list, and then transforms it into a nested
-   * tree structure. Only headings that possess an `id` attribute are included.
-   */
+  /** Builds the TOC tree from the container's headings. */
   function collectTocItems() {
     const root = toValue(container)
 
@@ -55,7 +98,7 @@ export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefine
         label: heading.textContent?.trim() ?? '',
       }
 
-      // Pop stack until we find a parent with smaller depth
+      // Pop stack until we find a parent with smaller depth.
       while (stack.length > 0 && (stack.at(-1) as typeof stack[number]).depth >= depth) {
         stack.pop()
       }
@@ -76,7 +119,7 @@ export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefine
     tocItems.value = tree
   }
 
-  // Initial collection + reactive updates when the container ref changes
+  // Initial collection + reactive updates when the container ref changes.
   watch(() => toValue(container), (element) => {
     if (element) {
       collectTocItems()
@@ -88,7 +131,7 @@ export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefine
     immediate: true,
   })
 
-  // Keep in sync with dynamic content mutations
+  // Keep in sync with dynamic content mutations.
   useMutationObserver(
     () => toValue(container),
     () => collectTocItems(),
@@ -106,6 +149,7 @@ export function useToc(container: MaybeRefOrGetter<HTMLElement | null | undefine
   return {
     ids,
     items: readonly(tocItems),
+    mode,
     refresh: collectTocItems,
   }
 }

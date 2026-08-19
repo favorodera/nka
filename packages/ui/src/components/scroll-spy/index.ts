@@ -1,14 +1,9 @@
 // Contexts
-export { injectScrollSpyContext, provideScrollSpyContext } from './contexts'
-export type { ScrollSpyContext, ScrollSpyOrientation } from './contexts'
+export { injectScrollSpyContext, provideScrollSpyContext, type ScrollSpyContext, type ScrollSpyOrientation } from './contexts'
 
 // Composable
-export { useScrollSpy } from './use-scroll-spy'
-export type { UseScrollSpyOptions, UseScrollSpyReturn } from './use-scroll-spy'
+export { useScrollSpy, type UseScrollSpyOptions, type UseScrollSpyReturn } from './use-scroll-spy'
 
 // Components
-export { default as ScrollSpyRoot } from './scroll-spy-root.vue'
-export type { ScrollSpyRootProps, ScrollSpyRootSlot } from './scroll-spy-root.vue'
-
-export { default as ScrollSpyTarget } from './scroll-spy-target.vue'
-export type { ScrollSpyTargetProps, ScrollSpyTargetSlot } from './scroll-spy-target.vue'
+export { default as ScrollSpyRoot, type ScrollSpyRootProps, type ScrollSpyRootSlot } from './scroll-spy-root.vue'
+export { default as ScrollSpyTarget, type ScrollSpyTargetProps, type ScrollSpyTargetSlot } from './scroll-spy-target.vue'
