@@ -29,7 +29,7 @@ export const tocItem = tv({
 
         hover:text-foreground
       `,
-      true: 'font-medium text-foreground',
+      true: 'text-foreground',
     },
     depth: {
       1: 'ps-0',
