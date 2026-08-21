@@ -1,43 +1,59 @@
-import { tv } from 'tailwind-variants'
+import { tv, type VariantProps } from 'tailwind-variants'
 
-export const tocVariants = tv({
-  slots: {
-    indicator: `pointer-events-none absolute inset-0 z-10`,
-    indicatorThumb: `
-      absolute inset-s-0 rounded-full bg-foreground
-      transition-[top,height,opacity] duration-200 ease-out inline-0.5
-    `,
-    indicatorTrack: `
-      absolute inset-s-0 inset-bs-0 rounded-full bg-border inline-px
-    `,
-    item: `
-      min-inline-0
+export const tocRoot = tv({
+  base: 'not-prose grid grid-cols-1 gap-2 inline-full',
+})
 
-      data-[depth="3"]:ps-2
+export const tocTitle = tv({
+  base: 'text-sm text-muted-foreground',
+})
 
-      data-[depth="4"]:ps-3
+export const tocList = tv({
+  base: `
+    relative grid grid-cols-1 gap-2
 
-      data-[depth="5"]:ps-4
+    has-data-[slot="toc-indicator"]:ps-2.5
+  `,
+})
 
-      data-[depth="6"]:ps-5
-    `,
-    link: `
-      block truncate text-muted-foreground transition-colors outline-none
+export const tocItem = tv({
+  base: 'relative flex items-center transition-colors duration-150',
+  defaultVariants: {
+    active: false,
+    depth: 1,
+  },
+  variants: {
+    active: {
+      false: `
+        text-muted-foreground
 
-      hover:text-foreground
-
-      focus-visible:ring-2 focus-visible:ring-ring
-
-      data-active:font-medium data-active:text-foreground
-    `,
-    list: `
-      relative grid grid-cols-1 gap-2.5 text-sm
-
-      in-data-[slot=toc-item]:mbs-2.5
-
-      has-data-[slot=toc-indicator]:ps-4
-    `,
-    root: `not-prose sticky inset-bs-6 grid grid-cols-1 gap-2.5`,
-    title: `text-xs font-medium text-muted-foreground uppercase`,
+        hover:text-foreground
+      `,
+      true: 'font-medium text-foreground',
+    },
+    depth: {
+      1: 'ps-0',
+      2: 'ps-0',
+      3: 'ps-2',
+      4: 'ps-4',
+      5: 'ps-6',
+    },
   },
 })
+
+export const tocLink = tv({
+  base: 'block truncate text-sm transition-colors inline-full',
+})
+
+export const tocIndicator = tv({
+  slots: {
+    root: 'absolute inset-s-0 inset-bs-0 block-full inline-0.5',
+    thumb: `
+      absolute inset-s-0 rounded-full bg-primary transition-[transform,height]
+      duration-200 ease-out will-change-transform inline-full
+    `,
+    track: 'absolute inset-0 rounded-full bg-border inline-px',
+  },
+})
+
+export type TocItemVariants = VariantProps<typeof tocItem>

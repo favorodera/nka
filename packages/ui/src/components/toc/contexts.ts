@@ -1,28 +1,38 @@
-import type { ComputedRef } from 'vue'
+import type { ScrollSpyRootContext } from '@nka/components/scroll-spy'
+import type { MaybeComputedElementRef } from '@vueuse/core'
+import type { ComputedRef, Ref } from 'vue'
 import { createContext } from 'reka-ui'
 
-/** Context provided by TocItem to its children. */
-export interface TocItemContext {
-  /** The id of the item (usually the heading id). */
-  id: string
+/** Context provided by `TocList` component to its children. */
+export interface TocListContext {
+  /** The currently active section ID */
+  activeId: ScrollSpyRootContext['activeId']
 
-  /** Heading depth (2 = h2, 3 = h3, …). */
-  depth: number
+  /** Registered item elements, keyed by id. Used by `TocIndicator` to measure and position itself. */
+  itemRefs: Ref<Map<string, HTMLElement>>
+
+  /** Reference to the list container element */
+  listElement: MaybeComputedElementRef
+
+  /** Register a target element for scroll detection */
+  registerItem: ScrollSpyRootContext['registerTarget']
+
+  /** Unregister a target element from scroll detection */
+  unregisterItem: ScrollSpyRootContext['unregisterTarget']
+}
+
+/** Context provided by the `TocItem` component to its children. */
+export interface TocItemContext {
+  /** The id of the item. */
+  id: string
 
   /** Whether the item is active. */
   isActive: ComputedRef<boolean>
 
-  /** Data active attribute. */
-  dataActive: ComputedRef<string | undefined>
-
-  /** Aria current attribute. */
-  ariaCurrent: ComputedRef<'true' | undefined>
-
   /** Hash of the id. */
   hash: ComputedRef<string>
-
-  /** Function to scroll to the item. */
-  scroll: () => void
 }
+
+export const [injectTocListContext, provideTocListContext] = createContext<TocListContext>('TocList')
 
 export const [injectTocItemContext, provideTocItemContext] = createContext<TocItemContext>('TocItem')

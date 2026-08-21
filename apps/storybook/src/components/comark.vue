@@ -62,6 +62,7 @@ const plugins = [
   }),
   math(),
   frontmatter(),
+
 ]
 
 const components = {

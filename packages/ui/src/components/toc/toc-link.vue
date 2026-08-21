@@ -1,10 +1,11 @@
 <script lang="ts">
 import type { ClassProp } from '@nka/utils/props'
+import { injectScrollSpyRootContext } from '@nka/components/scroll-spy'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
 import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
 import { injectTocItemContext } from './contexts'
-import { tocVariants } from './variants'
+import { tocLink } from './variants'
 
 export type TocLinkProps = ClassProp & PrimitiveProps
 </script>
@@ -18,9 +19,9 @@ const delegatedProps = reactiveOmit(props, 'class')
 
 const forwardedProps = useForwardProps(delegatedProps)
 
-const variants = tocVariants()
-
 const tocItemContext = injectTocItemContext()
+
+const scrollSpyRootContext = injectScrollSpyRootContext()
 
 /**
  * Handles clicks on the TOC link.
@@ -29,11 +30,11 @@ const tocItemContext = injectTocItemContext()
 function onClick(event: MouseEvent) {
   // Prevent default navigation and use scrollSpy.
   event.preventDefault()
-  tocItemContext.scroll()
+  scrollSpyRootContext.scrollTo(tocItemContext.id)
 
   // Update URL hash for shareable links.
   if (typeof history !== 'undefined') {
-    history.pushState(undefined, '', tocItemContext.hash.value)
+    history.replaceState(history.state, '', tocItemContext.hash.value)
   }
 }
 </script>
@@ -41,10 +42,9 @@ function onClick(event: MouseEvent) {
 <template>
   <Primitive
     data-slot="toc-link"
-    :data-active="tocItemContext.dataActive.value"
-    :aria-current="tocItemContext.ariaCurrent.value"
+    :aria-current="tocItemContext.isActive.value ? 'location' : undefined"
     :href="tocItemContext.hash.value"
-    :class="variants.link({
+    :class="tocLink({
       class: normalizeClass(props.class),
     })"
     v-bind="forwardedProps"

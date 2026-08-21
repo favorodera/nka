@@ -1,136 +1,63 @@
 <script lang="ts">
 import type { ClassProp } from '@nka/utils/props'
-import { injectScrollSpyContext } from '@nka/components/scroll-spy'
 import { normalizeClass } from '@nka/utils/styling'
-import { reactiveOmit, unrefElement, useMutationObserver, useResizeObserver } from '@vueuse/core'
-import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
-import {
-  computed,
-  type CSSProperties,
-  nextTick,
-  onMounted,
-  ref,
-  useTemplateRef,
-  watch,
-} from 'vue'
-import { tocVariants } from './variants'
+import { useElementBounding } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
+import { injectTocListContext } from './contexts'
+import { tocIndicator } from './variants'
 
-export type TocIndicatorProps = ClassProp & PrimitiveProps
+export type TocIndicatorProps = ClassProp
 </script>
 
 <script setup lang="ts">
 const props = defineProps<TocIndicatorProps>()
 
-const delegatedProps = reactiveOmit(props, 'class')
-const forwardedProps = useForwardProps(delegatedProps)
-const variants = tocVariants()
+const tocListContext = injectTocListContext()
 
-const indicatorElement = useTemplateRef('indicatorElement')
-
-/** Nearest TOC list that owns the links being tracked. */
-const listElement = computed(() => {
-  const element = unrefElement(indicatorElement)
-  return element?.closest<HTMLElement>('[data-slot="toc-list"]')
-})
-
-const scrollSpy = injectScrollSpyContext()
-
-const top = ref(0)
-const size = ref(0)
-const inset = ref(0)
-const isVisible = ref(false)
-
-const isMultipleMode = computed(() => scrollSpy?.activeIds.value.length > 1)
-
-/** Re-measures the active item's geometry relative to the container. */
-function measure() {
-  const root = listElement.value
-  let activeItem
-
-  if (isMultipleMode.value) {
-    // In multiple mode, find any active item.
-    activeItem = root?.querySelector('[data-slot="toc-item"][data-active]')
-  } else {
-    // In single mode, only highlight the exact active item by ID.
-    const activeId = scrollSpy?.activeId.value
-    if (activeId) {
-      const escapedId = CSS.escape(activeId)
-      activeItem = root?.querySelector(`[data-slot="toc-item"][data-id="${CSS.escape(escapedId)}"]`)
-    }
-  }
-
-  if (!root || !activeItem) {
-    isVisible.value = false
-    return
-  }
-
-  // Get the active link for inset calculation.
-  const activeLink = activeItem.querySelector('[data-slot="toc-link"]') ?? activeItem
-
-  const rootRect = root.getBoundingClientRect()
-  const itemRect = activeItem.getBoundingClientRect()
-  const linkRect = activeLink.getBoundingClientRect()
-
-  inset.value = linkRect.left - rootRect.left
-  size.value = itemRect.height
-  top.value = itemRect.top - rootRect.top + root.scrollTop
-  isVisible.value = true
-}
-
-/** Schedules a measurement on the next tick. */
-function scheduleMeasurement() {
-  void nextTick(measure)
-}
+const activeElement = ref<HTMLElement>()
 
 watch(
-  () => scrollSpy?.activeId.value,
-  scheduleMeasurement,
-  { flush: 'post' },
+  tocListContext.activeId,
+  (id) => {
+    activeElement.value = id ? tocListContext.itemRefs.value.get(id) : undefined
+  },
+  {
+    immediate: true,
+  },
 )
 
-useResizeObserver(listElement, scheduleMeasurement)
+const activeElementBounding = useElementBounding(activeElement)
 
-useMutationObserver(listElement, scheduleMeasurement, {
-  attributeFilter: ['data-active'],
-  childList: true,
-  subtree: true,
-})
+const listElementBounding = useElementBounding(tocListContext.listElement)
 
-onMounted(scheduleMeasurement)
+const isVisible = computed(() => !!activeElement.value)
 
-const lineStyle = computed<CSSProperties>(() => ({
-  '--toc-indicator-inset': `${inset.value}px`,
-  '--toc-indicator-size': `${size.value}px`,
-  '--toc-indicator-top': `${top.value}px`,
-}))
+const thumbOffset = computed(() => activeElementBounding.top.value - listElementBounding.top.value)
 
-const thumbStyle = computed<CSSProperties>(() => ({
-  ...lineStyle.value,
-  height: 'var(--toc-indicator-size)',
-  opacity: isVisible.value ? 1 : 0,
-  top: 'var(--toc-indicator-top)',
-}))
+const variant = tocIndicator()
 </script>
 
 <template>
-  <Primitive
-    ref="indicatorElement"
-    data-slot="toc-indicator"
+  <span
     aria-hidden="true"
-    v-bind="forwardedProps"
-    :class="variants.indicator({
-      class: normalizeClass(props.class),
+    data-slot="toc-indicator"
+    :class="variant.root({
+      class: normalizeClass(props.class) 
     })"
   >
     <span
       data-slot="toc-indicator-track"
-      :class="variants.indicatorTrack()"
+      :class="variant.track()"
     />
 
     <span
+      v-if="isVisible"
       data-slot="toc-indicator-thumb"
-      :class="variants.indicatorThumb()"
-      :style="thumbStyle"
+      :class="variant.thumb()"
+      :style="{
+        height: `${activeElementBounding.height.value}px`,
+        transform: `translateY(${thumbOffset}px)`,
+      }"
     />
-  </Primitive>
+  </span>
 </template>

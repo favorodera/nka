@@ -1,66 +1,46 @@
 <script lang="ts">
 import type { ClassProp } from '@nka/utils/props'
-import type { UnwrapRef } from 'vue'
 import { normalizeClass } from '@nka/utils/styling'
 import { reactiveOmit } from '@vueuse/core'
-import { Primitive, useForwardProps } from 'reka-ui'
-import { useScrollSpy, type UseScrollSpyOptions, type UseScrollSpyReturn } from './use-scroll-spy'
+import { Primitive, type PrimitiveProps, useForwardProps } from 'reka-ui'
+import { provideScrollSpyRootContext } from './contexts'
+import { useScrollSpy, useScrollSpyDefaultOptions, type UseScrollSpyOptions, type UseScrollSpyReturn } from './use-scroll-spy'
 
-export type ScrollSpyRootProps = ClassProp & UseScrollSpyOptions
+export type ScrollSpyRootProps = ClassProp & PrimitiveProps & UseScrollSpyOptions
 
-export interface ScrollSpyRootSlot {
-  default?: (props: Pick<
-  UnwrapRef<UseScrollSpyReturn>,
-  'activeId' | 'activeIds' | 'activeIndex' | 'isActive' | 'items' | 'scrollTo'
-  >) => void
+export interface ScrollSpyRootSlots {
+  default?: (props: {
+    /** Currently active target ID. */
+    activeId: UseScrollSpyReturn['activeId']['value']
+  }) => void
 }
 </script>
 
-<script setup lang="ts">
-defineSlots<ScrollSpyRootSlot>()
+<script lang="ts" setup>
+defineSlots<ScrollSpyRootSlots>()
 
-const props = withDefaults(defineProps<ScrollSpyRootProps>(), {
-  behavior: 'smooth',
-  container: undefined,
-  ids: undefined,
-  mode: 'single',
-  offset: 0,
-  orientation: 'vertical',
-})
+const props = withDefaults(defineProps<ScrollSpyRootProps>(), useScrollSpyDefaultOptions)
 
-const delegatedProps = reactiveOmit(
-  props,
-  'class',
-  'behavior',
-  'mode',
-  'orientation',
-  'offset',
-  'container',
-  'ids',
-)
+const delegatedProps = reactiveOmit(props, 'class', 'root', 'rootMargin', 'targetIds', 'threshold')
 
 const forwardedProps = useForwardProps(delegatedProps)
 
 const scrollSpy = useScrollSpy({
-  get behavior() {
-    return props.behavior
+  get root() {
+    return props.root
   },
-  get container() {
-    return props.container
+  get rootMargin() {
+    return props.rootMargin
   },
-  get ids() {
-    return props.ids
+  get targetIds() {
+    return props.targetIds
   },
-  get mode() {
-    return props.mode
-  },
-  get offset() {
-    return props.offset
-  },
-  get orientation() {
-    return props.orientation
+  get threshold() {
+    return props.threshold
   },
 })
+
+provideScrollSpyRootContext(scrollSpy)
 </script>
 
 <template>
@@ -69,13 +49,6 @@ const scrollSpy = useScrollSpy({
     v-bind="forwardedProps"
     :class="normalizeClass(props.class)"
   >
-    <slot
-      :active-id="scrollSpy.activeId.value"
-      :active-ids="scrollSpy.activeIds.value"
-      :active-index="scrollSpy.activeIndex.value"
-      :items="scrollSpy.items.value"
-      :scroll-to="scrollSpy.scrollTo"
-      :is-active="scrollSpy.isActive"
-    />
+    <slot :active-id="scrollSpy.activeId.value" />
   </Primitive>
 </template>

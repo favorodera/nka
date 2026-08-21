@@ -1,17 +1,16 @@
 <script lang="ts">
 import type { ClassProp } from '@nka/utils/props'
-import { normalizeClass } from '@nka/utils/styling'
-import { reactiveOmit } from '@vueuse/core'
+import { reactiveOmit, unrefElement, type UnRefElementReturn } from '@vueuse/core'
 import { Primitive, useForwardProps } from 'reka-ui'
 import { computed, nextTick, onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
-import { injectScrollSpyContext } from './contexts'
+import { injectScrollSpyRootContext } from './contexts'
 
 export type ScrollSpyTargetProps = ClassProp & {
-  /** Target ID, also used as `id` attribute for native anchors. */
+  /** Target ID. Also rendered as the element's `id` attribute. */
   id: string
 }
 
-export interface ScrollSpyTargetSlot {
+export interface ScrollSpyTargetSlots {
   default?: (props: {
     /** Whether this target is currently active. */
     isActive: boolean
@@ -20,48 +19,42 @@ export interface ScrollSpyTargetSlot {
 </script>
 
 <script setup lang="ts">
-defineSlots<ScrollSpyTargetSlot>()
+defineSlots<ScrollSpyTargetSlots>()
 
 const props = defineProps<ScrollSpyTargetProps>()
-
-const delegatedProps = reactiveOmit(props, 'class', 'id')
+  
+const delegatedProps = reactiveOmit(props, 'id')
 
 const forwardedProps = useForwardProps(delegatedProps)
 
-const context = injectScrollSpyContext()
+const scrollSpyRootContext = injectScrollSpyRootContext()
 
-const targetRef = useTemplateRef<HTMLElement>('targetRef')
+const targetRef = useTemplateRef('targetRef')
 
-const isActive = computed(() => context.activeId.value === props.id)
+const isActive = computed(() => scrollSpyRootContext.activeId.value === props.id)
 
 onMounted(async () => {
   await nextTick()
 
-  const element = targetRef.value
+  const targetRefElement = unrefElement(targetRef) as Exclude<UnRefElementReturn, SVGElement>
 
-  if (element) {
-    context.register(props.id, element)
+  if (targetRefElement) {
+    scrollSpyRootContext.registerTarget(props.id, targetRefElement)
   }
 })
 
-onBeforeUnmount(async () => {
-  await nextTick()
-  
-  const element = targetRef.value
-  
-  if (element) {
-    context.unregister(props.id, element)
-  }
+onBeforeUnmount(() => {
+  scrollSpyRootContext.unregisterTarget(props.id)
 })
 </script>
 
 <template>
   <Primitive
+    :id="props.id"
     ref="targetRef"
     data-slot="scroll-spy-target"
     :data-active="isActive ? '' : undefined"
     v-bind="forwardedProps"
-    :class="normalizeClass(props.class)"
   >
     <slot :is-active />
   </Primitive>

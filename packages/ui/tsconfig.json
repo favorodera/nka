@@ -4,7 +4,8 @@
     "lib": [
       "es2023",
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
+      "ESNext.Iterator"
     ],
     "moduleDetection": "force",
     "module": "preserve",
